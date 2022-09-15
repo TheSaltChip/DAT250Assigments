@@ -1,0 +1,70 @@
+package no.hvl.dat250.jpa.assignmentB;
+
+import lombok.NonNull;
+
+import javax.persistence.*;
+import java.util.Set;
+
+@Entity
+@Table(name = "CLIENT", schema = "APP")
+public class Client {
+    @Id
+    private String username;
+
+    private String email;
+    private String firstname;
+    private String lastname;
+
+    @NonNull
+    private String password;
+
+    @OneToMany(mappedBy = "owner",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private Set<Poll> ownedPolls;
+
+    public Client(String username, String password) {
+        this.username = username;
+        this.password = password;
+    }
+
+    public Client() {}
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getFirstname() {
+        return firstname;
+    }
+
+    public void setFirstname(String firstname) {
+        this.firstname = firstname;
+    }
+
+    public String getLastname() {
+        return lastname;
+    }
+
+    public void setLastname(String lastname) {
+        this.lastname = lastname;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public Set<Poll> getOwnedPolls() {
+        return ownedPolls;
+    }
+
+    public void setOwnedPolls(Set<Poll> ownedPolls) {
+        this.ownedPolls = ownedPolls;
+    }
+}
