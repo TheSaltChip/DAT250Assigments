@@ -2,6 +2,7 @@ package no.hvl.dat250.jpa.assignmentB.dao;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
+import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
 
 import java.time.LocalDateTime;
 
@@ -10,7 +11,7 @@ import java.time.LocalDateTime;
  *
  * @author Sebastian
  */
-public interface PollDao {
+public interface IPollDao {
     /**
      * Attempts to find a poll with the given id
      *
@@ -18,6 +19,14 @@ public interface PollDao {
      * @return A poll with pollId as ID, null if not
      */
     Poll findById(int pollId);
+
+    /**
+     * Gets the owner of the poll with the given pollId
+     *
+     * @param pollId The poll id
+     * @return Client object which owns the poll
+     */
+    Client getOwner(int pollId);
 
     /**
      * Updates the votes of the poll with the given pollId
@@ -66,11 +75,10 @@ public interface PollDao {
      * if the class is of type TimeLimitPoll
      *
      * @param pollId    ID of the poll
-     * @param c         Class of the desired poll
      * @param startDate New start date
      * @param endDate   New end date
      */
-    <T> void updateTime(int pollId, Class<T> c, LocalDateTime startDate, LocalDateTime endDate);
+    void updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate);
 
     /**
      * Creates a new poll
@@ -95,13 +103,10 @@ public interface PollDao {
     void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client,
                              LocalDateTime startDate, LocalDateTime endDate);
 
-
     /**
      * Deletes the poll with the given pollId
      *
      * @param pollId ID of the poll
      */
     void deletePoll(int pollId);
-
-
 }
