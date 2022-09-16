@@ -22,6 +22,7 @@ public class Poll {
     private Integer noVotes;
 
     private Boolean isPrivate;
+    private Boolean active;
     private LocalDateTime createdDate;
 
     @ManyToOne(targetEntity = Client.class)
@@ -97,5 +98,13 @@ public class Poll {
 
     public void setOwner(Client owner) {
         this.owner = owner;
+    }
+
+    public Boolean getActive(){
+        return active;
+    }
+
+    public void setActive(Boolean active){
+        this.active = active;
     }
 }
