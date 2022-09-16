@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB;
+package no.hvl.dat250.jpa.assignmentB.models;
 
 import lombok.NonNull;
 
@@ -28,6 +28,9 @@ public class Poll {
     @NonNull
     @JoinColumn(referencedColumnName = "username")
     private Client owner;
+
+    @Version
+    protected Integer version;
 
     public String getName() {
         return name;

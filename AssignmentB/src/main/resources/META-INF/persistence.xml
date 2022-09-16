@@ -3,9 +3,9 @@
              xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
              version="2.0" xmlns="http://java.sun.com/xml/ns/persistence">
     <persistence-unit name="assignmentB" transaction-type="RESOURCE_LOCAL">
-        <class>no.hvl.dat250.jpa.assignmentB.Client</class>
-        <class>no.hvl.dat250.jpa.assignmentB.Poll</class>
-        <class>no.hvl.dat250.jpa.assignmentB.TimeLimitPoll</class>
+        <class>no.hvl.dat250.jpa.assignmentB.models.Client</class>
+        <class>no.hvl.dat250.jpa.assignmentB.models.Poll</class>
+        <class>no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
             <property name="javax.persistence.jdbc.url"

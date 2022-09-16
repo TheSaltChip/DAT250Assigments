@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB;
+package no.hvl.dat250.jpa.assignmentB.models;
 
 import lombok.NonNull;
 
