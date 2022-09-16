@@ -32,6 +32,17 @@ public class Poll {
     @Version
     protected Integer version;
 
+    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, LocalDateTime createdDate, @NonNull Client owner) {
+        this.name = name;
+        this.theme = theme;
+        this.isPrivate = isPrivate;
+        this.createdDate = createdDate;
+        this.owner = owner;
+    }
+
+    protected Poll() {
+    }
+
     public String getName() {
         return name;
     }
