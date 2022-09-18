@@ -47,13 +47,12 @@ public class PollDao implements IPollDao {
     public void updateVote(boolean yesOrNo, int pollId){
         setUp();
         Poll poll = em.find(Poll.class,pollId);
-        int votes;
         if(yesOrNo){
-            votes = poll.getYesVotes() + 1;
+            poll.setYesVotes(poll.getYesVotes() + 1);
         }else{
-            votes = poll.getNoVotes() + 1;
+            poll.setNoVotes(poll.getNoVotes() + 1);
         }
-        poll.setYesVotes(votes);
+
         commit(poll);
     }
 
@@ -72,7 +71,7 @@ public class PollDao implements IPollDao {
     public void updatePoll(int pollId, String name, String theme) {
         setUp();
         Poll poll = em.find(Poll.class,pollId);
-        if(name != null && name.equals("")){
+        if(name != null && !name.equals("")){
             poll.setName(name);
         }
         if(theme != null && !theme.equals("")){
