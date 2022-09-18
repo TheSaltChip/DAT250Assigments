@@ -15,18 +15,23 @@ public class Client {
     private String firstname;
     private String lastname;
 
+    @Enumerated(value = EnumType.STRING)
+    private Role role;
+
     @NonNull
     private String password;
 
-    @OneToMany(mappedBy = "owner",fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Poll> ownedPolls;
 
-    public Client(String username, String password) {
+    public Client(String username, String password, Role role) {
         this.username = username;
         this.password = password;
+        this.role = role;
     }
 
-    public Client() {}
+    public Client() {
+    }
 
     public String getUsername() {
         return username;
@@ -58,6 +63,22 @@ public class Client {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Role getRole() {
+        return role;
+    }
+
+    public void setRole(Role role) {
+        this.role = role;
     }
 
     public Set<Poll> getOwnedPolls() {
