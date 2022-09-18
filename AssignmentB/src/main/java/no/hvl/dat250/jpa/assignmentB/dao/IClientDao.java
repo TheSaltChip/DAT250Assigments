@@ -25,8 +25,9 @@ public interface IClientDao {
      *
      * @param username Username of the client
      * @param password Password of the client, which we should salt and hash
+     * @param role Role of the client
      */
-    void createClient(String username, String password);
+    void createClient(String username, String password, Role role);
 
     /**
      * Updates the firstname of the client

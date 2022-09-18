@@ -2,6 +2,7 @@ package no.hvl.dat250.jpa.assignmentB.dao;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
+import no.hvl.dat250.jpa.assignmentB.models.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -13,61 +14,81 @@ public class ClientDao implements IClientDao {
     EntityManagerFactory factory;
     EntityManager em;
 
-    public void setUp() {
+    public ClientDao() {
         this.factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         this.em = factory.createEntityManager();
-        em.getTransaction().begin();
     }
 
     public void commit(Client client){
+        em.getTransaction().begin();
         em.persist(client);
         em.getTransaction().commit();
-        em.close();
     }
 
     @Override
     public Client findByUsername(String username) {
-        setUp();
-        em.getTransaction().begin();
         Client client = em.find(Client.class, username);
-        em.close();
         return client;
     }
 
     @Override
-    public void createClient(String username, String password) {
-        setUp();
-        Client client = new Client(username, password);
+    public void createClient(String username, String password, Role role) {
+        Client client = new Client(username, password, role);
         commit(client);
     }
 
     @Override
     public void updateClientFirstname(String username, String firstname) {
-
+        Client client = findByUsername(username);
+        client.setFirstname(firstname);
+        commit(client);
     }
 
     @Override
     public void updateClientLastname(String username, String lastname) {
-
+        Client client = findByUsername(username);
+        client.setLastname(lastname);
+        commit(client);
     }
 
     @Override
     public void updateClientEmail(String username, String email) {
-
+        Client client = findByUsername(username);
+        client.setEmail(email);
+        commit(client);
     }
 
     @Override
     public Set<Poll> getPollsFromClient(String username) {
-        return null;
+        Client client = findByUsername(username);
+        return client.getOwnedPolls();
     }
 
     @Override
     public void addPollToClient(String username, Poll poll) {
-
+        Client client = findByUsername(username);
+        Set<Poll> polls = client.getOwnedPolls();
+        polls.add(poll);
+        client.setOwnedPolls(polls);
+        commit(client);
     }
 
     @Override
     public void deleteClient(String username) {
+        em.getTransaction().begin();
+        em.remove(findByUsername(username));
+        em.getTransaction().commit();
+    }
 
+    @Override
+    public void changeRole(String username, Role role) {
+        Client client = findByUsername(username);
+        client.setRole(role);
+        commit(client);
+    }
+
+    @Override
+    public Role getRoleOfClient(String username) {
+        return findByUsername(username).getRole();
     }
 }
