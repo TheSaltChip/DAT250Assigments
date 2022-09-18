@@ -16,6 +16,7 @@ public class Client {
     private String lastname;
 
     @Enumerated(value = EnumType.STRING)
+    @NonNull
     private Role role;
 
     @NonNull
