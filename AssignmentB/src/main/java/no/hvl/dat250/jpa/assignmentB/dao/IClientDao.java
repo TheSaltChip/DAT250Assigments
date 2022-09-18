@@ -2,6 +2,7 @@ package no.hvl.dat250.jpa.assignmentB.dao;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
+import no.hvl.dat250.jpa.assignmentB.models.Role;
 
 import java.util.Set;
 
@@ -47,7 +48,7 @@ public interface IClientDao {
      * Updates the email of the client
      *
      * @param username Username of the client
-     * @param email The new email
+     * @param email    The new email
      */
     void updateClientEmail(String username, String email);
 
@@ -63,7 +64,7 @@ public interface IClientDao {
      * Adds a poll to the client with the given username
      *
      * @param username The username of the client
-     * @param poll The new poll
+     * @param poll     The new poll
      */
     void addPollToClient(String username, Poll poll);
 
@@ -73,5 +74,21 @@ public interface IClientDao {
      * @param username The username of the client
      */
     void deleteClient(String username);
+
+    /**
+     * Changes the role of the client with the given username
+     *
+     * @param username The username of the client
+     * @param role     The new role
+     */
+    void changeRole(String username, Role role);
+
+    /**
+     * Returns the role of the client with the given username
+     *
+     * @param username The username of the client
+     * @return The role of the client
+     */
+    Role getRoleOfClient(String username);
 }
 
