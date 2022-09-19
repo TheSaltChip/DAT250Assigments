@@ -10,8 +10,10 @@ import java.time.LocalDateTime;
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
 public class TimeLimitPoll extends Poll {
-
+    @NonNull
     private LocalDateTime startDate;
+
+    @NonNull
     private LocalDateTime endDate;
 
     public TimeLimitPoll(@NonNull String name, @NonNull String theme, Boolean isPrivate, LocalDateTime createdDate,
