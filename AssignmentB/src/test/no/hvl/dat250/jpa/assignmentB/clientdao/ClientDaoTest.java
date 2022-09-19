@@ -1,7 +1,6 @@
-package no.hvl.dat250.jpa.assignmentB.Test;
+package no.hvl.dat250.jpa.assignmentB.clientdao;
 
 import no.hvl.dat250.jpa.assignmentB.dao.ClientDao;
-import no.hvl.dat250.jpa.assignmentB.dao.PollDao;
 import no.hvl.dat250.jpa.assignmentB.driver.Main;
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
