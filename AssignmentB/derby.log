@@ -1,12 +1,17 @@
 ----------------------------------------------------------------
-Sun Sep 18 16:09:48 CEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-50ef-0f14-000006e13600 
-on database directory C:\Users\oyste\DAT250Assigments\AssignmentB\db\assignmentB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@4d7e1886 
-Loaded from file:/C:/Users/oyste/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
-java.vendor=Oracle Corporation
-java.runtime.version=18.0.2.1+1-1
-user.dir=C:\Users\oyste\DAT250Assigments\AssignmentB
-os.name=Windows 11
+Mon Sep 19 10:20:17 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-54d5-6dc1-0000002ff048 
+on database directory C:\Programming\School\DAT250\Assigments\AssignmentB\db\assignmentB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@2c2a99c7 
+Loaded from file:/C:/Users/Sebastian/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=International Business Machines Corporation
+java.runtime.version=11.0.12+7
+java.fullversion=11.0.12+7
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20210730_175 (JIT enabled, AOT enabled)
+OpenJ9   - 1851b0074
+OMR      - 9db1c870d
+JCL      - 21849e2ca0 based on jdk-11.0.12+7
+user.dir=C:\Programming\School\DAT250\Assigments\AssignmentB
+os.name=Windows 10
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
