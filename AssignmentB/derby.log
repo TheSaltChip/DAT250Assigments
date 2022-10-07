@@ -1,17 +1,25 @@
 ----------------------------------------------------------------
-Fri Oct 07 23:58:05 CEST 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-b474-9f87-000000af62b0 
-on database directory C:\Programming\School\DAT250\Assigments\AssignmentB\db\assignmentB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@cbde4a2f 
-Loaded from file:/C:/Users/Sebastian/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
-java.vendor=International Business Machines Corporation
-java.runtime.version=11.0.12+7
-java.fullversion=11.0.12+7
-JRE 11 Windows 10 amd64-64-Bit Compressed References 20210730_175 (JIT enabled, AOT enabled)
-OpenJ9   - 1851b0074
-OMR      - 9db1c870d
-JCL      - 21849e2ca0 based on jdk-11.0.12+7
-user.dir=C:\Programming\School\DAT250\Assigments\AssignmentB
-os.name=Windows 10
+Fri Oct 07 19:44:46 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-b38c-b535-00000e101c80 
+on database directory C:\Users\mathi\Documents\GitHub\DAT250Assigments\AssignmentB\db\assignmentB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@512ddf17 
+Loaded from file:/C:/Users/mathi/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=Amazon.com Inc.
+java.runtime.version=11.0.16.1+9-LTS
+user.dir=C:\Users\mathi\Documents\GitHub\DAT250Assigments\AssignmentB
+os.name=Windows 11
+os.arch=amd64
+os.version=10.0
+derby.system.home=null
+Database Class Loader started - derby.database.classpath=''
+----------------------------------------------------------------
+Fri Oct 07 19:44:49 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance 601a400f-0183-b38c-b535-00000e101c80 
+on database directory memory:C:\Users\mathi\Documents\GitHub\DAT250Assigments\AssignmentB\ce2d9679-46ff-4d26-bcf9-1323e92dd9ea with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@512ddf17 
+Loaded from file:/C:/Users/mathi/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=Amazon.com Inc.
+java.runtime.version=11.0.16.1+9-LTS
+user.dir=C:\Users\mathi\Documents\GitHub\DAT250Assigments\AssignmentB
+os.name=Windows 11
 os.arch=amd64
 os.version=10.0
 derby.system.home=null
