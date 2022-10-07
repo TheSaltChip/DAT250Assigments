@@ -4,6 +4,8 @@ import lombok.Data;
 import lombok.NonNull;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 @Entity
@@ -31,64 +33,35 @@ public class Client {
         this.username = username;
         this.password = password;
         this.role = role;
+        this.ownedPolls = new HashSet<>();
     }
 
     public Client() {
     }
 
-    public String getUsername() {
-        return username;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Client client = (Client) o;
+
+        if (!Objects.equals(username, client.username)) return false;
+        if (!Objects.equals(email, client.email)) return false;
+        if (!Objects.equals(firstname, client.firstname)) return false;
+        if (!Objects.equals(lastname, client.lastname)) return false;
+        if (role != client.role) return false;
+        return password.equals(client.password);
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getFirstname() {
-        return firstname;
-    }
-
-    public void setFirstname(String firstname) {
-        this.firstname = firstname;
-    }
-
-    public String getLastname() {
-        return lastname;
-    }
-
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public Role getRole() {
-        return role;
-    }
-
-    public void setRole(Role role) {
-        this.role = role;
-    }
-
-    public Set<Poll> getOwnedPolls() {
-        return ownedPolls;
-    }
-
-    public void setOwnedPolls(Set<Poll> ownedPolls) {
-        this.ownedPolls = ownedPolls;
+    @Override
+    public int hashCode() {
+        int result = username != null ? username.hashCode() : 0;
+        result = 31 * result + (email != null ? email.hashCode() : 0);
+        result = 31 * result + (firstname != null ? firstname.hashCode() : 0);
+        result = 31 * result + (lastname != null ? lastname.hashCode() : 0);
+        result = 31 * result + role.hashCode();
+        result = 31 * result + password.hashCode();
+        return result;
     }
 }

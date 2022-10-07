@@ -5,6 +5,8 @@ import lombok.NonNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -20,8 +22,8 @@ public class Poll {
     @NonNull
     private String theme;
 
-    @OneToOne
-    private Votes votes;
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
+    private List<Votes> votes;
 
     private Boolean isPrivate;
     private Boolean active;
@@ -46,51 +48,35 @@ public class Poll {
     protected Poll() {
     }
 
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Poll poll = (Poll) o;
+
+        if (!Objects.equals(id, poll.id)) return false;
+        if (!name.equals(poll.name)) return false;
+        if (!theme.equals(poll.theme)) return false;
+        if (!Objects.equals(votes, poll.votes)) return false;
+        if (!Objects.equals(isPrivate, poll.isPrivate)) return false;
+        if (!Objects.equals(active, poll.active)) return false;
+        if (!Objects.equals(createdDate, poll.createdDate)) return false;
+        if (!owner.equals(poll.owner)) return false;
+        return Objects.equals(version, poll.version);
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public Boolean getPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Client getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Client owner) {
-        this.owner = owner;
-    }
-
-    public Boolean getActive(){
-        return active;
-    }
-
-    public void setActive(Boolean active){
-        this.active = active;
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + theme.hashCode();
+        result = 31 * result + (votes != null ? votes.hashCode() : 0);
+        result = 31 * result + (isPrivate != null ? isPrivate.hashCode() : 0);
+        result = 31 * result + (active != null ? active.hashCode() : 0);
+        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + owner.hashCode();
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        return result;
     }
 }
