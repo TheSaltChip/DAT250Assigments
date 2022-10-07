@@ -1,10 +1,15 @@
 ----------------------------------------------------------------
-Fri Oct 07 13:14:26 UTC 2022:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-b295-336f-000007693b88 
-on database directory C:\Programming\School\DAT250\Assigments\AssignmentB\db\assignmentB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@42110406 
-Loaded from file:/C:/Users/Sebastian/AppData/Roaming/JetBrains/IntelliJIdea2022.2/jdbc-drivers/Apache%20Derby/10.15.2.0/derby-10.15.2.0.jar
-java.vendor=JetBrains s.r.o.
-java.runtime.version=17.0.4+7-b469.53
+Fri Oct 07 17:20:16 CEST 2022:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.15.2.0 - (1873585): instance a816c00e-0183-b308-6515-00000069d548 
+on database directory C:\Programming\School\DAT250\Assigments\AssignmentB\db\assignmentB with class loader jdk.internal.loader.ClassLoaders$AppClassLoader@be15fe8e 
+Loaded from file:/C:/Users/Sebastian/.m2/repository/org/apache/derby/derby/10.15.2.0/derby-10.15.2.0.jar
+java.vendor=International Business Machines Corporation
+java.runtime.version=11.0.12+7
+java.fullversion=11.0.12+7
+JRE 11 Windows 10 amd64-64-Bit Compressed References 20210730_175 (JIT enabled, AOT enabled)
+OpenJ9   - 1851b0074
+OMR      - 9db1c870d
+JCL      - 21849e2ca0 based on jdk-11.0.12+7
 user.dir=C:\Programming\School\DAT250\Assigments\AssignmentB
 os.name=Windows 10
 os.arch=amd64
