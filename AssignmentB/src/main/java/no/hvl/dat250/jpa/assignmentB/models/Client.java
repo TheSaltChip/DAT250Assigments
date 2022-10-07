@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -27,6 +28,7 @@ public class Client {
     private String password;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
     private Set<Poll> ownedPolls;
 
     public Client(String username, @NonNull String password, @NonNull Role role) {

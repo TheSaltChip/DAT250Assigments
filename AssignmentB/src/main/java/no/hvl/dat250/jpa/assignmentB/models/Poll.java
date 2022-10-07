@@ -32,6 +32,7 @@ public class Poll {
     @ManyToOne(targetEntity = Client.class)
     @NonNull
     @JoinColumn(referencedColumnName = "username")
+    @JsonBackReference
     private Client owner;
 
     @Version
