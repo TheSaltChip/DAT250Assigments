@@ -1,6 +1,5 @@
-package no.hvl.dat250.jpa.assignmentB.clientdao;
+package no.hvl.dat250.jpa.assignmentB.dao.client;
 
-import no.hvl.dat250.jpa.assignmentB.dao.UserRepository;
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
@@ -10,16 +9,19 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 import java.time.LocalDateTime;
 
-import static org.hamcrest.CoreMatchers.is;
-import static org.hamcrest.CoreMatchers.nullValue;
+import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
 @DataJpaTest
-public class CustomUserImplTest {
+public class UserRepositoryTest {
     @Autowired
     private UserRepository userRepository;
 
+    @Test
+    public void InjectedDependencyAreNotNull() {
+        assertThat(userRepository, notNullValue());
+    }
 
     @Test
     public void CreateNewClient() {

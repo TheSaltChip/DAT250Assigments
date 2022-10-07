@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB.dao;
+package no.hvl.dat250.jpa.assignmentB.dao.client;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
@@ -10,7 +10,7 @@ import java.util.Set;
 
 public class UserRepositoryImpl implements UserRepositoryCustom {
     @PersistenceContext
-    EntityManager em;
+    private EntityManager em;
 
     @Override
     public Client findByUsername(String username) {

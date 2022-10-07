@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB.dao;
+package no.hvl.dat250.jpa.assignmentB.dao.client;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
