@@ -1,8 +1,7 @@
-package no.hvl.dat250.jpa.assignmentB.dao;
+package no.hvl.dat250.jpa.assignmentB.dao.poll;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
-import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
 
 import java.time.LocalDateTime;
 
@@ -11,7 +10,7 @@ import java.time.LocalDateTime;
  *
  * @author Sebastian
  */
-public interface IPollDao {
+public interface PollRepositoryCustom {
     /**
      * Attempts to find a poll with the given id
      *
@@ -86,10 +85,11 @@ public interface IPollDao {
      * @param name        Name of the poll
      * @param theme       Theme of the poll
      * @param isPrivate   True if private, false if public
+     * @param active      True if active, false if not active
      * @param createdDate Date and time the poll was created
      * @param client      Which client created the poll
      */
-    void createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client);
+    void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, Client client);
 
     /**
      * Creates a new time limit poll

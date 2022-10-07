@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB.dao;
+package no.hvl.dat250.jpa.assignmentB.dao.poll;
 
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
@@ -9,33 +9,29 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
-import java.util.HashSet;
-import java.util.Set;
-
-import java.time.LocalDateTime;
 
 @Service
-public class PollDao implements IPollDao {
+public class PollRepositoryImpl implements PollRepositoryCustom {
     public static final String PERSISTENCE_UNIT_NAME = "assignmentB";
     EntityManagerFactory factory;
     EntityManager em;
 
-    public void setUp(){
+    public void setUp() {
         this.factory = Persistence.createEntityManagerFactory(PERSISTENCE_UNIT_NAME);
         this.em = factory.createEntityManager();
     }
 
-    public void commit(Poll poll){
+    public void commit(Poll poll) {
         em.persist(poll);
         em.getTransaction().commit();
         em.close();
     }
 
 
-    public Poll findById(int pollId){
+    public Poll findById(int pollId) {
         setUp();
         em.getTransaction().begin();
-        Poll poll = em.find(Poll.class,pollId);
+        Poll poll = em.find(Poll.class, pollId);
         em.close();
         return poll;
     }
@@ -44,7 +40,7 @@ public class PollDao implements IPollDao {
     public Client getOwner(int pollId) {
         setUp();
         em.getTransaction().begin();
-        Poll poll = em.find(Poll.class,pollId);
+        Poll poll = em.find(Poll.class, pollId);
         em.close();
         Client owner = poll.getOwner();
         return owner;
@@ -86,11 +82,11 @@ public class PollDao implements IPollDao {
     @Override
     public void updatePoll(int pollId, String name, String theme) {
         setUp();
-        Poll poll = em.find(Poll.class,pollId);
-        if(name != null && !name.equals("")){
+        Poll poll = em.find(Poll.class, pollId);
+        if (name != null && !name.equals("")) {
             poll.setName(name);
         }
-        if(theme != null && !theme.equals("")){
+        if (theme != null && !theme.equals("")) {
             poll.setTheme(theme);
         }
         commit(poll);
@@ -99,7 +95,7 @@ public class PollDao implements IPollDao {
     @Override
     public void closePoll(int pollId) {
         setUp();
-        Poll poll = em.find(Poll.class,pollId);
+        Poll poll = em.find(Poll.class, pollId);
         poll.setActive(false);
         commit(poll);
     }
@@ -107,7 +103,7 @@ public class PollDao implements IPollDao {
     @Override
     public void openPoll(int pollId) {
         setUp();
-        Poll poll = em.find(Poll.class,pollId);
+        Poll poll = em.find(Poll.class, pollId);
         poll.setActive(true);
         commit(poll);
     }
@@ -115,8 +111,8 @@ public class PollDao implements IPollDao {
     @Override
     public void updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
-        TimeLimitPoll poll = em.find(TimeLimitPoll.class,pollId);
-        if(poll != null) {
+        TimeLimitPoll poll = em.find(TimeLimitPoll.class, pollId);
+        if (poll != null) {
             poll.setStartDate(startDate);
             poll.setEndDate(endDate);
             commit(poll);
@@ -124,23 +120,23 @@ public class PollDao implements IPollDao {
     }
 
     @Override
-    public void createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client) {
+    public void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, Client client) {
         setUp();
-        Poll poll = new Poll(name,theme,isPrivate,createdDate,client);
+        Poll poll = new Poll(name, theme, isPrivate, active, createdDate, client);
         commit(poll);
     }
 
     @Override
     public void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
-        TimeLimitPoll poll = new TimeLimitPoll(name,theme,isPrivate,createdDate,client,startDate,endDate);
+        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, createdDate, client, startDate, endDate);
         commit(poll);
     }
 
     @Override
     public void deletePoll(int pollId) {
         setUp();
-        em.remove(em.find(Poll.class,pollId));
+        em.remove(em.find(Poll.class, pollId));
         em.getTransaction().commit();
         em.close();
     }
