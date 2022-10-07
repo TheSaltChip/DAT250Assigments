@@ -8,7 +8,7 @@ import javax.persistence.*;
 @Entity
 @Table(name = "VOTES", schema = "APP")
 @IdClass(VotesId.class)
-public class Votes {
+public class Vote {
 
     @Id
     @OneToOne(optional = false)

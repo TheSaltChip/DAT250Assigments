@@ -6,7 +6,7 @@
         <class>no.hvl.dat250.jpa.assignmentB.models.Client</class>
         <class>no.hvl.dat250.jpa.assignmentB.models.Poll</class>
         <class>no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll</class>
-        <class>no.hvl.dat250.jpa.assignmentB.models.Votes</class>
+        <class>no.hvl.dat250.jpa.assignmentB.models.Vote</class>
         <properties>
             <property name="javax.persistence.jdbc.driver" value="org.apache.derby.jdbc.EmbeddedDriver"/>
             <property name="javax.persistence.jdbc.url"
