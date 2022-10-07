@@ -26,8 +26,9 @@ public interface UserRepositoryCustom {
      * @param username Username of the client
      * @param password Password of the client, which we should salt and hash
      * @param role Role of the client
+     * @return The created client
      */
-    void createClient(String username, String password, Role role);
+    Client createClient(String username, String password, Role role);
 
     /**
      * Updates the firstname of the client

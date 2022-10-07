@@ -19,9 +19,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public void createClient(String username, String password, Role role) {
+    public Client createClient(String username, String password, Role role) {
         Client client = new Client(username, password, role);
         em.persist(client);
+        return client;
     }
 
     @Override
