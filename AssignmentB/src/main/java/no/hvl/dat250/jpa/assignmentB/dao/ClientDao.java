@@ -40,24 +40,19 @@ public class ClientDao implements IClientDao {
     }
 
     @Override
-    public void updateClientFirstname(String username, String firstname) {
+    public Client updateClient(String username,String firstname,String lastname,String email){
         Client client = findByUsername(username);
-        client.setFirstname(firstname);
+        if(firstname != null && !firstname.equals("")){
+            client.setFirstname(firstname);
+        }
+        if(lastname != null && !lastname.equals("")){
+            client.setLastname(lastname);
+        }
+        if(email != null && !email.equals("")){
+            client.setEmail(email);
+        }
         commit(client);
-    }
-
-    @Override
-    public void updateClientLastname(String username, String lastname) {
-        Client client = findByUsername(username);
-        client.setLastname(lastname);
-        commit(client);
-    }
-
-    @Override
-    public void updateClientEmail(String username, String email) {
-        Client client = findByUsername(username);
-        client.setEmail(email);
-        commit(client);
+        return client;
     }
 
     @Override
@@ -67,26 +62,30 @@ public class ClientDao implements IClientDao {
     }
 
     @Override
-    public void addPollToClient(String username, Poll poll) {
+    public Client addPollToClient(String username, Poll poll) {
         Client client = findByUsername(username);
         Set<Poll> polls = client.getOwnedPolls();
         polls.add(poll);
         client.setOwnedPolls(polls);
         commit(client);
+        return client;
     }
 
     @Override
-    public void deleteClient(String username) {
+    public Client deleteClient(String username) {
+        Client client = findByUsername(username);
         em.getTransaction().begin();
-        em.remove(findByUsername(username));
+        em.remove(client);
         em.getTransaction().commit();
+        return client;
     }
 
     @Override
-    public void changeRole(String username, Role role) {
+    public Client changeRole(String username, Role role) {
         Client client = findByUsername(username);
         client.setRole(role);
         commit(client);
+        return client;
     }
 
     @Override

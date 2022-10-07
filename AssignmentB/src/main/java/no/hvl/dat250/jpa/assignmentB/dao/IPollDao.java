@@ -4,6 +4,7 @@ import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
 
 /**
@@ -36,7 +37,7 @@ public interface IPollDao {
      * @param yesOrNo Boolean variable indicates which vote to increment
      * @param pollId  ID of the poll to update the poll
      */
-    void updateVote(boolean yesOrNo, int pollId);
+    Poll updateVote(boolean yesOrNo, int pollId);
 
     /**
      * Adds the votes of the poll with the given values for yes and no
@@ -45,7 +46,7 @@ public interface IPollDao {
      * @param no     Amount of no votes to be added
      * @param pollId Poll id
      */
-    void updateVote(int yes, int no, int pollId);
+    Poll updateVote(int yes, int no, int pollId);
 
     /**
      * Updates the name or theme of the poll with the given pollId
@@ -54,21 +55,21 @@ public interface IPollDao {
      * @param name   New name
      * @param theme  New theme
      */
-    void updatePoll(int pollId, String name, String theme);
+    Poll updatePoll(int pollId, String name, String theme);
 
     /**
      * Closes the poll with the given id
      *
      * @param pollId ID of the poll
      */
-    void closePoll(int pollId);
+    Poll closePoll(int pollId);
 
     /**
      * Opens the poll with the given pollId
      *
      * @param pollId ID of the poll
      */
-    void openPoll(int pollId);
+    Poll openPoll(int pollId);
 
     /**
      * Updates the start or end date for the poll with the given pollId,
@@ -78,7 +79,7 @@ public interface IPollDao {
      * @param startDate New start date
      * @param endDate   New end date
      */
-    void updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate);
+    TimeLimitPoll updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate);
 
     /**
      * Creates a new poll
@@ -89,7 +90,7 @@ public interface IPollDao {
      * @param createdDate Date and time the poll was created
      * @param client      Which client created the poll
      */
-    void createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client);
+    Poll createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client);
 
     /**
      * Creates a new time limit poll
@@ -100,7 +101,7 @@ public interface IPollDao {
      * @param createdDate Date and time the poll was created
      * @param client      Which client created the poll
      */
-    void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client,
+    TimeLimitPoll createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client,
                              LocalDateTime startDate, LocalDateTime endDate);
 
     /**
@@ -108,5 +109,5 @@ public interface IPollDao {
      *
      * @param pollId ID of the poll
      */
-    void deletePoll(int pollId);
+    Poll deletePoll(int pollId);
 }

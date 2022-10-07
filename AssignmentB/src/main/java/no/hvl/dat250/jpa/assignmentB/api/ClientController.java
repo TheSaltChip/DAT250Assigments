@@ -4,53 +4,64 @@ import no.hvl.dat250.jpa.assignmentB.dao.ClientDao;
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.Set;
 
+@RestController
 public class ClientController {
-    private final ClientDao clientDao;
+    private final ClientDao clientDao = new ClientDao();
 
-    public ClientController(ClientDao clientDao) {
+    /*public ClientController(ClientDao clientDao) {
         this.clientDao = clientDao;
-    }
+    }*/
 
-    public Client findByUsername(String username){
+
+    @GetMapping(path="user")
+    public Client user(){
+        return new Client("s","s",Role.Regular);
+    }
+    @GetMapping(value = "/user/{username}")
+    public Client findByUsername(@PathVariable String username){
         return clientDao.findByUsername(username);
     }
 
-    public void createClient(String username, String password, Role role){
-        clientDao.createClient(username,password,role);
+    @PostMapping("/users")
+    public Client createClient(@RequestBody Client client){
+        clientDao.createClient(client.getUsername(),client.getPassword(),client.getRole());
+        return client;
     }
 
-    public void updateClientFirstname(String username, String firstname) {
-        clientDao.updateClientFirstname(username,firstname);
+    @PutMapping("{username}")
+    public Client updateClient(@PathVariable String username, @RequestBody Client client) {
+        clientDao.updateClient(username,client.getFirstname(),client.getLastname(),client.getEmail());
+        return client;
     }
 
-    public void updateClientLastname(String username, String lastname) {
-        clientDao.updateClientLastname(username,lastname);
-    }
-
-    public void updateClientEmail(String username, String email) {
-        clientDao.updateClientEmail(username,email);
-    }
-
-    public Set<Poll> getPollsFromClient(String username) {
+    @GetMapping(value = "/poll/{username}")
+    public Set<Poll> getPollsFromClient(@PathVariable String username) {
         return clientDao.getPollsFromClient(username);
     }
 
-    public void addPollToClient(String username, Poll poll) {
+    @PostMapping(path = "user/poll/{username}")
+    public Poll addPollToClient(@PathVariable String username,@RequestBody Poll poll) {
         clientDao.addPollToClient(username,poll);
+        return poll;
     }
 
-    public void deleteClient(String username) {
-        clientDao.deleteClient(username);
+    @DeleteMapping("deleteClient/{username}")
+    public Client deleteClient(@PathVariable String username) {
+        return clientDao.deleteClient(username);
     }
 
-    public void changeRole(String username, Role role) {
-        clientDao.changeRole(username,role);
+    @PutMapping("/role/{username}")
+    public Client changeRole(@PathVariable String username,@RequestBody Role role) {
+        return clientDao.changeRole(username,role);
     }
 
-    public Role getRoleOfClient(String username) {
+    @GetMapping("user/role/{username}")
+    public Role getRoleOfClient(@PathVariable String username) {
         return clientDao.getRoleOfClient(username);
     }
 }

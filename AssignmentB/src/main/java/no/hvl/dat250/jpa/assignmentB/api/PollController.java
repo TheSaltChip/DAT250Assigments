@@ -5,99 +5,72 @@ import no.hvl.dat250.jpa.assignmentB.dao.PollDao;
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
+@Controller
 public class PollController {
 
-    private final PollDao pollDao;
+    private final PollDao pollDao = new PollDao();
 
-    public PollController(PollDao pollDao) {
+    /* public PollController(PollDao pollDao) {
         this.pollDao = pollDao;
-    }
+    } */
 
-    public Poll findById(int pollId){
+    @GetMapping("/poll/{pollId}")
+    public Poll findById(@PathVariable int pollId){
         return pollDao.findById(pollId);
     }
 
-    public Client getOwner(int pollId) {
+    @GetMapping("/user/{pollId}")
+    public Client getOwner(@PathVariable int pollId) {
         return pollDao.getOwner(pollId);
     }
 
-    public void updateVote(boolean yesOrNo, int pollId){
-        setUp();
-        Poll poll = em.find(Poll.class,pollId);
-        if(yesOrNo){
-            poll.setYesVotes(poll.getYesVotes() + 1);
-        }else{
-            poll.setNoVotes(poll.getNoVotes() + 1);
-        }
-
-        commit(poll);
+    @PutMapping("/votePage/{pollId}")
+    public Poll updateVote(@RequestBody boolean vote,@PathVariable int pollId){
+        return pollDao.updateVote(vote,pollId);
     }
 
-    public void updateVote(int yes, int no, int pollId) {
-        setUp();
-        Poll poll = em.find(Poll.class,pollId);
-        int currentYes = poll.getYesVotes();
-        int currentNo = poll.getNoVotes();
-        poll.setYesVotes(currentYes+yes);
-        poll.setNoVotes(currentNo+no);
-        commit(poll);
+    @PutMapping("/voteDevice/{pollId}")
+    public Poll updateVote(@RequestBody int yes,@RequestBody int no,@PathVariable int pollId) {
+        return pollDao.updateVote(yes,no,pollId);
     }
 
-    public void updatePoll(int pollId, String name, String theme) {
-        setUp();
-        Poll poll = em.find(Poll.class,pollId);
-        if(name != null && !name.equals("")){
-            poll.setName(name);
-        }
-        if(theme != null && !theme.equals("")){
-            poll.setTheme(theme);
-        }
-        commit(poll);
+    @PutMapping("/poll/update")
+    public void updatePoll(@RequestBody Poll poll) {
+        pollDao.updatePoll(Integer.parseInt(""+poll.getId()),poll.getName(),poll.getTheme());
     }
 
-    public void closePoll(int pollId) {
-        setUp();
-        Poll poll = em.find(Poll.class,pollId);
-        poll.setActive(false);
-        commit(poll);
+    @PutMapping("/close/{pollId}")
+    public Poll closePoll(@PathVariable int pollId) {
+        return pollDao.closePoll(pollId);
     }
 
-    public void openPoll(int pollId) {
-        setUp();
-        Poll poll = em.find(Poll.class,pollId);
-        poll.setActive(true);
-        commit(poll);
+    @PutMapping("/open/{pollId}")
+    public Poll openPoll(@PathVariable int pollId) {
+        return pollDao.openPoll(pollId);
     }
 
-    public void updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate) {
-        setUp();
-        TimeLimitPoll poll = em.find(TimeLimitPoll.class,pollId);
-        if(poll != null) {
-            poll.setStartDate(startDate);
-            poll.setEndDate(endDate);
-            commit(poll);
-        }
+    @PutMapping("/poll/time/{pollId}")
+    public Poll updateTime(@PathVariable int pollId,@RequestBody LocalDateTime startDate,@RequestBody LocalDateTime endDate) {
+       return pollDao.updateTime(pollId,startDate,endDate);
     }
 
-    public void createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client) {
-        setUp();
-        Poll poll = new Poll(name,theme,isPrivate,createdDate,client);
-        commit(poll);
+    @PostMapping("poll")
+    public Poll createPoll(@RequestBody Poll poll) {
+        return pollDao.createPoll(poll.getName(),poll.getTheme(), poll.getPrivate(),poll.getCreatedDate(),poll.getOwner());
     }
 
-    public void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client, LocalDateTime startDate, LocalDateTime endDate) {
-        setUp();
-        TimeLimitPoll poll = new TimeLimitPoll(name,theme,isPrivate,createdDate,client,startDate,endDate);
-        commit(poll);
+    @PostMapping("timedPoll")
+    public TimeLimitPoll createTimeLimitPoll(@RequestBody TimeLimitPoll poll) {
+        return pollDao.createTimeLimitPoll(poll.getName(),poll.getTheme(),poll.getPrivate(),poll.getCreatedDate(),poll.getOwner(),poll.getStartDate(),poll.getEndDate());
     }
 
-    public void deletePoll(int pollId) {
-        setUp();
-        em.remove(em.find(Poll.class,pollId));
-        em.getTransaction().commit();
-        em.close();
+    @DeleteMapping("/deletePoll/{pollId}")
+    public Poll deletePoll(@PathVariable int pollId) {
+        return pollDao.deletePoll(pollId);
     }
 }

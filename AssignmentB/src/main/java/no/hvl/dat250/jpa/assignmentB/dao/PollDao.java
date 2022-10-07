@@ -50,7 +50,7 @@ public class PollDao implements IPollDao {
         return owner;
     }
 
-    public void updateVote(boolean yesOrNo, int pollId){
+    public Poll updateVote(boolean yesOrNo, int pollId){
         setUp();
         Poll poll = em.find(Poll.class,pollId);
         if(yesOrNo){
@@ -58,12 +58,12 @@ public class PollDao implements IPollDao {
         }else{
             poll.setNoVotes(poll.getNoVotes() + 1);
         }
-
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void updateVote(int yes, int no, int pollId) {
+    public Poll updateVote(int yes, int no, int pollId) {
         setUp();
         Poll poll = em.find(Poll.class,pollId);
         int currentYes = poll.getYesVotes();
@@ -71,10 +71,11 @@ public class PollDao implements IPollDao {
         poll.setYesVotes(currentYes+yes);
         poll.setNoVotes(currentNo+no);
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void updatePoll(int pollId, String name, String theme) {
+    public Poll updatePoll(int pollId, String name, String theme) {
         setUp();
         Poll poll = em.find(Poll.class,pollId);
         if(name != null && !name.equals("")){
@@ -84,26 +85,29 @@ public class PollDao implements IPollDao {
             poll.setTheme(theme);
         }
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void closePoll(int pollId) {
+    public Poll closePoll(int pollId) {
         setUp();
         Poll poll = em.find(Poll.class,pollId);
         poll.setActive(false);
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void openPoll(int pollId) {
+    public Poll openPoll(int pollId) {
         setUp();
         Poll poll = em.find(Poll.class,pollId);
         poll.setActive(true);
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate) {
+    public TimeLimitPoll updateTime(int pollId, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
         TimeLimitPoll poll = em.find(TimeLimitPoll.class,pollId);
         if(poll != null) {
@@ -111,28 +115,33 @@ public class PollDao implements IPollDao {
             poll.setEndDate(endDate);
             commit(poll);
         }
+        return poll;
     }
 
     @Override
-    public void createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client) {
+    public Poll createPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client) {
         setUp();
         Poll poll = new Poll(name,theme,isPrivate,createdDate,client);
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client, LocalDateTime startDate, LocalDateTime endDate) {
+    public TimeLimitPoll createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
         TimeLimitPoll poll = new TimeLimitPoll(name,theme,isPrivate,createdDate,client,startDate,endDate);
         commit(poll);
+        return poll;
     }
 
     @Override
-    public void deletePoll(int pollId) {
+    public Poll deletePoll(int pollId) {
         setUp();
-        em.remove(em.find(Poll.class,pollId));
+        Poll poll = em.find(Poll.class,pollId);
+        em.remove(poll);
         em.getTransaction().commit();
         em.close();
+        return poll;
     }
 
 }
