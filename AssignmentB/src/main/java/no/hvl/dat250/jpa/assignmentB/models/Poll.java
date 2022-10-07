@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -22,11 +23,14 @@ public class Poll {
     @NonNull
     private String theme;
 
-    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.REMOVE)
-    private List<Votes> votes;
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Vote> votes;
 
+    @NonNull
     private Boolean isPrivate;
+    @NonNull
     private Boolean active;
+    @NonNull
     private LocalDateTime createdDate;
 
     @ManyToOne(targetEntity = Client.class)
@@ -38,10 +42,11 @@ public class Poll {
     @Version
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, LocalDateTime createdDate, @NonNull Client owner) {
+    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull Client owner) {
         this.name = name;
         this.theme = theme;
         this.isPrivate = isPrivate;
+        this.active = active;
         this.createdDate = createdDate;
         this.owner = owner;
     }
