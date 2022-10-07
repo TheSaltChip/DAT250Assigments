@@ -60,9 +60,9 @@ public class CustomUserImplTest {
 
     @Test
     public void deleteClient() {
-        userRepository.createClient("Einar", "123", Role.Regular);
+        Client client = userRepository.createClient("Einar", "123", Role.Regular);
 
-        assertThat(userRepository.findByUsername("Einar"), is(Client.class));
+        assertThat(userRepository.findByUsername("Einar"), is(client));
         userRepository.deleteClient("Einar");
         assertThat(userRepository.findByUsername("Einar"), is(nullValue()));
     }
