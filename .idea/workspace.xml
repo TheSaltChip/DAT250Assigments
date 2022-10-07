@@ -1,14 +1,29 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="ce1a3f3a-5661-4f72-80df-6f36b56c909c" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/dao/ClientDao.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/Spring_5_2_3_RELEASE.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/api/ClientController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/api/PollController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AssignmentB/assignmentB.iml" beforeDir="false" afterPath="$PROJECT_DIR$/AssignmentB/assignmentB.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/dao/ClientDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/dao/ClientDao.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/dao/PollDao.java" beforeDir="false" afterPath="$PROJECT_DIR$/AssignmentB/src/main/java/no/hvl/dat250/jpa/assignmentB/dao/PollDao.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Class" />
+      </list>
+    </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -23,23 +38,21 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/Users/oyste/DAT250Assigments/AssignmentB",
-    "settings.editor.selected.configurable": "Errors"
+    "project.structure.last.edited": "Modules",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.0"
   }
 }]]></component>
   <component name="RunManager">
-    <configuration default="true" type="JetRunConfigurationType">
-      <module name="DAT250Assigments" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
-    <configuration default="true" type="KotlinStandaloneScriptRunConfigurationType">
-      <module name="DAT250Assigments" />
-      <option name="filePath" />
+    <configuration default="true" type="ArquillianJUnit" factoryName="" nameIsGenerated="true">
+      <option name="arquillianRunConfiguration">
+        <value>
+          <option name="containerStateName" value="" />
+        </value>
+      </option>
+      <option name="TEST_OBJECT" value="class" />
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -55,6 +68,9 @@
       <updated>1663319263935</updated>
       <workItem from="1663319265427" duration="2690000" />
       <workItem from="1663329936844" duration="1315000" />
+      <workItem from="1664184203627" duration="75000" />
+      <workItem from="1664986464220" duration="3254000" />
+      <workItem from="1665074609082" duration="4232000" />
     </task>
     <servers />
   </component>

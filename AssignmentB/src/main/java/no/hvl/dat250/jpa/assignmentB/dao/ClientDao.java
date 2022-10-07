@@ -3,12 +3,14 @@ package no.hvl.dat250.jpa.assignmentB.dao;
 import no.hvl.dat250.jpa.assignmentB.models.Client;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
+import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.util.Set;
 
+@Service
 public class ClientDao implements IClientDao {
     public static final String PERSISTENCE_UNIT_NAME = "assignmentB";
     EntityManagerFactory factory;
