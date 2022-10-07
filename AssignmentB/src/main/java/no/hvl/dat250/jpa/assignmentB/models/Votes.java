@@ -1,0 +1,28 @@
+package no.hvl.dat250.jpa.assignmentB.models;
+
+import lombok.Data;
+
+import javax.persistence.*;
+import java.io.Serializable;
+
+@Data
+@Entity
+@Table(name = "VOTES", schema = "APP")
+@IdClass(VotesId.class)
+public class Votes {
+
+    @Id
+    @OneToOne(optional = false)
+    @JoinColumn(name = "client_username", referencedColumnName = "USERNAME",nullable = false)
+    private Client client;
+
+    @Id
+    @OneToOne(optional = false)
+    @JoinColumn(name = "poll_id",referencedColumnName = "ID", nullable = false)
+    private Poll poll;
+
+    private Integer yesVotes;
+    private Integer noVotes;
+
+
+}

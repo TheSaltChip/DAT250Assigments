@@ -50,6 +50,16 @@ public class PollDao implements IPollDao {
         return owner;
     }
 
+    @Override
+    public void updateVote(boolean yesOrNo, int pollId) {
+
+    }
+
+    @Override
+    public void updateVote(int yes, int no, int pollId) {
+
+    }
+/*
     public void updateVote(boolean yesOrNo, int pollId){
         setUp();
         Poll poll = em.find(Poll.class,pollId);
@@ -71,7 +81,7 @@ public class PollDao implements IPollDao {
         poll.setYesVotes(currentYes+yes);
         poll.setNoVotes(currentNo+no);
         commit(poll);
-    }
+    }*/
 
     @Override
     public void updatePoll(int pollId, String name, String theme) {

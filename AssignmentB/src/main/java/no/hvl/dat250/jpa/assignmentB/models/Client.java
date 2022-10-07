@@ -1,11 +1,13 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
+import lombok.Data;
 import lombok.NonNull;
 
 import javax.persistence.*;
 import java.util.Set;
 
 @Entity
+@Data
 @Table(name = "CLIENT", schema = "APP")
 public class Client {
     @Id
@@ -25,7 +27,7 @@ public class Client {
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     private Set<Poll> ownedPolls;
 
-    public Client(String username, String password, Role role) {
+    public Client(String username, @NonNull String password, @NonNull Role role) {
         this.username = username;
         this.password = password;
         this.role = role;

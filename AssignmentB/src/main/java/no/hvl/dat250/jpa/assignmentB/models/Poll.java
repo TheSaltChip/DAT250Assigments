@@ -1,11 +1,13 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
+import lombok.Data;
 import lombok.NonNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
 
 @Entity
+@Data
 @Table(name = "POLL", schema = "APP")
 public class Poll {
     @Id
@@ -18,8 +20,8 @@ public class Poll {
     @NonNull
     private String theme;
 
-    private Integer yesVotes;
-    private Integer noVotes;
+    @OneToOne
+    private Votes votes;
 
     private Boolean isPrivate;
     private Boolean active;
@@ -58,22 +60,6 @@ public class Poll {
 
     public void setTheme(String theme) {
         this.theme = theme;
-    }
-
-    public Integer getYesVotes() {
-        return yesVotes;
-    }
-
-    public void setYesVotes(Integer yesVotes) {
-        this.yesVotes = yesVotes;
-    }
-
-    public Integer getNoVotes() {
-        return noVotes;
-    }
-
-    public void setNoVotes(Integer noVotes) {
-        this.noVotes = noVotes;
     }
 
     public Boolean getPrivate() {

@@ -11,7 +11,7 @@ import java.util.Set;
  *
  * @author Sebastian
  */
-public interface IClientDao {
+public interface UserRepositoryCustom {
     /**
      * Attempts to find a client by the given username
      *
