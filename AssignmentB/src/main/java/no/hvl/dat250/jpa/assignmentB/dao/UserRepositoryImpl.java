@@ -14,8 +14,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public Client findByUsername(String username) {
-        Client client = em.find(Client.class, username);
-        return client;
+        return em.find(Client.class, username);
     }
 
     @Override
