@@ -3,7 +3,7 @@ package no.hvl.dat250.jpa.assignmentB.models;
 import javax.persistence.Embeddable;
 import java.io.Serializable;
 
-@Embeddable
+
 public class VotesId implements Serializable {
 
     private Client client;
