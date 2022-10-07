@@ -3,7 +3,6 @@ package no.hvl.dat250.jpa.assignmentB.models;
 import lombok.Data;
 
 import javax.persistence.*;
-import java.io.Serializable;
 
 @Data
 @Entity
@@ -13,12 +12,12 @@ public class Votes {
 
     @Id
     @OneToOne(optional = false)
-    @JoinColumn(name = "client_username", referencedColumnName = "USERNAME",nullable = false)
+    @JoinColumn(name = "client_username", referencedColumnName = "USERNAME", nullable = false)
     private Client client;
 
     @Id
-    @OneToOne(optional = false)
-    @JoinColumn(name = "poll_id",referencedColumnName = "ID", nullable = false)
+    @ManyToOne(optional = false)
+    @JoinColumn(name = "poll_id", referencedColumnName = "ID", nullable = false)
     private Poll poll;
 
     private Integer yesVotes;
