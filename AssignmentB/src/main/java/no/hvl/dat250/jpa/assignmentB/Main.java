@@ -9,8 +9,6 @@ import javax.persistence.Persistence;
 
 @SpringBootApplication
 public class Main {
-    public static final String PERSISTENCE_UNIT_NAME = "assignmentB";
-
     public static void main(String[] args) {
         SpringApplication.run(Main.class, args);
     }
