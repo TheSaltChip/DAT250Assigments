@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.service;
 
-import no.hvl.dat250.jpa.assignmentB.dao.client.UserRepository;
+import no.hvl.dat250.jpa.assignmentB.dao.user.UserRepository;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
 import no.hvl.dat250.jpa.assignmentB.models.User;
