@@ -75,14 +75,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeRoleOfUser(String username, Role role){
+    public User changeRoleOfUser(String username, Role role) {
         User user = userRepository.findById(username).orElse(null);
 
-        if(user == null) return null;
+        if (user == null) return null;
 
         user.setRole(role);
 
-        return user;
+        return userRepository.save(user);
     }
 
     @Override
