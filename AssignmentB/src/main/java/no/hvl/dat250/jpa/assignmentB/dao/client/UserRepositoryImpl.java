@@ -25,6 +25,18 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
+    public User updateClient(String username, String firstname, String lastname, String email) {
+        User user = findByUsername(username);
+
+        user.setFirstname(firstname);
+        user.setLastname(lastname);
+        user.setEmail(email);
+
+        return em.merge(user);
+    }
+
+    /*
+    @Override
     public void updateClientFirstname(String username, String firstname) {
         User user = findByUsername(username);
         user.setFirstname(firstname);
@@ -43,7 +55,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         User user = findByUsername(username);
         user.setEmail(email);
         em.merge(user);
-    }
+    }*/
 
     @Override
     public Set<Poll> getPollsFromClient(String username) {
@@ -52,12 +64,12 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public void addPollToClient(String username, Poll poll) {
+    public User addPollToClient(String username, Poll poll) {
         User user = findByUsername(username);
         Set<Poll> polls = user.getOwnedPolls();
         polls.add(poll);
         user.setOwnedPolls(polls);
-        em.merge(user);
+        return em.merge(user);
     }
 
     @Override
@@ -66,10 +78,10 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     }
 
     @Override
-    public void changeRole(String username, Role role) {
+    public User changeRole(String username, Role role) {
         User user = findByUsername(username);
         user.setRole(role);
-        em.merge(user);
+        return em.merge(user);
     }
 
     @Override

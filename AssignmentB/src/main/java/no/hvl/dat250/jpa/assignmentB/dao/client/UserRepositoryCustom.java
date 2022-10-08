@@ -60,7 +60,7 @@ public interface UserRepositoryCustom {
      *
      * @param username The username of the client
      */
-    User deleteClient(String username);
+    void deleteClient(String username);
 
     /**
      * Changes the role of the client with the given username
