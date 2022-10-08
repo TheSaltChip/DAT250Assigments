@@ -16,9 +16,9 @@ public class TimeLimitPoll extends Poll {
     @NonNull
     private LocalDateTime endDate;
 
-    public TimeLimitPoll(@NonNull String name, @NonNull String theme, Boolean isPrivate, LocalDateTime createdDate,
-                         @NonNull Client owner, LocalDateTime startDate, LocalDateTime endDate) {
-        super(name, theme, isPrivate, createdDate, owner);
+    public TimeLimitPoll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate,@NonNull Boolean active,@NonNull LocalDateTime createdDate,
+                         @NonNull User owner, @NonNull LocalDateTime startDate, @NonNull LocalDateTime endDate) {
+        super(name, theme, isPrivate, active, createdDate, owner);
         this.startDate = startDate;
         this.endDate = endDate;
     }

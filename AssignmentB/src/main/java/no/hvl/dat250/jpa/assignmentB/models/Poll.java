@@ -1,11 +1,16 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import lombok.Data;
 import lombok.NonNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Objects;
 
 @Entity
+@Data
 @Table(name = "POLL", schema = "APP")
 public class Poll {
     @Id
@@ -18,25 +23,30 @@ public class Poll {
     @NonNull
     private String theme;
 
-    private Integer yesVotes;
-    private Integer noVotes;
+    @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    private List<Vote> votes;
 
+    @NonNull
     private Boolean isPrivate;
+    @NonNull
     private Boolean active;
+    @NonNull
     private LocalDateTime createdDate;
 
-    @ManyToOne(targetEntity = Client.class)
+    @ManyToOne(targetEntity = User.class)
     @NonNull
     @JoinColumn(referencedColumnName = "username")
-    private Client owner;
+    @JsonBackReference
+    private User owner;
 
     @Version
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, LocalDateTime createdDate, @NonNull Client owner) {
+    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull User owner) {
         this.name = name;
         this.theme = theme;
         this.isPrivate = isPrivate;
+        this.active = active;
         this.createdDate = createdDate;
         this.owner = owner;
     }
@@ -44,68 +54,49 @@ public class Poll {
     protected Poll() {
     }
 
-    public Long getId(){return id;}
-    public String getName() {
-        return name;
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        Poll poll = (Poll) o;
+
+        if (!Objects.equals(id, poll.id)) return false;
+        if (!name.equals(poll.name)) return false;
+        if (!theme.equals(poll.theme)) return false;
+        if (!Objects.equals(votes, poll.votes)) return false;
+        if (!Objects.equals(isPrivate, poll.isPrivate)) return false;
+        if (!Objects.equals(active, poll.active)) return false;
+        if (!Objects.equals(createdDate, poll.createdDate)) return false;
+        if (!owner.equals(poll.owner)) return false;
+        return Objects.equals(version, poll.version);
     }
 
-    public void setName(String name) {
-        this.name = name;
+    @Override
+    public int hashCode() {
+        int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + name.hashCode();
+        result = 31 * result + theme.hashCode();
+        result = 31 * result + (votes != null ? votes.hashCode() : 0);
+        result = 31 * result + isPrivate.hashCode();
+        result = 31 * result + active.hashCode();
+        result = 31 * result + createdDate.hashCode();
+        result = 31 * result + owner.hashCode();
+        result = 31 * result + (version != null ? version.hashCode() : 0);
+        return result;
     }
 
-    public String getTheme() {
-        return theme;
-    }
-
-    public void setTheme(String theme) {
-        this.theme = theme;
-    }
-
-    public Integer getYesVotes() {
-        return yesVotes;
-    }
-
-    public void setYesVotes(Integer yesVotes) {
-        this.yesVotes = yesVotes;
-    }
-
-    public Integer getNoVotes() {
-        return noVotes;
-    }
-
-    public void setNoVotes(Integer noVotes) {
-        this.noVotes = noVotes;
-    }
-
-    public Boolean getPrivate() {
-        return isPrivate;
-    }
-
-    public void setPrivate(Boolean aPrivate) {
-        isPrivate = aPrivate;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Client getOwner() {
-        return owner;
-    }
-
-    public void setOwner(Client owner) {
-        this.owner = owner;
-    }
-
-    public Boolean getActive(){
-        return active;
-    }
-
-    public void setActive(Boolean active){
-        this.active = active;
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", theme='" + theme + '\'' +
+                ", votes=" + votes +
+                ", isPrivate=" + isPrivate +
+                ", active=" + active +
+                ", createdDate=" + createdDate +
+                ", owner=" + owner.getUsername() +
+                '}';
     }
 }
