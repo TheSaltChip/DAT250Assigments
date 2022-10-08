@@ -14,8 +14,6 @@ import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Random;
 
 @Component
@@ -30,8 +28,9 @@ public class DummyData {
     @PostConstruct
     private void postConstruct() throws NoSuchAlgorithmException {
         User admin = new User("admin", "admin password", Role.Admin);
-        List<User> users = new ArrayList<>(15);
-        users.add(admin);
+
+        userRepository.save(admin);
+
         MessageDigest md = MessageDigest.getInstance("SHA3-256");
         Random r = new Random(1337);
 
@@ -45,7 +44,7 @@ public class DummyData {
 
             userRepository.save(c);
 
-            for(int j = 0; j < 5; j++){
+            for (int j = 0; j < 5; j++) {
                 Poll p = new Poll(
                         "Poll" + pollN++,
                         "Theme" + r.nextInt(5),
