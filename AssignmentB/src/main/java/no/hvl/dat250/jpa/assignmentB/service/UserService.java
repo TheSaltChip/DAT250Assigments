@@ -68,6 +68,16 @@ public class UserService {
         userRepository.deleteById(username);
     }
 
+    public User changeRoleOfUser(String username, Role role){
+        User user = userRepository.findById(username).orElse(null);
+
+        if(user == null) return null;
+
+        user.setRole(role);
+
+        return user;
+    }
+
     public Role getRoleOfUser(String username) {
         User user = userRepository.findById(username).orElse(null);
 
