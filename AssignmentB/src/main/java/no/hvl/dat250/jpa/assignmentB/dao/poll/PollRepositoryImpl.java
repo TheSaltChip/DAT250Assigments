@@ -127,9 +127,9 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     }
 
     @Override
-    public void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, User user, LocalDateTime startDate, LocalDateTime endDate) {
+    public void createTimeLimitPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, User user, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
-        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, createdDate, user, startDate, endDate);
+        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, active, createdDate, user, startDate, endDate);
         commit(poll);
     }
 
