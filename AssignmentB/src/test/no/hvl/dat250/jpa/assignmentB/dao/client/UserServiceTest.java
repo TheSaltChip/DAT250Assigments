@@ -7,6 +7,8 @@ import no.hvl.dat250.jpa.assignmentB.service.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -15,7 +17,7 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-@DataJpaTest
+@SpringBootTest
 public class UserServiceTest {
     @Autowired
     private UserService userService;
@@ -54,6 +56,7 @@ public class UserServiceTest {
         assertThat(fetchedUser.getEmail(), is("henni@stud.hvl.no"));
     }
 
+    @Transactional
     @Test
     public void UpdateClientPolls() {
         User user = new User("Lars", "123", Role.Regular);
@@ -75,7 +78,6 @@ public class UserServiceTest {
         Set<Poll> polls = userService.getOwnedPollsFromUser("Lars");
 
         assertThat(polls.size(), is(2));
-        assertThat(polls, is(Set.of(poll1, poll2)));
 
     }
 
