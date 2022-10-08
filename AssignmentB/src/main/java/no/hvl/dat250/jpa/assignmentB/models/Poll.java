@@ -42,7 +42,7 @@ public class Poll {
     @Version
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull User owner) {
+    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull User owner) {
         this.name = name;
         this.theme = theme;
         this.isPrivate = isPrivate;
@@ -78,11 +78,25 @@ public class Poll {
         result = 31 * result + name.hashCode();
         result = 31 * result + theme.hashCode();
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
-        result = 31 * result + (isPrivate != null ? isPrivate.hashCode() : 0);
-        result = 31 * result + (active != null ? active.hashCode() : 0);
-        result = 31 * result + (createdDate != null ? createdDate.hashCode() : 0);
+        result = 31 * result + isPrivate.hashCode();
+        result = 31 * result + active.hashCode();
+        result = 31 * result + createdDate.hashCode();
         result = 31 * result + owner.hashCode();
         result = 31 * result + (version != null ? version.hashCode() : 0);
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "Poll{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", theme='" + theme + '\'' +
+                ", votes=" + votes +
+                ", isPrivate=" + isPrivate +
+                ", active=" + active +
+                ", createdDate=" + createdDate +
+                ", owner=" + owner.getUsername() +
+                '}';
     }
 }
