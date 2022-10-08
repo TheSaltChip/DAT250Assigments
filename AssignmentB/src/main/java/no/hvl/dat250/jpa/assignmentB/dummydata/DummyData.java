@@ -3,7 +3,7 @@ package no.hvl.dat250.jpa.assignmentB.dummydata;
 
 import no.hvl.dat250.jpa.assignmentB.dao.client.UserRepository;
 import no.hvl.dat250.jpa.assignmentB.dao.poll.PollRepository;
-import no.hvl.dat250.jpa.assignmentB.models.Client;
+import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +29,16 @@ public class DummyData {
 
     @PostConstruct
     private void postConstruct() throws NoSuchAlgorithmException {
-        Client admin = new Client("admin", "admin password", Role.Admin);
-        List<Client> clients = new ArrayList<>(15);
-        clients.add(admin);
+        User admin = new User("admin", "admin password", Role.Admin);
+        List<User> users = new ArrayList<>(15);
+        users.add(admin);
         MessageDigest md = MessageDigest.getInstance("SHA3-256");
         Random r = new Random(1337);
 
         int pollN = 0;
 
         for (int i = 0; i < 14; i++) {
-            Client c = new Client(
+            User c = new User(
                     String.format("user%d", i),
                     String.format("%1s", bytesToHex(md.digest(("" + i).getBytes(StandardCharsets.UTF_8)))),
                     Role.Regular);

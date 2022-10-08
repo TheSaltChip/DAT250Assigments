@@ -2,7 +2,7 @@ package no.hvl.dat250.jpa.assignmentB.api;
 
 import no.hvl.dat250.jpa.assignmentB.dao.ClientDao;
 import no.hvl.dat250.jpa.assignmentB.dao.PollDao;
-import no.hvl.dat250.jpa.assignmentB.models.Client;
+import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
 import org.springframework.stereotype.Controller;
@@ -25,7 +25,7 @@ public class PollController {
     }
 
     @GetMapping("/user/{pollId}")
-    public Client getOwner(@PathVariable int pollId) {
+    public User getOwner(@PathVariable int pollId) {
         return pollDao.getOwner(pollId);
     }
 

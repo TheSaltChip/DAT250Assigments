@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.dao.client;
 
-import no.hvl.dat250.jpa.assignmentB.models.Client;
+import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
 
@@ -13,51 +13,51 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     private EntityManager em;
 
     @Override
-    public Client findByUsername(String username) {
-        return em.find(Client.class, username);
+    public User findByUsername(String username) {
+        return em.find(User.class, username);
     }
 
     @Override
-    public Client createClient(String username, String password, Role role) {
-        Client client = new Client(username, password, role);
-        em.persist(client);
-        return client;
+    public User createClient(String username, String password, Role role) {
+        User user = new User(username, password, role);
+        em.persist(user);
+        return user;
     }
 
     @Override
     public void updateClientFirstname(String username, String firstname) {
-        Client client = findByUsername(username);
-        client.setFirstname(firstname);
-        em.merge(client);
+        User user = findByUsername(username);
+        user.setFirstname(firstname);
+        em.merge(user);
     }
 
     @Override
     public void updateClientLastname(String username, String lastname) {
-        Client client = findByUsername(username);
-        client.setLastname(lastname);
-        em.merge(client);
+        User user = findByUsername(username);
+        user.setLastname(lastname);
+        em.merge(user);
     }
 
     @Override
     public void updateClientEmail(String username, String email) {
-        Client client = findByUsername(username);
-        client.setEmail(email);
-        em.merge(client);
+        User user = findByUsername(username);
+        user.setEmail(email);
+        em.merge(user);
     }
 
     @Override
     public Set<Poll> getPollsFromClient(String username) {
-        Client client = findByUsername(username);
-        return client.getOwnedPolls();
+        User user = findByUsername(username);
+        return user.getOwnedPolls();
     }
 
     @Override
     public void addPollToClient(String username, Poll poll) {
-        Client client = findByUsername(username);
-        Set<Poll> polls = client.getOwnedPolls();
+        User user = findByUsername(username);
+        Set<Poll> polls = user.getOwnedPolls();
         polls.add(poll);
-        client.setOwnedPolls(polls);
-        em.merge(client);
+        user.setOwnedPolls(polls);
+        em.merge(user);
     }
 
     @Override
@@ -67,9 +67,9 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
 
     @Override
     public void changeRole(String username, Role role) {
-        Client client = findByUsername(username);
-        client.setRole(role);
-        em.merge(client);
+        User user = findByUsername(username);
+        user.setRole(role);
+        em.merge(user);
     }
 
     @Override

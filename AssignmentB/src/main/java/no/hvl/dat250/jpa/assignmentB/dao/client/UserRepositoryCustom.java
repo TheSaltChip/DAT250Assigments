@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.dao.client;
 
-import no.hvl.dat250.jpa.assignmentB.models.Client;
+import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
 
@@ -18,7 +18,7 @@ public interface UserRepositoryCustom {
      * @param username Username of the client
      * @return A client object if there exists a client with the username, null if not
      */
-    Client findByUsername(String username);
+    User findByUsername(String username);
 
     /**
      * Creates a client with the given username and password
@@ -28,7 +28,7 @@ public interface UserRepositoryCustom {
      * @param role Role of the client
      * @return The created client
      */
-    Client createClient(String username, String password, Role role);
+    User createClient(String username, String password, Role role);
 
     /**
      * updates the firstname, lastname and email of a client
@@ -37,7 +37,7 @@ public interface UserRepositoryCustom {
      * @param lastname
      * @param email
      */
-    Client updateClient(String username,String firstname,String lastname,String email);
+    User updateClient(String username, String firstname, String lastname, String email);
 
      /**
      * Gets all polls from the client with the username
@@ -53,14 +53,14 @@ public interface UserRepositoryCustom {
      * @param username The username of the client
      * @param poll     The new poll
      */
-    Client addPollToClient(String username, Poll poll);
+    User addPollToClient(String username, Poll poll);
 
     /**
      * Deletes the client with the given username
      *
      * @param username The username of the client
      */
-    Client deleteClient(String username);
+    User deleteClient(String username);
 
     /**
      * Changes the role of the client with the given username
@@ -68,7 +68,7 @@ public interface UserRepositoryCustom {
      * @param username The username of the client
      * @param role     The new role
      */
-    Client changeRole(String username, Role role);
+    User changeRole(String username, Role role);
 
     /**
      * Returns the role of the client with the given username

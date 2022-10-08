@@ -1,20 +1,19 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
-import javax.persistence.Embeddable;
 import java.io.Serializable;
 
 
 public class VotesId implements Serializable {
 
-    private Client client;
+    private User user;
     private Poll poll;
 
-    public Client getClient() {
-        return client;
+    public User getClient() {
+        return user;
     }
 
-    public void setClient(Client client) {
-        this.client = client;
+    public void setClient(User user) {
+        this.user = user;
     }
 
     public Poll getPoll() {

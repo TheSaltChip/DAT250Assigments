@@ -33,16 +33,16 @@ public class Poll {
     @NonNull
     private LocalDateTime createdDate;
 
-    @ManyToOne(targetEntity = Client.class)
+    @ManyToOne(targetEntity = User.class)
     @NonNull
     @JoinColumn(referencedColumnName = "username")
     @JsonBackReference
-    private Client owner;
+    private User owner;
 
     @Version
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull Client owner) {
+    public Poll(@NonNull String name, @NonNull String theme, Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull User owner) {
         this.name = name;
         this.theme = theme;
         this.isPrivate = isPrivate;

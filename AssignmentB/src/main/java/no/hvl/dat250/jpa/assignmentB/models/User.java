@@ -12,7 +12,7 @@ import java.util.Set;
 @Entity
 @Data
 @Table(name = "CLIENT", schema = "APP")
-public class Client {
+public class User {
     @Id
     private String username;
 
@@ -31,14 +31,14 @@ public class Client {
     @JsonManagedReference
     private Set<Poll> ownedPolls;
 
-    public Client(String username, @NonNull String password, @NonNull Role role) {
+    public User(String username, @NonNull String password, @NonNull Role role) {
         this.username = username;
         this.password = password;
         this.role = role;
         this.ownedPolls = new HashSet<>();
     }
 
-    public Client() {
+    public User() {
     }
 
     @Override
@@ -46,14 +46,14 @@ public class Client {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
 
-        Client client = (Client) o;
+        User user = (User) o;
 
-        if (!Objects.equals(username, client.username)) return false;
-        if (!Objects.equals(email, client.email)) return false;
-        if (!Objects.equals(firstname, client.firstname)) return false;
-        if (!Objects.equals(lastname, client.lastname)) return false;
-        if (role != client.role) return false;
-        return password.equals(client.password);
+        if (!Objects.equals(username, user.username)) return false;
+        if (!Objects.equals(email, user.email)) return false;
+        if (!Objects.equals(firstname, user.firstname)) return false;
+        if (!Objects.equals(lastname, user.lastname)) return false;
+        if (role != user.role) return false;
+        return password.equals(user.password);
     }
 
     @Override

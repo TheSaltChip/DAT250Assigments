@@ -13,7 +13,7 @@ public class Vote {
     @Id
     @OneToOne(optional = false)
     @JoinColumn(name = "client_username", referencedColumnName = "USERNAME", nullable = false)
-    private Client client;
+    private User user;
 
     @Id
     @ManyToOne(optional = false)

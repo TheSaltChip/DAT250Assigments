@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.dao.poll;
 
-import no.hvl.dat250.jpa.assignmentB.models.Client;
+import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
 import org.springframework.stereotype.Service;
@@ -37,12 +37,12 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     }
 
     @Override
-    public Client getOwner(int pollId) {
+    public User getOwner(int pollId) {
         setUp();
         em.getTransaction().begin();
         Poll poll = em.find(Poll.class, pollId);
         em.close();
-        Client owner = poll.getOwner();
+        User owner = poll.getOwner();
         return owner;
     }
 
@@ -120,16 +120,16 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     }
 
     @Override
-    public void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, Client client) {
+    public void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, User user) {
         setUp();
-        Poll poll = new Poll(name, theme, isPrivate, active, createdDate, client);
+        Poll poll = new Poll(name, theme, isPrivate, active, createdDate, user);
         commit(poll);
     }
 
     @Override
-    public void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client, LocalDateTime startDate, LocalDateTime endDate) {
+    public void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, User user, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
-        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, createdDate, client, startDate, endDate);
+        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, createdDate, user, startDate, endDate);
         commit(poll);
     }
 

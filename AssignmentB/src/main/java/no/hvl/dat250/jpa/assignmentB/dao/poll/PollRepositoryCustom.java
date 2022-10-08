@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.dao.poll;
 
-import no.hvl.dat250.jpa.assignmentB.models.Client;
+import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 
 import java.time.LocalDateTime;
@@ -25,7 +25,7 @@ public interface PollRepositoryCustom {
      * @param pollId The poll id
      * @return Client object which owns the poll
      */
-    Client getOwner(int pollId);
+    User getOwner(int pollId);
 
     /**
      * Updates the votes of the poll with the given pollId
@@ -87,9 +87,9 @@ public interface PollRepositoryCustom {
      * @param isPrivate   True if private, false if public
      * @param active      True if active, false if not active
      * @param createdDate Date and time the poll was created
-     * @param client      Which client created the poll
+     * @param user      Which client created the poll
      */
-    void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, Client client);
+    void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, User user);
 
     /**
      * Creates a new time limit poll
@@ -98,9 +98,9 @@ public interface PollRepositoryCustom {
      * @param theme       Theme of the poll
      * @param isPrivate   True if private, false if public
      * @param createdDate Date and time the poll was created
-     * @param client      Which client created the poll
+     * @param user      Which client created the poll
      */
-    void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, Client client,
+    void createTimeLimitPoll(String name, String theme, boolean isPrivate, LocalDateTime createdDate, User user,
                              LocalDateTime startDate, LocalDateTime endDate);
 
     /**
