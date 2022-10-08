@@ -38,7 +38,7 @@ public class UserController {
         return userService.updateUser(username, user);
     }
 
-    @GetMapping(value = "/polls/{username}")
+    @GetMapping("user/polls/{username}")
     public Set<Poll> getPollsFromUser(@PathVariable String username) {
         return userService.getOwnedPollsFromUser(username);
     }
