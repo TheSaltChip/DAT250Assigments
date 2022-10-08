@@ -53,11 +53,10 @@ public class UserController {
         userService.deleteUser(username);
     }
 
-    /* Isn't this covered in update user?
     @PutMapping("/role/{username}")
     public User changeRole(@PathVariable String username, @RequestBody Role role) {
-        return userService.changeRole(username, role);
-    }*/
+        return userService.changeRoleOfUser(username, role);
+    }
 
     @GetMapping("user/role/{username}")
     public Role getRoleOfClient(@PathVariable String username) {
