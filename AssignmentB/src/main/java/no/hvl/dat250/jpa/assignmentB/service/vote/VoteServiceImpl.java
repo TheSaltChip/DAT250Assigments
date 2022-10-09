@@ -29,12 +29,12 @@ public class VoteServiceImpl implements VoteService {
     }
 
     public List<Vote> getAllVotesFromPoll(Long pollId) {
-        Poll p = pollRepository.getReferenceById(pollId);
+        Poll p = pollRepository.findById(pollId).orElseThrow();
         return voteRepository.findAllByPoll(p);
     }
 
     public List<Vote> getAllVotesFromUser(String username){
-        User u = userRepository.getReferenceById(username);
+        User u = userRepository.findById(username).orElseThrow();
 
         return voteRepository.findAllByUser(u);
     }
