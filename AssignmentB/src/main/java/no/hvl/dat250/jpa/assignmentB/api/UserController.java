@@ -3,7 +3,7 @@ package no.hvl.dat250.jpa.assignmentB.api;
 import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
-import no.hvl.dat250.jpa.assignmentB.service.UserService;
+import no.hvl.dat250.jpa.assignmentB.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
