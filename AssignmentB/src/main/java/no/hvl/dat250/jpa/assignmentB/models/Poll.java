@@ -1,6 +1,7 @@
 package no.hvl.dat250.jpa.assignmentB.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
 
@@ -24,7 +25,7 @@ public class Poll {
     private String theme;
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonManagedReference
     private List<Vote> votes;
 
     @NonNull
