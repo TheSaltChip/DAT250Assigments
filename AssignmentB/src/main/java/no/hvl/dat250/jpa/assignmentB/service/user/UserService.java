@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB.service;
+package no.hvl.dat250.jpa.assignmentB.service.user;
 
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;

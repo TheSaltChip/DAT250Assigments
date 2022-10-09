@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignmentB.dao.poll;
+package no.hvl.dat250.jpa.assignmentB.repository.poll;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

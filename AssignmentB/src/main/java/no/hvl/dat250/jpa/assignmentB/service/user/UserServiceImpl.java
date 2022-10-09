@@ -1,6 +1,6 @@
-package no.hvl.dat250.jpa.assignmentB.service;
+package no.hvl.dat250.jpa.assignmentB.service.user;
 
-import no.hvl.dat250.jpa.assignmentB.dao.user.UserRepository;
+import no.hvl.dat250.jpa.assignmentB.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
 import no.hvl.dat250.jpa.assignmentB.models.User;
@@ -87,8 +87,8 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Role getRoleOfUser(String username) {
-        User user = userRepository.findById(username).orElse(null);
+        User user = userRepository.findById(username).orElseThrow();
 
-        return user == null ? null : user.getRole();
+        return user.getRole();
     }
 }
