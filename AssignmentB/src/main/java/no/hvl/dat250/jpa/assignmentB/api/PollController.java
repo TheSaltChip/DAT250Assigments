@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 
 import java.time.LocalDateTime;
 
-@Controller
+@RestController
 public class PollController {
 
     private final PollService pollService;
@@ -24,42 +24,42 @@ public class PollController {
         this.pollService = pollService;
     }
 
-    @GetMapping("/poll/{pollId}")
+    @GetMapping(value = "/poll/{pollId}")
     public Poll findById(@PathVariable Long pollId) {
         return pollService.findById(pollId);
     }
 
-    @GetMapping("/user/{pollId}")
+    @GetMapping(value = "/poll/owner/{pollId}")
     public User getOwner(@PathVariable Long pollId) {
         return pollService.getOwner(pollId);
     }
 
-    @PutMapping("/votePage/{pollId}")
+    @PutMapping(value = "/votePage/{pollId}")
     public Poll updateVote(@RequestBody UserVote test, @PathVariable Long pollId) {
         return pollService.updateVote(test.isVote(), test.getUsername(), pollId);
     }
 
-    @PutMapping("/voteDevice/{pollId}")
+    @PutMapping(value = "/voteDevice/{pollId}")
     public Poll updateVote(@RequestBody DeviceVotes deviceVotes, @PathVariable Long pollId) {
         return pollService.updateVote(deviceVotes.getDeviceId(), deviceVotes.getYes(), deviceVotes.getNo(), pollId);
     }
 
-    @PutMapping("/poll/update")
+    @PutMapping(value = "/poll/update")
     public void updatePoll(@RequestBody Poll poll) {
         pollService.updatePoll(poll);
     }
 
-    @PutMapping("/poll/close/{pollId}")
+    @PutMapping(value = "/poll/close/{pollId}")
     public Poll closePoll(@PathVariable Long pollId) {
         return pollService.closePoll(pollId);
     }
 
-    @PutMapping("/poll/open/{pollId}")
+    @PutMapping(value ="/poll/open/{pollId}")
     public Poll openPoll(@PathVariable Long pollId) {
         return pollService.openPoll(pollId);
     }
 
-    @PutMapping("/poll/time/{pollId}")
+    @PutMapping(value = "/poll/time/{pollId}")
     public Poll updateTime(@PathVariable Long pollId, @RequestBody LocalDateTime startDate, @RequestBody LocalDateTime endDate) {
         return pollService.updateTime(pollId, startDate, endDate);
     }
