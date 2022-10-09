@@ -28,7 +28,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public Poll findById(Long pollId) {
-        return pollRepository.findById(pollId).orElse(null);
+        return pollRepository.findById(pollId).orElseThrow();
     }
 
 
@@ -69,7 +69,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public void updatePoll(Poll poll) {
-        Poll updatedPoll = pollRepository.getReferenceById(poll.getId());
+        Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
         updatedPoll.setActive(poll.getActive());
         updatedPoll.setName(poll.getName());
@@ -93,7 +93,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) {
-        TimeLimitPoll tlp = timeLimitPollRepository.getReferenceById(pollId);
+        TimeLimitPoll tlp = timeLimitPollRepository.findById(pollId).orElseThrow();
 
         tlp.setStartDate(startDate);
         tlp.setEndDate(endDate);
@@ -117,7 +117,7 @@ public class PollServiceImpl implements PollService {
     }
 
     private Poll findAndSetActive(Long pollId, boolean status) {
-        Poll p = pollRepository.getReferenceById(pollId);
+        Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActive(status);
 
