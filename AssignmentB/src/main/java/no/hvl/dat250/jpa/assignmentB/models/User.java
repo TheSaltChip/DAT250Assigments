@@ -28,7 +28,7 @@ public class User {
     private String password;
 
     @OneToMany(mappedBy = "owner", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonManagedReference(value = "ownedPolls")
+    @JsonManagedReference(value = "owner")
     private Set<Poll> ownedPolls;
 
     public User(String username, @NonNull String password, @NonNull Role role) {

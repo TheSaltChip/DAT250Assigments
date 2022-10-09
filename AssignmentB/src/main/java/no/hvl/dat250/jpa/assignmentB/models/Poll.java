@@ -24,7 +24,7 @@ public class Poll {
     private String theme;
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JsonBackReference
+    @JsonBackReference(value = "pollVote")
     private List<Vote> votes;
 
     @NonNull
