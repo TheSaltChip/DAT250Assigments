@@ -37,7 +37,7 @@ public class Poll {
     @ManyToOne(targetEntity = User.class)
     @NonNull
     @JoinColumn(referencedColumnName = "username")
-    @JsonBackReference
+    @JsonBackReference(value = "owner")
     private User owner;
 
     @Version
