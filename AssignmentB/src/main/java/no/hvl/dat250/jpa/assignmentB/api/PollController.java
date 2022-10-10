@@ -1,6 +1,7 @@
 package no.hvl.dat250.jpa.assignmentB.api;
 
 import no.hvl.dat250.jpa.assignmentB.api.pojo.DeviceVotes;
+import no.hvl.dat250.jpa.assignmentB.api.pojo.Time;
 import no.hvl.dat250.jpa.assignmentB.api.pojo.UserVote;
 import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
@@ -60,8 +61,8 @@ public class PollController {
     }
 
     @PutMapping(value = "/poll/time/{pollId}")
-    public Poll updateTime(@PathVariable Long pollId, @RequestBody LocalDateTime startDate, @RequestBody LocalDateTime endDate) {
-        return pollService.updateTime(pollId, startDate, endDate);
+    public Poll updateTime(@PathVariable Long pollId, @RequestBody Time date) {
+        return pollService.updateTime(pollId, date.getStartDate(), date.getEndDate());
     }
 
     @PostMapping("poll")
