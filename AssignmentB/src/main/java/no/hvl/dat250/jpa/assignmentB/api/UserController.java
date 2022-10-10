@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.api;
 
+import no.hvl.dat250.jpa.assignmentB.api.pojo.RoleString;
 import no.hvl.dat250.jpa.assignmentB.models.User;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
@@ -16,11 +17,6 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
-    }
-
-    @GetMapping(path = "/user")
-    public User user() {
-        return new User("s", "s", Role.Regular);
     }
 
     @GetMapping(value = "/user/{username}")
@@ -54,7 +50,7 @@ public class UserController {
     }
 
     @PutMapping("/role/{username}")
-    public User changeRole(@PathVariable String username, @RequestBody Role role) {
+    public User changeRole(@PathVariable String username, @RequestBody RoleString role) {
         return userService.changeRoleOfUser(username, role);
     }
 

@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.service.user;
 
+import no.hvl.dat250.jpa.assignmentB.api.pojo.RoleString;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
 import no.hvl.dat250.jpa.assignmentB.models.User;
@@ -27,7 +28,7 @@ public interface UserService {
 
     void deleteUser(String username);
 
-    User changeRoleOfUser(String username, Role role);
+    User changeRoleOfUser(String username, RoleString role);
 
     Role getRoleOfUser(String username);
 }

@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignmentB.service.user;
 
+import no.hvl.dat250.jpa.assignmentB.api.pojo.RoleString;
 import no.hvl.dat250.jpa.assignmentB.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignmentB.models.Poll;
 import no.hvl.dat250.jpa.assignmentB.models.Role;
@@ -75,12 +76,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeRoleOfUser(String username, Role role) {
+    public User changeRoleOfUser(String username, RoleString role) {
+        Role roleObj = Role.valueOf(role.get());
         User user = userRepository.findById(username).orElse(null);
 
         if (user == null) return null;
 
-        user.setRole(role);
+        user.setRole(roleObj);
 
         return userRepository.save(user);
     }
