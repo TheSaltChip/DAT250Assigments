@@ -5,6 +5,7 @@ import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
 import no.hvl.dat250.jpa.assignmentB.models.User;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 /**
  * Interface for poll services
@@ -31,4 +32,6 @@ public interface PollService {
     TimeLimitPoll createTimeLimitPoll(TimeLimitPoll poll);
 
     void deletePoll(Long pollId);
+
+    List<Poll> findAllPolls();
 }

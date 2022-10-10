@@ -1,16 +1,16 @@
 package no.hvl.dat250.jpa.assignmentB.service.poll;
 
+import no.hvl.dat250.jpa.assignmentB.models.*;
 import no.hvl.dat250.jpa.assignmentB.repository.poll.PollRepository;
 import no.hvl.dat250.jpa.assignmentB.repository.poll.TimeLimitPollRepository;
 import no.hvl.dat250.jpa.assignmentB.repository.user.UserRepository;
-import no.hvl.dat250.jpa.assignmentB.models.Poll;
-import no.hvl.dat250.jpa.assignmentB.models.TimeLimitPoll;
-import no.hvl.dat250.jpa.assignmentB.models.User;
-import no.hvl.dat250.jpa.assignmentB.models.Vote;
+import no.hvl.dat250.jpa.assignmentB.repository.vote.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class PollServiceImpl implements PollService {
@@ -18,12 +18,19 @@ public class PollServiceImpl implements PollService {
     private final PollRepository pollRepository;
     private final TimeLimitPollRepository timeLimitPollRepository;
     private final UserRepository userRepository;
+    private final VoteRepository voteRepository;
 
     @Autowired
-    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository) {
+    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, VoteRepository voteRepository) {
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
         this.userRepository = userRepository;
+        this.voteRepository = voteRepository;
+    }
+
+    @Override
+    public List<Poll> findAllPolls() {
+        return pollRepository.findAll();
     }
 
     @Override
@@ -43,9 +50,28 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public Poll updateVote(boolean vote, String username, Long pollId) {
+        Poll p = pollRepository.findById(pollId).orElseThrow();
+
+        if (!p.getActive()) return p;
+
         User u = userRepository.findById(username).orElseThrow();
 
-        Poll p = pollRepository.findById(pollId).orElseThrow();
+        if(!u.getRole().equals(Role.Regular)){
+            return p;
+        }
+
+        Optional<Vote> oV = voteRepository.findById(new VoteId(u, p));
+
+        if (oV.isPresent()) {
+            Vote v = oV.get();
+            v.setYesVotes(vote ? 1 : 0);
+            v.setNoVotes(vote ? 0 : 1);
+
+            p.getVotes().remove(v);
+            p.getVotes().add(v);
+
+            return pollRepository.save(p);
+        }
 
         Vote v = new Vote(u, p, vote ? 1 : 0, vote ? 0 : 1);
 
@@ -58,10 +84,31 @@ public class PollServiceImpl implements PollService {
     public Poll updateVote(String deviceId, int yes, int no, Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
+        // Custom response should be given here telling that the poll is closed
+        if (!p.getActive()) return p;
+
         User d = userRepository.findById(deviceId).orElseThrow();
 
-        Vote v = new Vote(d, p, yes, no);
+        if(!d.getRole().equals(Role.Device)){
+            return p;
+        }
 
+        Optional<Vote> oVote = voteRepository.findById(new VoteId(d, p));
+
+        if (oVote.isEmpty()) {
+            Vote v = new Vote(d, p, yes, no);
+
+            p.getVotes().add(v);
+
+            return pollRepository.save(p);
+        }
+
+        Vote v = oVote.get();
+
+        v.setNoVotes(v.getNoVotes() + no);
+        v.setYesVotes(v.getYesVotes() + yes);
+
+        p.getVotes().remove(v);
         p.getVotes().add(v);
 
         return pollRepository.save(p);

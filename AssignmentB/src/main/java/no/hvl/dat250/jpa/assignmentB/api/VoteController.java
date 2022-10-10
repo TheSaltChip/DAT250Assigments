@@ -34,5 +34,4 @@ public class VoteController {
     public ResponseEntity<List<Vote>> getAllVotesFromUser(@PathVariable String username){
         return ResponseEntity.ok(voteService.getAllVotesFromUser(username));
     }
-
 }

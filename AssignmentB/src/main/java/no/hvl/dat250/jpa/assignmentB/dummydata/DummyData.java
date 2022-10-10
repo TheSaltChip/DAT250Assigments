@@ -55,6 +55,11 @@ public class DummyData {
                 pollRepository.save(p);
             }
         }
+
+        for (int i = 0; i < 3; i++) {
+            User d = new User(String.format("d%d", i),"pass", Role.Device);
+            userRepository.save(d);
+        }
     }
 
     private static String bytesToHex(byte[] hash) {

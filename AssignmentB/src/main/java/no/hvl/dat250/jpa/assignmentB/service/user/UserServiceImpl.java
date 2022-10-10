@@ -27,20 +27,20 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public User getUserByUsername(String username) {
-        return userRepository.findById(username).orElse(null);
+        return userRepository.findById(username).orElseThrow();
     }
 
     @Override
     public User saveUser(User user) {
+        if (user.getRole().equals(Role.Admin))
+            user.setRole(Role.Regular);
+
         return userRepository.save(user);
     }
 
     @Override
     public User updateUser(String username, User user) {
-        User updatedUser = userRepository.findById(username).orElse(null);
-        if (updatedUser == null) {
-            return null;
-        }
+        User updatedUser = userRepository.findById(username).orElseThrow();
 
         updatedUser.setFirstname(user.getFirstname());
         updatedUser.setLastname(user.getLastname());
@@ -53,16 +53,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public Set<Poll> getOwnedPollsFromUser(String username) {
-        User c = userRepository.findById(username).orElse(null);
-        if (c == null) return null;
+        User c = userRepository.findById(username).orElseThrow();
         return c.getOwnedPolls();
     }
 
     @Override
     public Poll addPollToUser(String username, Poll poll) {
-        User c = userRepository.findById(username).orElse(null);
-
-        if (c == null) return null;
+        User c = userRepository.findById(username).orElseThrow();
 
         c.getOwnedPolls().add(poll);
         userRepository.save(c);
@@ -76,11 +73,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User changeRoleOfUser(String username, RoleString role) {
-        Role roleObj = Role.valueOf(role.get());
-        User user = userRepository.findById(username).orElse(null);
-
-        if (user == null) return null;
+    public User changeRoleOfUser(String username, String role) {
+        Role roleObj = Role.valueOf(role);
+        User user = userRepository.findById(username).orElseThrow();
 
         user.setRole(roleObj);
 

@@ -8,6 +8,7 @@ import no.hvl.dat250.jpa.assignmentB.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Set;
 
 @RestController
@@ -17,6 +18,11 @@ public class UserController {
     @Autowired
     public UserController(UserService userService) {
         this.userService = userService;
+    }
+
+    @GetMapping(value="/users")
+    public List<User> findAllUsers(){
+        return userService.getAllUsers();
     }
 
     @GetMapping(value = "/user/{username}")
@@ -51,7 +57,7 @@ public class UserController {
 
     @PutMapping("/role/{username}")
     public User changeRole(@PathVariable String username, @RequestBody RoleString role) {
-        return userService.changeRoleOfUser(username, role);
+        return userService.changeRoleOfUser(username, role.getRole());
     }
 
     @GetMapping("user/role/{username}")

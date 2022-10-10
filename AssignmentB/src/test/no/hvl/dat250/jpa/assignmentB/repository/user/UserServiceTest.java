@@ -96,7 +96,7 @@ public class UserServiceTest {
         userService.saveUser(new User("Ville", "123", Role.Regular));
         assertThat(userService.getRoleOfUser("Ville"), is(Role.Regular));
 
-        userService.changeRoleOfUser("Ville", Role.Admin);
+        userService.changeRoleOfUser("Ville", "Admin");
         assertThat(userService.getRoleOfUser("Ville"), is(Role.Admin));
 
     }

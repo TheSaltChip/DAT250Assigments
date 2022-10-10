@@ -28,7 +28,7 @@ public interface UserService {
 
     void deleteUser(String username);
 
-    User changeRoleOfUser(String username, RoleString role);
+    User changeRoleOfUser(String username, String role);
 
     Role getRoleOfUser(String username);
 }
