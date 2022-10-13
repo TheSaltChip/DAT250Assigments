@@ -39,12 +39,12 @@ public class PollController {
         return pollService.getOwner(pollId);
     }
 
-    @PutMapping(value = "/votePage/{pollId}")
+    @PutMapping(value = "/poll/vote/user/{pollId}")
     public Poll updateVote(@RequestBody UserVote test, @PathVariable Long pollId) {
         return pollService.updateVote(test.isVote(), test.getUsername(), pollId);
     }
 
-    @PutMapping(value = "/voteDevice/{pollId}")
+    @PutMapping(value = "/poll/vote/device/{pollId}")
     public Poll updateVote(@RequestBody DeviceVotes deviceVotes, @PathVariable Long pollId) {
         return pollService.updateVote(deviceVotes.getDeviceId(), deviceVotes.getYes(), deviceVotes.getNo(), pollId);
     }
@@ -69,17 +69,17 @@ public class PollController {
         return pollService.updateTime(pollId, date.getStartDate(), date.getEndDate());
     }
 
-    @PostMapping("poll")
+    @PostMapping(value = "/poll")
     public Poll createPoll(@RequestBody Poll poll) {
         return pollService.createPoll(poll);
     }
 
-    @PostMapping("timedPoll")
+    @PostMapping(value = "/timedPoll")
     public TimeLimitPoll createTimeLimitPoll(@RequestBody TimeLimitPoll poll) {
         return pollService.createTimeLimitPoll(poll);
     }
 
-    @DeleteMapping("/deletePoll/{pollId}")
+    @DeleteMapping(value = "/poll/{pollId}")
     public ResponseEntity<HttpStatus> deletePoll(@PathVariable Long pollId) {
         pollService.deletePoll(pollId);
 
