@@ -23,7 +23,8 @@ public class Vote implements Serializable {
     @Id
     @ManyToOne(optional = false)
     @JoinColumn(name = "poll_id", referencedColumnName = "ID", nullable = false)
-    @JsonBackReference
+    @JsonIdentityInfo(generator= ObjectIdGenerators.PropertyGenerator.class, property="id")
+    @JsonIdentityReference(alwaysAsId=true)
     private Poll poll;
 
     @NonNull
