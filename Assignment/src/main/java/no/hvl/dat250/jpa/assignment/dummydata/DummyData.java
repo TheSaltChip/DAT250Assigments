@@ -7,6 +7,7 @@ import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -27,7 +28,8 @@ public class DummyData {
 
     @PostConstruct
     private void postConstruct() throws NoSuchAlgorithmException {
-        User admin = new User("admin", "admin password", Role.Admin);
+        String password = new BCryptPasswordEncoder().encode("admin password");
+        User admin = new User("admin", password , Role.Admin);
         admin.setFirstname("admin");
         admin.setLastname("adminsen");
         admin.setEmail("admin@admin.com");
