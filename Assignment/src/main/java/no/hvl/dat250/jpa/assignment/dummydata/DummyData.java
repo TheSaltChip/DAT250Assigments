@@ -28,6 +28,9 @@ public class DummyData {
     @PostConstruct
     private void postConstruct() throws NoSuchAlgorithmException {
         User admin = new User("admin", "admin password", Role.Admin);
+        admin.setFirstname("admin");
+        admin.setLastname("adminsen");
+        admin.setEmail("admin@admin.com");
 
         userRepository.save(admin);
 
