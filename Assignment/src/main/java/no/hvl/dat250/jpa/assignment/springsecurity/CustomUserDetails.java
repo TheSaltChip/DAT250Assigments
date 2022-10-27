@@ -10,13 +10,13 @@ import java.util.Collection;
 import java.util.List;
 
 public class CustomUserDetails implements UserDetails {
-    private String userName;
+    private String username;
     private String password;
     private Role role;
 
 
     public CustomUserDetails(User user) {
-        this.userName = user.getUsername();
+        this.username = user.getUsername();
         this.password = user.getPassword();
         this.role = user.getRole();
 
@@ -37,7 +37,7 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public String getUsername() {
-        return userName;
+        return username;
     }
 
     @Override
