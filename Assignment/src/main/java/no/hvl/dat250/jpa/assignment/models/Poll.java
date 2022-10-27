@@ -1,6 +1,7 @@
 package no.hvl.dat250.jpa.assignment.models;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
@@ -42,6 +43,7 @@ public class Poll {
     private User owner;
 
     @Version
+    @JsonIgnore
     protected Integer version;
 
     public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull User owner) {
