@@ -16,8 +16,12 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfiguration {
 
+    final UserDetailsService userDetailsService;
+
     @Autowired
-    UserDetailsService userDetailsService;
+    public SecurityConfiguration(UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
@@ -36,7 +40,7 @@ public class SecurityConfiguration {
     }
 
     private void configure(AuthenticationManagerBuilder auth) throws Exception {
-       auth.userDetailsService(userDetailsService);
+        auth.userDetailsService(userDetailsService);
     }
 
     @Bean
