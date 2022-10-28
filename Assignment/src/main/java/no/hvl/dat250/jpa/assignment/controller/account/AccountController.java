@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.controller;
+package no.hvl.dat250.jpa.assignment.controller.account;
 
 import no.hvl.dat250.jpa.assignment.authentication.facade.IAuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.User;
