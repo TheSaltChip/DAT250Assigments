@@ -13,12 +13,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class VoteController {
+public class VoteRestController {
 
     private final VoteService voteService;
 
     @Autowired
-    public VoteController(VoteService voteService) {
+    public VoteRestController(VoteService voteService) {
         this.voteService = voteService;
     }
 

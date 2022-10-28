@@ -16,12 +16,12 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
-public class PollController {
+public class PollRestController {
 
     private final PollService pollService;
 
     @Autowired
-    public PollController(PollService pollService) {
+    public PollRestController(PollService pollService) {
         this.pollService = pollService;
     }
 
