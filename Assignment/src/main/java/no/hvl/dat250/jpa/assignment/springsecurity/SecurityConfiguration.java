@@ -9,7 +9,6 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.security.crypto.password.NoOpPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
@@ -28,7 +27,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/home").permitAll()
+                        .antMatchers("/", "/home", "/account/register").permitAll()
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
