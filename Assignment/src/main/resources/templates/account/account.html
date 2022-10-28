@@ -9,7 +9,7 @@
 <h3>
     Account page for <span th:text="${user.username}"></span>
 </h3>
-<form th:object="${user}" th:action="@{/account}" th:method="delete">
+<form th:object="${user}" th:action="@{/account}" th:method="put">
 
     <label>
         Firstname:
