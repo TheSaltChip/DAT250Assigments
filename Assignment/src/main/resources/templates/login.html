@@ -4,11 +4,11 @@
 
 <head>
     <title>Login</title>
-    <link rel="stylesheet" th:href="@{/css/login.css}" />
+    <link rel="stylesheet" th:href="@{/css/simple.css}" />
 </head>
 
 <body>
-<form class="form-login" th:action="@{/login}" method="post">
+<form class="form" th:action="@{/login}" method="post">
     <h2 class="form-heading">Login Page</h2>
 
     <div class="form-message" th:if="${param.error}">
