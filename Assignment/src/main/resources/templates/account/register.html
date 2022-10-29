@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+
+<head>
+    <title>Register</title>
+    <link rel="stylesheet" th:href="@{/css/register.css}" />
+
+</head>
+
+<body>
+<form class="form-register" action="@{/account/register}" th:object="${user}" method="POST" enctype="utf8">
+
+    <h2 class="form-heading">Registration Page</h2>
+
+    <div>
+        <div><label>First name : </label></div>
+        <input type="text" th:field="*{firstName}"/>
+            <p th:each="error: ${#fields.errors('firstName')}"
+               th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div><label>Last name : </label></div>
+        <input type="text" th:field="*{lastName}"/>
+        <p th:each="error : ${#fields.errors('lastName')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div><label>Email : </label></div>
+        <input type="text" th:field="*{email}"/>
+        <p th:each="error : ${#fields.errors('email')}"
+           th:text="${error}">Validation error</p>
+    </div>
+        <div><label>User name : </label></div>
+        <input type="text" th:field="*{username}"/>
+        <p th:each="error: ${#fields.errors('username')}"
+           th:text="${error}">Validation error</p>
+    <div>
+        <div><label>Password : </label></div>
+        <input type="password" th:field="*{password}"/>
+        <p th:each="error : ${#fields.errors('password')}"
+           th:text="${error}">Validation error</p>
+    </div>
+    <div>
+        <div><label>Confirm Password : </label></div>
+        <input type="password" th:field="*{matchingPassword}"/>
+    </div>
+    <div><input type="submit" value="Register"></div>
+
+    <a th:href="@{/login}">Back to login</a>
+</form>
+
+</body>
+</html>
