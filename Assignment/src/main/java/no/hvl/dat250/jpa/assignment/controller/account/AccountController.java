@@ -39,9 +39,4 @@ public class AccountController {
         return "account/login";
     }
 
-    @GetMapping(value="/account/register")
-    public String registerPage(Model model){
-
-        return "account/register";
-    }
 }
