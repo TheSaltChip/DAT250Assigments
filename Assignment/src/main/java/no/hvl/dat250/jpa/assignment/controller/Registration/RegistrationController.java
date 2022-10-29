@@ -10,12 +10,12 @@ public class RegistrationController {
 
     private UserService userService;
 
-    @GetMapping(value="/account/register")
+    @GetMapping(value="/register")
     public String registerPage(Model model){
 
         UserDto user = new UserDto();
         model.addAttribute("user", user);
 
-        return "account/register";
+        return "/register";
     }
 }
