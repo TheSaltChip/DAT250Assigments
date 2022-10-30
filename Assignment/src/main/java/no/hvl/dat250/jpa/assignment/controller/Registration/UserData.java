@@ -6,10 +6,11 @@ import lombok.Setter;
 import no.hvl.dat250.jpa.assignment.models.Role;
 
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 @Setter
 @Getter
-public class UserData {
+public class UserData implements Serializable {
     @NotEmpty(message = "First name cannot be empty")
     private String firstName;
 

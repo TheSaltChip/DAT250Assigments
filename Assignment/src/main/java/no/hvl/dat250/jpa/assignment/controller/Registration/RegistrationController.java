@@ -1,8 +1,5 @@
 package no.hvl.dat250.jpa.assignment.controller.Registration;
 
-import lombok.NonNull;
-import no.hvl.dat250.jpa.assignment.models.Role;
-import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -42,35 +39,14 @@ public class RegistrationController {
             return "/register";
         }
         try {
-            registerNewUser(userData);
+            userService.registerNewUser(userData);
         } catch (Exception e) {
             bindingResult.rejectValue("username", "userData.username","Existing Account");
             model.addAttribute("registrationForm", userData);
             return "/register";
         }
+        System.out.println(userService.getAllUsers());
             return "/login";
     }
 
-    public void registerNewUser(@NonNull UserData userData) throws Exception {
-
-        if(existingUserCheck(userData.getUsername())) {
-            throw new Exception("Account with this username already exists");
-        }
-
-        User user = new User();
-
-        user.setFirstname(userData.getFirstName());
-        user.setLastname(userData.getLastName());
-        user.setUsername(userData.getUsername());
-        user.setPassword(userData.getPassword());
-        user.setEmail(userData.getEmail());
-        user.setRole(Role.Regular);
-
-        userService.saveUser(user);
-    }
-
-    public boolean existingUserCheck(String username) {
-        //userService.getUserByUsername(username) != null;
-        return false;
-    }
 }
