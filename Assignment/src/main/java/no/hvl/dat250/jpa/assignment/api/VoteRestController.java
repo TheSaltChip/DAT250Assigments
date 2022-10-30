@@ -6,17 +6,19 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 
 @RestController
-public class VoteController {
+@RequestMapping("/api")
+public class VoteRestController {
 
     private final VoteService voteService;
 
     @Autowired
-    public VoteController(VoteService voteService) {
+    public VoteRestController(VoteService voteService) {
         this.voteService = voteService;
     }
 

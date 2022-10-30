@@ -15,12 +15,13 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-public class PollController {
+@RequestMapping("/api")
+public class PollRestController {
 
     private final PollService pollService;
 
     @Autowired
-    public PollController(PollService pollService) {
+    public PollRestController(PollService pollService) {
         this.pollService = pollService;
     }
 
