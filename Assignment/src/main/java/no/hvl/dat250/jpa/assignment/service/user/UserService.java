@@ -32,5 +32,5 @@ public interface UserService {
 
     Role getRoleOfUser(String username);
 
-    void registerNewUser(UserData userData) throws Exception;
+    User registerNewUser(UserData userData) throws Exception;
 }

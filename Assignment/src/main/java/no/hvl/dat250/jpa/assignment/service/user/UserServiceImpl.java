@@ -10,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -90,7 +91,7 @@ public class UserServiceImpl implements UserService {
         return user.getRole();
     }
 
-    public void registerNewUser(@NonNull UserData userData) throws Exception {
+    public User registerNewUser(@NonNull UserData userData) throws Exception {
 
         if(existingUserCheck(userData.getUsername())) {
             throw new Exception("Account with this username already exists");
@@ -103,12 +104,13 @@ public class UserServiceImpl implements UserService {
         user.setUsername(userData.getUsername());
         user.setPassword(userData.getPassword());
         user.setEmail(userData.getEmail());
+        user.setRole(Role.Regular);
 
-        saveUser(user);
+        return saveUser(user);
     }
 
     public boolean existingUserCheck(String username) {
-        return getUserByUsername(username) != null;
-        //return false;
+        Optional<User> user = userRepository.findByUsername(username);
+        return user.isPresent();
     }
 }

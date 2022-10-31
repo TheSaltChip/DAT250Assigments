@@ -35,14 +35,14 @@ public class RegistrationController {
     public String registerUserAccount(@Valid UserData userData, BindingResult bindingResult, Model model) {
 
         if(bindingResult.hasErrors()){
-            model.addAttribute("registrationForm", userData);
+            model.addAttribute("userData", userData);
             return "/register";
         }
         try {
             userService.registerNewUser(userData);
         } catch (Exception e) {
             bindingResult.rejectValue("username", "userData.username","Existing Account");
-            model.addAttribute("registrationForm", userData);
+            model.addAttribute("userData", userData);
             return "/register";
         }
         System.out.println(userService.getAllUsers());
