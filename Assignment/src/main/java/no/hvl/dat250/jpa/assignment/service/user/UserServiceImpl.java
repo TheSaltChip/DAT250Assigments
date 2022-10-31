@@ -7,6 +7,7 @@ import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.models.Role;
 import no.hvl.dat250.jpa.assignment.models.User;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -102,7 +103,7 @@ public class UserServiceImpl implements UserService {
         user.setFirstname(userData.getFirstName());
         user.setLastname(userData.getLastName());
         user.setUsername(userData.getUsername());
-        user.setPassword(userData.getPassword());
+        user.setPassword(new BCryptPasswordEncoder().encode(userData.getPassword()));
         user.setEmail(userData.getEmail());
         user.setRole(Role.Regular);
 

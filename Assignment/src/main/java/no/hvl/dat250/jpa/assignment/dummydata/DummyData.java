@@ -1,7 +1,23 @@
 package no.hvl.dat250.jpa.assignment.dummydata;
 
 
-/*@Component
+import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
+import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
+import no.hvl.dat250.jpa.assignment.models.User;
+import no.hvl.dat250.jpa.assignment.models.Poll;
+import no.hvl.dat250.jpa.assignment.models.Role;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Component;
+
+import javax.annotation.PostConstruct;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
+import java.time.LocalDateTime;
+import java.util.Random;
+
+@Component
 public class DummyData {
 
     @Autowired
@@ -62,4 +78,4 @@ public class DummyData {
         }
         return hexString.toString();
     }
-}*/
+}
