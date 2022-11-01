@@ -47,12 +47,12 @@ public class Poll {
     @JsonIgnore
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull LocalDateTime createdDate, @NonNull User owner) {
+    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull User owner) {
         this.name = name;
         this.theme = theme;
         this.isPrivate = isPrivate;
         this.activeStatus = PollStatus.CLOSED;
-        this.createdDate = createdDate;
+        this.createdDate = LocalDateTime.now();
         this.owner = owner;
     }
 
