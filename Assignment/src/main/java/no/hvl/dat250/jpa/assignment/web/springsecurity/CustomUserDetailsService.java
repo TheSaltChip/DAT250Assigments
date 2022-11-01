@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.springsecurity;
+package no.hvl.dat250.jpa.assignment.web.springsecurity;
 
 import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
@@ -24,7 +24,8 @@ public class CustomUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<User> user = userRepository.findByUsername(username);
 
-        user.orElseThrow(() -> new UsernameNotFoundException(username + " was not found"));
-        return user.map(CustomUserDetails::new).get();
+        User u = user.orElseThrow(() -> new UsernameNotFoundException(username + " was not found"));
+
+        return new CustomUserDetails(u);
     }
 }

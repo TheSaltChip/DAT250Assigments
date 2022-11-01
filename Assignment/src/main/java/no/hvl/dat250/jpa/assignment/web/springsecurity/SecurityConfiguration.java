@@ -1,5 +1,6 @@
-package no.hvl.dat250.jpa.assignment.springsecurity;
+package no.hvl.dat250.jpa.assignment.web.springsecurity;
 
+import no.hvl.dat250.jpa.assignment.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -28,6 +29,7 @@ public class SecurityConfiguration {
         http
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/home", "/account/register").permitAll()
+                        .antMatchers("/hello").hasRole(Role.Admin.toString())
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form

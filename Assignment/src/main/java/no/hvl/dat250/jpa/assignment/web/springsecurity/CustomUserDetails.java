@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.springsecurity;
+package no.hvl.dat250.jpa.assignment.web.springsecurity;
 
 import no.hvl.dat250.jpa.assignment.models.Role;
 import no.hvl.dat250.jpa.assignment.models.User;
@@ -27,12 +27,12 @@ public class CustomUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return List.of(new SimpleGrantedAuthority(role.toString()));
+        return List.of(new SimpleGrantedAuthority("ROLE_" + role.toString()));
     }
 
     @Override
     public String getPassword() {
-       return password;
+        return password;
     }
 
     @Override
