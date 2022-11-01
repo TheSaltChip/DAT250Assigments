@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
@@ -29,11 +30,6 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public List<Poll> findAllPolls() {
-        return pollRepository.findAll();
-    }
-
-    @Override
     public Poll findById(Long pollId) {
         return pollRepository.findById(pollId).orElseThrow();
     }
@@ -41,9 +37,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public User getOwner(Long pollId) {
-        Poll p = pollRepository.findById(pollId).orElse(null);
-
-        if (p == null) return null;
+        Poll p = pollRepository.findById(pollId).orElseThrow(NoSuchElementException::new);
 
         return p.getOwner();
     }
@@ -52,7 +46,7 @@ public class PollServiceImpl implements PollService {
     public Poll updateVote(boolean vote, String username, Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
-        if (!p.getActive()) return p;
+        if (!p.getActiveStatus().equals(PollStatus.OPEN)) return p;
 
         User u = userRepository.findById(username).orElseThrow();
 
@@ -85,7 +79,7 @@ public class PollServiceImpl implements PollService {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         // Custom response should be given here telling that the poll is closed
-        if (!p.getActive()) return p;
+        if (!p.getActiveStatus().equals(PollStatus.OPEN)) return p;
 
         User d = userRepository.findById(deviceId).orElseThrow();
 
@@ -121,7 +115,7 @@ public class PollServiceImpl implements PollService {
     public void updatePoll(Poll poll) {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
-        updatedPoll.setActive(poll.getActive());
+        updatedPoll.setActiveStatus(poll.getActiveStatus());
         updatedPoll.setName(poll.getName());
         updatedPoll.setTheme(poll.getTheme());
         updatedPoll.setIsPrivate(poll.getIsPrivate());
@@ -132,13 +126,21 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public Poll closePoll(Long pollId) {
-        return findAndSetActive(pollId, false);
+        Poll p = pollRepository.findById(pollId).orElseThrow();
+
+        p.setActiveStatusToFinished();
+
+        return pollRepository.save(p);
     }
 
 
     @Override
     public Poll openPoll(Long pollId) {
-        return findAndSetActive(pollId, true);
+        Poll p = pollRepository.findById(pollId).orElseThrow();
+
+        p.setActiveStatusToOpen();
+
+        return pollRepository.save(p);
     }
 
     @Override
@@ -166,11 +168,23 @@ public class PollServiceImpl implements PollService {
         pollRepository.deleteById(pollId);
     }
 
-    private Poll findAndSetActive(Long pollId, boolean status) {
-        Poll p = pollRepository.findById(pollId).orElseThrow();
+    @Override
+    public List<Poll> findAllPolls() {
+        return pollRepository.findAll();
+    }
 
-        p.setActive(status);
+    @Override
+    public List<Poll> findAllOpenPolls() {
+        return pollRepository.findAllByActiveStatus(PollStatus.OPEN);
+    }
 
-        return pollRepository.save(p);
+    @Override
+    public List<Poll> findAllOpenPublicPolls() {
+        return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN,false);
+    }
+
+    @Override
+    public List<Poll> findAllOpenPrivatePolls() {
+        return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN, true);
     }
 }
