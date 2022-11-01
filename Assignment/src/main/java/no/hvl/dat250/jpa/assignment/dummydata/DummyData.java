@@ -8,6 +8,7 @@ import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.models.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
@@ -28,15 +29,15 @@ public class DummyData {
 
     @PostConstruct
     private void postConstruct() throws NoSuchAlgorithmException {
-        String password = new BCryptPasswordEncoder().encode("admin password");
-        User admin = new User("admin", password , Role.Admin);
+        PasswordEncoder enc = new BCryptPasswordEncoder();
+        String password = enc.encode("admin password");
+        User admin = new User("admin", password, Role.Admin);
         admin.setFirstname("admin");
         admin.setLastname("adminsen");
         admin.setEmail("admin@admin.com");
 
         userRepository.save(admin);
 
-        MessageDigest md = MessageDigest.getInstance("SHA3-256");
         Random r = new Random(1337);
 
         int pollN = 0;
@@ -44,7 +45,7 @@ public class DummyData {
         for (int i = 0; i < 14; i++) {
             User c = new User(
                     String.format("user%d", i),
-                    String.format("%1s", bytesToHex(md.digest(("" + i).getBytes(StandardCharsets.UTF_8)))),
+                    enc.encode(("" + i)),
                     Role.Regular);
 
             userRepository.save(c);
@@ -54,15 +55,22 @@ public class DummyData {
                         "Poll" + pollN++,
                         "Theme" + r.nextInt(5),
                         r.nextBoolean(),
-                        r.nextBoolean(),
                         LocalDateTime.now(),
                         c);
+                int k = r.nextInt(3);
+
+                if (k == 0) {
+                    p.setActiveStatusToFinished();
+                } else if (k == 1) {
+                    p.setActiveStatusToOpen();
+                }
+
                 pollRepository.save(p);
             }
         }
 
         for (int i = 0; i < 3; i++) {
-            User d = new User(String.format("d%d", i),"pass", Role.Device);
+            User d = new User(String.format("d%d", i), "pass", Role.Device);
             userRepository.save(d);
         }
     }

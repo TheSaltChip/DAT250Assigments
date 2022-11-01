@@ -32,7 +32,8 @@ public class Poll {
     @NonNull
     private Boolean isPrivate;
     @NonNull
-    private Boolean active;
+    @Enumerated(EnumType.STRING)
+    private PollStatus activeStatus;
     @NonNull
     private LocalDateTime createdDate;
 
@@ -46,16 +47,28 @@ public class Poll {
     @JsonIgnore
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull Boolean active, @NonNull LocalDateTime createdDate, @NonNull User owner) {
+    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull LocalDateTime createdDate, @NonNull User owner) {
         this.name = name;
         this.theme = theme;
         this.isPrivate = isPrivate;
-        this.active = active;
+        this.activeStatus = PollStatus.CLOSED;
         this.createdDate = createdDate;
         this.owner = owner;
     }
 
     protected Poll() {
+    }
+
+    public void setActiveStatusToOpen(){
+        this.activeStatus = PollStatus.OPEN;
+    }
+
+    public void setActiveStatusToFinished(){
+        this.activeStatus = PollStatus.FINISHED;
+    }
+
+    public void setActiveStatusToClosed(){
+        this.activeStatus = PollStatus.CLOSED;
     }
 
     @Override
@@ -70,7 +83,7 @@ public class Poll {
         if (!theme.equals(poll.theme)) return false;
         if (!Objects.equals(votes, poll.votes)) return false;
         if (!Objects.equals(isPrivate, poll.isPrivate)) return false;
-        if (!Objects.equals(active, poll.active)) return false;
+        if (!Objects.equals(activeStatus, poll.activeStatus)) return false;
         if (!Objects.equals(createdDate, poll.createdDate)) return false;
         if (!owner.equals(poll.owner)) return false;
         return Objects.equals(version, poll.version);
@@ -83,7 +96,7 @@ public class Poll {
         result = 31 * result + theme.hashCode();
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
         result = 31 * result + isPrivate.hashCode();
-        result = 31 * result + active.hashCode();
+        result = 31 * result + activeStatus.hashCode();
         result = 31 * result + createdDate.hashCode();
         result = 31 * result + owner.hashCode();
         result = 31 * result + (version != null ? version.hashCode() : 0);
@@ -98,7 +111,7 @@ public class Poll {
                 ", theme='" + theme + '\'' +
                 ", votes=" + votes +
                 ", isPrivate=" + isPrivate +
-                ", active=" + active +
+                ", activeStatus=" + activeStatus +
                 ", createdDate=" + createdDate +
                 ", owner=" + owner.getUsername() +
                 '}';

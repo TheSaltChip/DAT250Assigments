@@ -34,4 +34,10 @@ public interface PollService {
     void deletePoll(Long pollId);
 
     List<Poll> findAllPolls();
+
+    List<Poll> findAllOpenPolls();
+
+    List<Poll> findAllOpenPublicPolls();
+
+    List<Poll> findAllOpenPrivatePolls();
 }
