@@ -96,7 +96,7 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     public void closePoll(int pollId) {
         setUp();
         Poll poll = em.find(Poll.class, pollId);
-        poll.setActive(false);
+        poll.setActiveStatusToClosed();
         commit(poll);
     }
 
@@ -104,7 +104,7 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     public void openPoll(int pollId) {
         setUp();
         Poll poll = em.find(Poll.class, pollId);
-        poll.setActive(true);
+        poll.setActiveStatusToOpen();
         commit(poll);
     }
 
@@ -122,14 +122,14 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     @Override
     public void createPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, User user) {
         setUp();
-        Poll poll = new Poll(name, theme, isPrivate, active, createdDate, user);
+        Poll poll = new Poll(name, theme, isPrivate, createdDate, user);
         commit(poll);
     }
 
     @Override
     public void createTimeLimitPoll(String name, String theme, boolean isPrivate, boolean active, LocalDateTime createdDate, User user, LocalDateTime startDate, LocalDateTime endDate) {
         setUp();
-        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, active, createdDate, user, startDate, endDate);
+        TimeLimitPoll poll = new TimeLimitPoll(name, theme, isPrivate, createdDate, user, startDate, endDate);
         commit(poll);
     }
 
