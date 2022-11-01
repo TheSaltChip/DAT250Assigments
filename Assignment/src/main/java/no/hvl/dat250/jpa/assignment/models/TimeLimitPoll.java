@@ -1,5 +1,7 @@
 package no.hvl.dat250.jpa.assignment.models;
 
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 import lombok.NonNull;
 
 import javax.persistence.Entity;
@@ -9,6 +11,8 @@ import java.time.LocalDateTime;
 
 @Entity
 @Inheritance(strategy = InheritanceType.SINGLE_TABLE)
+@Data
+@EqualsAndHashCode(callSuper = true)
 public class TimeLimitPoll extends Poll {
     @NonNull
     private LocalDateTime startDate;
@@ -16,30 +20,14 @@ public class TimeLimitPoll extends Poll {
     @NonNull
     private LocalDateTime endDate;
 
-    public TimeLimitPoll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate,@NonNull Boolean active,@NonNull LocalDateTime createdDate,
+    public TimeLimitPoll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate,@NonNull LocalDateTime createdDate,
                          @NonNull User owner, @NonNull LocalDateTime startDate, @NonNull LocalDateTime endDate) {
-        super(name, theme, isPrivate, active, createdDate, owner);
+        super(name, theme, isPrivate, createdDate, owner);
         this.startDate = startDate;
         this.endDate = endDate;
     }
 
     protected TimeLimitPoll() {
         super();
-    }
-
-    public LocalDateTime getStartDate(){
-        return startDate;
-    }
-
-    public void setStartDate(LocalDateTime startDate){
-        this.startDate = startDate;
-    }
-
-    public LocalDateTime getEndDate(){
-        return endDate;
-    }
-
-    public void setEndDate(LocalDateTime endDate){
-        this.endDate = endDate;
     }
 }
