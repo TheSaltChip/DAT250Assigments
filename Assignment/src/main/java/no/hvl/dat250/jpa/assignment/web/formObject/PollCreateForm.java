@@ -2,17 +2,17 @@ package no.hvl.dat250.jpa.assignment.web.formObject;
 
 import lombok.Data;
 
-import javax.validation.constraints.Max;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Size;
 
 @Data
-public class PollForm {
+public class PollCreateForm {
     @NotNull
-    @Max(254)
+    @Size(max = 254)
     private String question;
 
     @NotNull
-    @Max(254)
+    @Size(max = 254)
     private String theme;
 
     @NotNull
