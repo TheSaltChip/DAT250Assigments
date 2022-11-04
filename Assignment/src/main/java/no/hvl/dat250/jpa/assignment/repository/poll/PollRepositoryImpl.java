@@ -84,7 +84,7 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
         setUp();
         Poll poll = em.find(Poll.class, pollId);
         if (name != null && !name.equals("")) {
-            poll.setName(name);
+            poll.setQuestion(name);
         }
         if (theme != null && !theme.equals("")) {
             poll.setTheme(theme);

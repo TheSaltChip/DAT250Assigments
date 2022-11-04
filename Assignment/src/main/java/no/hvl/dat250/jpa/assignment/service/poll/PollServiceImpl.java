@@ -116,7 +116,7 @@ public class PollServiceImpl implements PollService {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
         updatedPoll.setActiveStatus(poll.getActiveStatus());
-        updatedPoll.setName(poll.getName());
+        updatedPoll.setQuestion(poll.getQuestion());
         updatedPoll.setTheme(poll.getTheme());
         updatedPoll.setIsPrivate(poll.getIsPrivate());
 
