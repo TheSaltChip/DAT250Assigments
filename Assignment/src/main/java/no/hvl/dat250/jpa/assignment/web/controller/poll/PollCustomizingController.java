@@ -5,6 +5,7 @@ import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
+import no.hvl.dat250.jpa.assignment.web.formObject.PollCustomizeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -12,6 +13,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 public class PollCustomizingController {
@@ -27,10 +29,10 @@ public class PollCustomizingController {
     }
 
     @GetMapping(value = "/poll/{id}")
-    public String showPoll(@PathVariable Long id, Model model){
+    public String showPoll(@PathVariable Long id, Model model) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
         }
 
@@ -38,12 +40,51 @@ public class PollCustomizingController {
 
         Poll poll = pollService.findById(id);
 
-        if(!poll.getOwner().equals(user)){
+        if (!poll.getOwner().equals(user)) {
             return "redirect:/";
         }
 
-        model.addAttribute("poll", poll);
+        PollCustomizeForm pcf = new PollCustomizeForm(poll.getQuestion(), poll.getTheme(), poll.getIsPrivate(), poll.getActiveStatus());
+
+        model.addAttribute("pollCustomizeForm", pcf);
+        model.addAttribute("pollId", poll.getId());
 
         return "poll/customizepoll";
+    }
+
+    @PutMapping(value = "/poll/{id}")
+    public String updatePoll(@PathVariable Long id, PollCustomizeForm pollCustomizeForm) {
+        Authentication authentication = authenticationFacade.getAuthentication();
+
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
+
+        User user = userService.getUserByUsername(authentication.getName());
+
+        Poll poll = pollService.findById(id);
+
+        if (!poll.getOwner().equals(user)) {
+            return "redirect:/";
+        }
+
+        switch (poll.getActiveStatus()) {
+            case FINISHED:
+                return "redirect:/poll/" + poll.getId();
+            case OPEN:
+                poll.setIsPrivate(pollCustomizeForm.getIsPrivate());
+                break;
+            case CLOSED:
+                poll.setQuestion(pollCustomizeForm.getQuestion());
+                poll.setTheme(pollCustomizeForm.getTheme());
+                poll.setIsPrivate(pollCustomizeForm.getIsPrivate());
+                break;
+        }
+
+        poll.setActiveStatus(pollCustomizeForm.getActiveStatus());
+
+        pollService.updatePoll(poll);
+
+        return "redirect:/poll/" + poll.getId();
     }
 }
