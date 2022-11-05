@@ -187,4 +187,9 @@ public class PollServiceImpl implements PollService {
     public List<Poll> findAllOpenPrivatePolls() {
         return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN, true);
     }
+
+    @Override
+    public List<Poll> findAllPollsByOwner(User owner) {
+        return pollRepository.findAllByOwner(owner);
+    }
 }

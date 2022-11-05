@@ -2,6 +2,7 @@ package no.hvl.dat250.jpa.assignment.repository.poll;
 
 import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.models.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
@@ -12,4 +13,6 @@ public interface PollRepository extends JpaRepository<Poll, Long> {
     List<Poll> findAllByActiveStatus(PollStatus status);
 
     List<Poll> findAllByActiveStatusAndIsPrivate(PollStatus status, boolean isPrivate);
+
+    List<Poll> findAllByOwner(User owner);
 }
