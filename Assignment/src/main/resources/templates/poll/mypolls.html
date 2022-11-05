@@ -7,6 +7,26 @@
     <title>My Polls</title>
 </head>
 <body>
-
+<div>
+    <table>
+        <tr>
+            <th>Poll name</th>
+            <th>Poll theme</th>
+            <th>Public or private</th>
+            <th>Status</th>
+            <th>Created</th>
+        </tr>
+        <tr th:each="poll : ${polls}">
+            <td th:text="${poll.getQuestion()}"></td>
+            <td th:text="${poll.getTheme()}"></td>
+            <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
+            <td th:text="${poll.getActiveStatus()}"></td>
+            <td th:text="${poll.getCreatedDate().format(T(java.time.format.DateTimeFormatter).ofPattern('dd-MM-yyyy HH:mm:ss'))}"></td>
+            <td>
+                <button th:onclick="|window.location.href='@{/poll/{id}(id=${poll.getId()})}'|">Edit</button>
+            </td>
+        </tr>
+    </table>
+</div>
 </body>
 </html>
