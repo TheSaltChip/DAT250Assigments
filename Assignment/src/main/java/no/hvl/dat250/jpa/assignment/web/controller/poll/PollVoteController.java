@@ -6,6 +6,7 @@ import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.models.Vote;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
+import no.hvl.dat250.jpa.assignment.web.formObject.VoteForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -29,34 +30,42 @@ public class PollVoteController {
         this.userService = userService;
     }
 
-    @GetMapping(value = "/poll/{id}")
-    public String votePage(@PathVariable Long pollId, Model model){
-        Poll poll = pollService.findById(pollId);
-        if(poll.getIsPrivate()){
+    @GetMapping(value = "/poll/{id}/vote")
+    public String votePage(@PathVariable Long id, Model model){
+        Poll poll = pollService.findById(id);
+        if(poll.getIsPrivate()) {
             Authentication authentication = authenticationFacade.getAuthentication();
             if (authentication instanceof AnonymousAuthenticationToken) {
-                return "login";
+                return "redirect:/login";
             }
         }
         model.addAttribute("poll",poll);
+        model.addAttribute("voteform",new VoteForm());
         return "poll/pollvote";
     }
 
-    @PostMapping(value = "/poll/{id}")
-    public String voteRegister(@PathVariable Long pollId, Model model){
-        Poll poll = pollService.findById(pollId);
+    @PostMapping(value = "/poll/{id}/vote")
+    public String voteRegister(@PathVariable Long id, VoteForm voteform){
+        Poll poll = pollService.findById(id);
         Authentication authentication = authenticationFacade.getAuthentication();
         if(poll.getIsPrivate()){
             if (authentication instanceof AnonymousAuthenticationToken) {
-                return "login";
+                return "redirect:login";
             }
         }
         User user = userService.getUserByUsername(authentication.getName());
         Vote vote = new Vote(user,poll,0,0);
-        if()
 
-        //Somehow get to the controller
-        return "";
+        if(voteform.isVote()){
+            vote.setYesVotes(1);
+        }else{
+            vote.setNoVotes(1);
+        }
+
+        poll.getVotes().add(vote);
+
+        String string = "redirect:/poll/"+id+"/result";
+        return string;
     }
 
 }
