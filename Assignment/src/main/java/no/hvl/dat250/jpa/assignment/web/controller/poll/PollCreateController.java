@@ -32,7 +32,7 @@ public class PollCreateController {
 
     @GetMapping(value = "/poll/create")
     public String showForm(Model model) {
-        model.addAttribute("pollForm", new PollCreateForm());
+        model.addAttribute("pollCreateForm", new PollCreateForm());
 
         return "poll/pollcreation";
     }
