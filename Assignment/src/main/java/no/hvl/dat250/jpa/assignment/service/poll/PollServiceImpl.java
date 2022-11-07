@@ -7,6 +7,7 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -14,6 +15,7 @@ import java.util.NoSuchElementException;
 import java.util.Optional;
 
 @Service
+@Transactional(readOnly = true)
 public class PollServiceImpl implements PollService {
 
     private final PollRepository pollRepository;
@@ -43,6 +45,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    @Transactional
     public Poll updateVote(boolean vote, String username, Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
@@ -50,11 +53,17 @@ public class PollServiceImpl implements PollService {
 
         User u = userRepository.findById(username).orElseThrow();
 
-        if(!u.getRole().equals(Role.Regular)){
+        if (!u.getRole().equals(Role.Regular)) {
             return p;
         }
 
         Optional<Vote> oV = voteRepository.findById(new VoteId(u, p));
+
+        if (vote) {
+            p.incYesVotes();
+        } else {
+            p.incNoVotes();
+        }
 
         if (oV.isPresent()) {
             Vote v = oV.get();
@@ -69,12 +78,14 @@ public class PollServiceImpl implements PollService {
 
         Vote v = new Vote(u, p, vote ? 1 : 0, vote ? 0 : 1);
 
-        p.getVotes().add(v);
+        List<Vote> votes = p.getVotes();
+        votes.add(v);
 
         return pollRepository.save(p);
     }
 
     @Override
+    @Transactional
     public Poll updateVote(String deviceId, int yes, int no, Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
@@ -83,14 +94,14 @@ public class PollServiceImpl implements PollService {
 
         User d = userRepository.findById(deviceId).orElseThrow();
 
-        System.out.println(d.getRole());
-        System.out.println(d.getRole().equals(Role.Device));
-
-        if(!d.getRole().equals(Role.Device)){
+        if (!d.getRole().equals(Role.Device)) {
             return p;
         }
 
         Optional<Vote> oVote = voteRepository.findById(new VoteId(d, p));
+
+        p.addYesVotes(yes);
+        p.addNoVotes(no);
 
         if (oVote.isEmpty()) {
             Vote v = new Vote(d, p, yes, no);
@@ -112,6 +123,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    @Transactional
     public void updatePoll(Poll poll) {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
@@ -125,6 +137,7 @@ public class PollServiceImpl implements PollService {
 
 
     @Override
+    @Transactional
     public Poll closePoll(Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
@@ -135,6 +148,7 @@ public class PollServiceImpl implements PollService {
 
 
     @Override
+    @Transactional
     public Poll openPoll(Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
@@ -144,6 +158,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    @Transactional
     public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) {
         TimeLimitPoll tlp = timeLimitPollRepository.findById(pollId).orElseThrow();
 
@@ -154,16 +169,19 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    @Transactional
     public Poll createPoll(Poll poll) {
         return pollRepository.save(poll);
     }
 
     @Override
+    @Transactional
     public TimeLimitPoll createTimeLimitPoll(TimeLimitPoll poll) {
         return timeLimitPollRepository.save(poll);
     }
 
     @Override
+    @Transactional
     public void deletePoll(Long pollId) {
         pollRepository.deleteById(pollId);
     }
@@ -180,7 +198,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public List<Poll> findAllOpenPublicPolls() {
-        return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN,false);
+        return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN, false);
     }
 
     @Override
