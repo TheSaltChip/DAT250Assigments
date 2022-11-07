@@ -40,4 +40,6 @@ public interface PollService {
     List<Poll> findAllOpenPublicPolls();
 
     List<Poll> findAllOpenPrivatePolls();
+
+    List<Poll> findAllPollsByOwner(User owner);
 }
