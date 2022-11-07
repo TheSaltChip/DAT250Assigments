@@ -64,12 +64,12 @@ public class UserServiceTest {
 
         User fetchedUser = userService.getUserByUsername("Lars");
 
-        Poll poll1 = new Poll("Poll1", "Polling", false, false, LocalDateTime.now(), user);
+        Poll poll1 = new Poll("Poll1", "Polling", false, user);
         userService.addPollToUser("Lars", poll1);
 
         assertThat(fetchedUser.getOwnedPolls().size(), is(1));
 
-        Poll poll2 = new Poll("Poll2", "Polling", false, true, LocalDateTime.now(), user);
+        Poll poll2 = new Poll("Poll2", "Polling", false, user);
         userService.addPollToUser("Lars", poll2);
 
         assertThat(fetchedUser.getOwnedPolls().size(), is(2));
