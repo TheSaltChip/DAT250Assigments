@@ -41,4 +41,14 @@ public class Vote implements Serializable {
 
     protected Vote() {
     }
+
+    @Override
+    public String toString() {
+        return "Vote{" +
+                "user=" + user.getUsername() +
+                ", poll=" + poll.getId() +
+                ", yesVotes=" + yesVotes +
+                ", noVotes=" + noVotes +
+                '}';
+    }
 }
