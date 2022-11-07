@@ -1,27 +1,21 @@
 package no.hvl.dat250.jpa.assignment.service.vote;
 
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.models.Vote;
-import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
-import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.VoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional(readOnly = true)
 public class VoteServiceImpl implements VoteService {
     private final VoteRepository voteRepository;
-    private final PollRepository pollRepository;
-    private final UserRepository userRepository;
 
     @Autowired
-    public VoteServiceImpl(VoteRepository repository, PollRepository pollRepository, UserRepository userRepository) {
+    public VoteServiceImpl(VoteRepository repository) {
         this.voteRepository = repository;
-        this.pollRepository = pollRepository;
-        this.userRepository = userRepository;
     }
 
     public List<Vote> getAllVotes() {
@@ -29,14 +23,14 @@ public class VoteServiceImpl implements VoteService {
     }
 
     public List<Vote> getAllVotesFromPoll(Long pollId) {
-        Poll p = pollRepository.findById(pollId).orElseThrow();
-        return voteRepository.findAllByPoll(p);
+        return voteRepository.findAllByPoll_Id(pollId);
     }
 
-    public List<Vote> getAllVotesFromUser(String username){
-        User u = userRepository.findById(username).orElseThrow();
-
-        return voteRepository.findAllByUser(u);
+    public List<Vote> getAllVotesFromUser(String username) {
+        return voteRepository.findAllByUser_Username(username);
     }
 
+    public Boolean hasUserVotedInPoll(String username, Long id) {
+        return voteRepository.existsVoteByUser_UsernameAndPoll_Id(username, id);
+    }
 }

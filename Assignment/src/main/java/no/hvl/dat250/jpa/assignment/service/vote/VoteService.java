@@ -10,4 +10,6 @@ public interface VoteService {
     List<Vote> getAllVotesFromPoll(Long pollId);
 
     List<Vote> getAllVotesFromUser(String username);
+
+    Boolean hasUserVotedInPoll(String username, Long id);
 }
