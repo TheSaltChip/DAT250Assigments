@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignment.web.controller.poll;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.IAuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.models.User;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
@@ -21,10 +21,10 @@ import javax.validation.Valid;
 public class PollCreateController {
     private final PollService pollService;
     private final UserService userService;
-    private final IAuthenticationFacade authenticationFacade;
+    private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public PollCreateController(PollService pollService, UserService userService, IAuthenticationFacade authenticationFacade) {
+    public PollCreateController(PollService pollService, UserService userService, AuthenticationFacade authenticationFacade) {
         this.pollService = pollService;
         this.userService = userService;
         this.authenticationFacade = authenticationFacade;
