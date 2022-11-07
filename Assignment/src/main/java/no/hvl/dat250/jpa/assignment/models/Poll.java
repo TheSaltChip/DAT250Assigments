@@ -8,6 +8,7 @@ import lombok.NonNull;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -24,6 +25,10 @@ public class Poll {
 
     @NonNull
     private String theme;
+
+    private Integer noVotes;
+
+    private Integer yesVotes;
 
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -50,6 +55,9 @@ public class Poll {
     public Poll(@NonNull String question, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull User owner) {
         this.question = question;
         this.theme = theme;
+        this.yesVotes = 0;
+        this.noVotes = 0;
+        this.votes = new ArrayList<>();
         this.isPrivate = isPrivate;
         this.activeStatus = PollStatus.CLOSED;
         this.createdDate = LocalDateTime.now();
@@ -59,16 +67,31 @@ public class Poll {
     protected Poll() {
     }
 
-    public void setActiveStatusToOpen(){
+    public void setActiveStatusToOpen() {
         this.activeStatus = PollStatus.OPEN;
     }
 
-    public void setActiveStatusToFinished(){
+    public void setActiveStatusToFinished() {
         this.activeStatus = PollStatus.FINISHED;
     }
 
-    public void setActiveStatusToClosed(){
+    public void setActiveStatusToClosed() {
         this.activeStatus = PollStatus.CLOSED;
+    }
+
+    public void incYesVotes(){
+        this.yesVotes++;
+    }
+    public void incNoVotes(){
+        this.noVotes++;
+    }
+
+    public void addNoVotes(int amount) {
+        this.noVotes += amount;
+    }
+
+    public void addYesVotes(int amount) {
+        this.yesVotes += amount;
     }
 
     @Override
@@ -81,6 +104,8 @@ public class Poll {
         if (!Objects.equals(id, poll.id)) return false;
         if (!question.equals(poll.question)) return false;
         if (!theme.equals(poll.theme)) return false;
+        if (!yesVotes.equals(poll.yesVotes)) return false;
+        if (!noVotes.equals(poll.noVotes)) return false;
         if (!Objects.equals(votes, poll.votes)) return false;
         if (!Objects.equals(isPrivate, poll.isPrivate)) return false;
         if (!Objects.equals(activeStatus, poll.activeStatus)) return false;
@@ -94,6 +119,8 @@ public class Poll {
         int result = id != null ? id.hashCode() : 0;
         result = 31 * result + question.hashCode();
         result = 31 * result + theme.hashCode();
+        result = 31 * result + yesVotes.hashCode();
+        result = 31 * result + noVotes.hashCode();
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
         result = 31 * result + isPrivate.hashCode();
         result = 31 * result + activeStatus.hashCode();
