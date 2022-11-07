@@ -14,7 +14,7 @@
                 <th>Public or private</th>
             </tr>
             <tr th:each="poll : ${polls}">
-                <td th:text="${poll.getName()}"></td>
+                <td th:text="${poll.getQuestion()}"></td>
                 <td th:text="${poll.getTheme()}"></td>
                 <td th:text="${poll.getOwner().username}"></td>
                 <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>

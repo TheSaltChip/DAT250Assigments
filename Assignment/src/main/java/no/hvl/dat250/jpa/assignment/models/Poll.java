@@ -20,7 +20,7 @@ public class Poll {
     private Long id;
 
     @NonNull
-    private String name;
+    private String question;
 
     @NonNull
     private String theme;
@@ -47,12 +47,12 @@ public class Poll {
     @JsonIgnore
     protected Integer version;
 
-    public Poll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull LocalDateTime createdDate, @NonNull User owner) {
-        this.name = name;
+    public Poll(@NonNull String question, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull User owner) {
+        this.question = question;
         this.theme = theme;
         this.isPrivate = isPrivate;
         this.activeStatus = PollStatus.CLOSED;
-        this.createdDate = createdDate;
+        this.createdDate = LocalDateTime.now();
         this.owner = owner;
     }
 
@@ -79,7 +79,7 @@ public class Poll {
         Poll poll = (Poll) o;
 
         if (!Objects.equals(id, poll.id)) return false;
-        if (!name.equals(poll.name)) return false;
+        if (!question.equals(poll.question)) return false;
         if (!theme.equals(poll.theme)) return false;
         if (!Objects.equals(votes, poll.votes)) return false;
         if (!Objects.equals(isPrivate, poll.isPrivate)) return false;
@@ -92,7 +92,7 @@ public class Poll {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
-        result = 31 * result + name.hashCode();
+        result = 31 * result + question.hashCode();
         result = 31 * result + theme.hashCode();
         result = 31 * result + (votes != null ? votes.hashCode() : 0);
         result = 31 * result + isPrivate.hashCode();
@@ -107,7 +107,7 @@ public class Poll {
     public String toString() {
         return "Poll{" +
                 "id=" + id +
-                ", name='" + name + '\'' +
+                ", name='" + question + '\'' +
                 ", theme='" + theme + '\'' +
                 ", votes=" + votes +
                 ", isPrivate=" + isPrivate +

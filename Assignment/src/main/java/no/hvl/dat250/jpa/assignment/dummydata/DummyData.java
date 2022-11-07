@@ -55,7 +55,6 @@ public class DummyData {
                         "Poll" + pollN++,
                         "Theme" + r.nextInt(5),
                         r.nextBoolean(),
-                        LocalDateTime.now(),
                         c);
                 int k = r.nextInt(3);
 

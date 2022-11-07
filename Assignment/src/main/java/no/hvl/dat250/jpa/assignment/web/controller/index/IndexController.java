@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.web.controller.poll;
+package no.hvl.dat250.jpa.assignment.web.controller.index;
 
 import no.hvl.dat250.jpa.assignment.authentication.facade.IAuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.Poll;
@@ -9,19 +9,17 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.List;
 
 @Controller
-public class PollController {
+public class IndexController {
     private final PollService pollService;
     private final IAuthenticationFacade authenticationFacade;
 
     @Autowired
-    public PollController(PollService pollService, IAuthenticationFacade authenticationFacade) {
+    public IndexController(PollService pollService, IAuthenticationFacade authenticationFacade) {
         this.pollService = pollService;
         this.authenticationFacade = authenticationFacade;
     }
@@ -41,12 +39,5 @@ public class PollController {
         model.addAttribute("polls", polls);
 
         return "index";
-    }
-
-    // TODO Link form with this
-    @PostMapping(value="/poll")
-    public String CreatePoll(){
-
-        return "";
     }
 }
