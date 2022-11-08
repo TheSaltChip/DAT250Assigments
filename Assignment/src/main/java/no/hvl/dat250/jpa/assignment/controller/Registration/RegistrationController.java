@@ -45,7 +45,6 @@ public class RegistrationController {
             model.addAttribute("userData", userData);
             return "/register";
         }
-        System.out.println(userService.getAllUsers());
             return "/login";
     }
 
