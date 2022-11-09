@@ -32,7 +32,11 @@ public class RegistrationController {
     }
 
     @PostMapping(value = "/register")
-    public String registerUserAccount(@Valid UserData userData, BindingResult bindingResult, Model model) {
+    public String registerUserAccount(@Valid UserData userData, BindingResult bindingResult, Model model, WebRequest request) {
+
+        if(request.getParameter("loginLink") != null) {
+            return "redirect:/login";
+        }
 
         if (bindingResult.hasErrors()) {
             model.addAttribute("userData", userData);
