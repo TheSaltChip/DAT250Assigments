@@ -11,6 +11,9 @@
             <h2 th:text="${poll.getQuestion()}"></h2>
         </div>
         <div>
+            <h3 th:unless="${poll.getIsPrivate()}" th:text="${poll.getCode()}"></h3>
+        </div>
+        <div>
             <p>Yes: <input type="radio" th:field="*{vote}" value="true"></p>
             <p>No: <input type="radio" th:field="*{vote}" value="false"></p>
         </div>
