@@ -1,7 +1,25 @@
-<nav class="navbar navbar-expand-lg navbar-light bg-light d-flex p-2" th:fragment="navbar" xmlns:th="">
+<nav class="navbar navbar-expand-lg navbar-light bg-light d-flex p-2" th:fragment="navbar" xmlns:th=""
+     xmlns:sec="http://www.w3.org/1999/xhtml">
     <a class="navbar-brand" href="#">Navigation</a>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <div sec:authorize="isAnonymous()" class="collapse navbar-collapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+                <a class="nav-link" th:href="@{/}">Main Menu</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/login}">Log in</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" th:href="@{/account}">Profile</a>
+            </li>
+        </ul>
+    </div>
+    <div class="nav-item align-right">
+        <a class="nav-link" th:href="@{/logout}">Log out</a>
+    </div>
+
+    <div sec:authorize="hasRole('ROLE_Regular')" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Main Menu</a>
