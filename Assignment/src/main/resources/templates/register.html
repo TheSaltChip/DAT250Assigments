@@ -13,51 +13,53 @@
 
 <body>
 
-<div class="container h-100">
+<div class="container h-100" style="width: 750px;">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-10 col-md-8 col-lg-6">
 
-            <h2>Registration Page</h2>
+            <h2 class="m-3">Registration Page</h2>
 
             <form th:action="@{/register}" th:object="${userData}" method="POST" enctype="utf8">
 
-                <div class="form-floating mb-4">
+                <div class="form-floating mb-2">
                     <input class="form-control" type="text" id="firstName" th:field="*{firstName}" placeholder="First name"/>
                     <label for="firstName">First name</label>
-                        <p th:each="error: ${#fields.errors('firstName')}"
-                           th:text="${error}">Validation error</p>
+                        <div class="alert alert-warning" th:each="error: ${#fields.errors('firstName')}"
+                           th:text="${error}">Validation error</div>
                 </div>
 
-                <div class="form-floating mb-4">
+                <div class="form-floating mb-2">
                     <input class="form-control" type="text" th:field="*{lastName}" placeholder="Last name"/>
                     <label for="firstName">Last name</label>
-                    <p th:each="error : ${#fields.errors('lastName')}"
-                           th:text="${error}">Validation error</p>
+                    <div class="alert alert-warning" th:each="error : ${#fields.errors('lastName')}"
+                           th:text="${error}">Validation error</div>
                 </div>
 
-                <div class="form-floating mb-4">
+                <div class="form-floating mb-2">
                     <input class="form-control" type="text" th:field="*{email}" placeholder="Email"/>
                     <label for="firstName">Email</label>
-                        <p th:each="error : ${#fields.errors('email')}"
-                           th:text="${error}">Validation error</p>
+                        <div class="alert alert-warning" th:each="error : ${#fields.errors('email')}"
+                           th:text="${error}">Validation error</div>
                 </div>
 
-                <div class="form-floating mb-4">
+                <div class="form-floating mb-2">
                     <input class="form-control" type="text" th:field="*{username}" placeholder="User name"/>
                     <label for="firstName">User name</label>
-                    <p th:each="error: ${#fields.errors('username')}"
-                            th:text="${error}">Validation error</p>
+                    <div class="alert alert-warning" th:each="error: ${#fields.errors('username')}"
+                            th:text="${error}">Validation error</div>
                 </div>
 
-                <div class="form-floating mb-4">
+                <div class="form-floating mb-2">
                     <input class="form-control" type="password" th:field="*{password}" placeholder="Password"/>
                     <label for="firstName">Password</label>
-                    <p th:each="error : ${#fields.errors('password')}"
-                           th:text="${error}">Validation error</p>
+                    <div class="alert alert-warning" th:each="error : ${#fields.errors('password')}"
+                           th:text="${error}">Validation error</div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary btn-block">Sign up</button>
+                    <button class="btn btn-primary btn-block" th:href="@{/login}">Back to login</button>
                 </div>
 
-                <button type="submit" class="btn btn-primary btn-block mb-4">Sign up</button>
-                <a th:href="@{/login}">Back to login</a>
 
             </form>
         </div>
