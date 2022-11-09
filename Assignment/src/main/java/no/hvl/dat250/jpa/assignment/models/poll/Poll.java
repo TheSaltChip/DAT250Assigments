@@ -1,10 +1,16 @@
-package no.hvl.dat250.jpa.assignment.models;
+package no.hvl.dat250.jpa.assignment.models.poll;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
+import org.hibernate.annotations.Generated;
+import org.hibernate.annotations.GenerationTime;
+import org.hibernate.annotations.GeneratorType;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -20,6 +26,8 @@ public class Poll {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
+    private Integer code;
+
     @NonNull
     private String question;
 
@@ -30,10 +38,11 @@ public class Poll {
 
     private Integer yesVotes;
 
+    /*
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
-    private List<Vote> votes;
-
+    private List<UserVote> userVotes;
+    */
     @NonNull
     private Boolean isPrivate;
     @NonNull
@@ -57,7 +66,6 @@ public class Poll {
         this.theme = theme;
         this.yesVotes = 0;
         this.noVotes = 0;
-        this.votes = new ArrayList<>();
         this.isPrivate = isPrivate;
         this.activeStatus = PollStatus.CLOSED;
         this.createdDate = LocalDateTime.now();
@@ -79,10 +87,11 @@ public class Poll {
         this.activeStatus = PollStatus.CLOSED;
     }
 
-    public void incYesVotes(){
+    public void incYesVotes() {
         this.yesVotes++;
     }
-    public void incNoVotes(){
+
+    public void incNoVotes() {
         this.noVotes++;
     }
 
@@ -102,11 +111,11 @@ public class Poll {
         Poll poll = (Poll) o;
 
         if (!Objects.equals(id, poll.id)) return false;
+        if (!code.equals(poll.code)) return false;
         if (!question.equals(poll.question)) return false;
         if (!theme.equals(poll.theme)) return false;
         if (!yesVotes.equals(poll.yesVotes)) return false;
         if (!noVotes.equals(poll.noVotes)) return false;
-        if (!Objects.equals(votes, poll.votes)) return false;
         if (!Objects.equals(isPrivate, poll.isPrivate)) return false;
         if (!Objects.equals(activeStatus, poll.activeStatus)) return false;
         if (!Objects.equals(createdDate, poll.createdDate)) return false;
@@ -117,11 +126,11 @@ public class Poll {
     @Override
     public int hashCode() {
         int result = id != null ? id.hashCode() : 0;
+        result = 31 * result + code.hashCode();
         result = 31 * result + question.hashCode();
         result = 31 * result + theme.hashCode();
         result = 31 * result + yesVotes.hashCode();
         result = 31 * result + noVotes.hashCode();
-        result = 31 * result + (votes != null ? votes.hashCode() : 0);
         result = 31 * result + isPrivate.hashCode();
         result = 31 * result + activeStatus.hashCode();
         result = 31 * result + createdDate.hashCode();
@@ -134,13 +143,16 @@ public class Poll {
     public String toString() {
         return "Poll{" +
                 "id=" + id +
-                ", name='" + question + '\'' +
+                ", code='" + code + '\'' +
+                ", question='" + question + '\'' +
                 ", theme='" + theme + '\'' +
-                ", votes=" + votes +
+                ", noVotes=" + noVotes +
+                ", yesVotes=" + yesVotes +
                 ", isPrivate=" + isPrivate +
                 ", activeStatus=" + activeStatus +
                 ", createdDate=" + createdDate +
                 ", owner=" + owner.getUsername() +
+                ", version=" + version +
                 '}';
     }
 }

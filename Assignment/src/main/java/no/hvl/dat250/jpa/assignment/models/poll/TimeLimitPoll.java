@@ -1,8 +1,9 @@
-package no.hvl.dat250.jpa.assignment.models;
+package no.hvl.dat250.jpa.assignment.models.poll;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
