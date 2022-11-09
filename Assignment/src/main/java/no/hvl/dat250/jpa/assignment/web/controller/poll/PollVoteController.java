@@ -1,9 +1,11 @@
 package no.hvl.dat250.jpa.assignment.web.controller.poll;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.IAuthenticationFacade;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Vote;
+import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
+import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
+import no.hvl.dat250.jpa.assignment.models.vote.DeviceVote;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import no.hvl.dat250.jpa.assignment.web.formObject.VoteForm;
@@ -20,11 +22,11 @@ import org.springframework.web.bind.annotation.PostMapping;
 public class PollVoteController {
 
     private PollService pollService;
-    private IAuthenticationFacade authenticationFacade;
+    private AuthenticationFacade authenticationFacade;
     private UserService userService;
 
     @Autowired
-    public PollVoteController(PollService pollService, IAuthenticationFacade authenticationFacade, UserService userService) {
+    public PollVoteController(PollService pollService, AuthenticationFacade authenticationFacade, UserService userService) {
         this.authenticationFacade = authenticationFacade;
         this.pollService = pollService;
         this.userService = userService;
@@ -52,20 +54,27 @@ public class PollVoteController {
             if (authentication instanceof AnonymousAuthenticationToken) {
                 return "redirect:login";
             }
+            addUserVote(authentication,voteform,poll);
         }
-        User user = userService.getUserByUsername(authentication.getName());
-        Vote vote = new Vote(user,poll,0,0);
 
-        if(voteform.isVote()){
-            vote.setYesVotes(1);
+        if (!(authentication instanceof AnonymousAuthenticationToken)){
+            addUserVote(authentication,voteform,poll);
         }else{
-            vote.setNoVotes(1);
+            pollService.updateAnonymousVote(poll, voteform.isVote());
         }
-
-        poll.getVotes().add(vote);
 
         String string = "redirect:/poll/"+id+"/result";
         return string;
+    }
+
+    private void addUserVote(Authentication authentication,VoteForm voteform,Poll poll){
+        User user = userService.getUserByUsername(authentication.getName());
+
+        if(voteform.isVote()){
+            pollService.updateUserVote(true, user.getUsername(), poll.getId());
+        }else{
+            pollService.updateUserVote(false, user.getUsername(), poll.getId());
+        }
     }
 
 }

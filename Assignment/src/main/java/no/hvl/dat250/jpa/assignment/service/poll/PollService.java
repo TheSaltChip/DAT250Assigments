@@ -23,7 +23,7 @@ public interface PollService {
     void createDeviceVote(UUID identifier, Long id);
     void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId);
 
-    Poll updateAnonymousVote(int yes, int no);
+    Poll updateAnonymousVote(Poll poll, boolean vote);
 
     void updatePoll(Poll poll);
 
