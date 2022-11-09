@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        .poll {
+            display: flex;
+            flex-direction: column;
+            width: 500px;
+        }
+
+        .poll > h3, h4 {
+            margin: auto;
+        }
+
+        .votes {
+            display: flex;
+        }
+
+        .votes > p, button {
+            margin: auto;
+        }
+    </style>
+</head>
+<body>
+<div>
+    <label>
+        Poll code
+        <input id="pollCode" type="text" placeholder="Poll code" required>
+    </label>
+    <button id="connectButton">Connect</button>
+    <p id="status">Not connected</p>
+</div>
+
+<div class="poll" id="divPoll">
+    <h3 id="question"></h3>
+    <h4 id="theme"></h4>
+    <div class="votes">
+        <p id="yesVotes">0</p>
+        <p id="noVotes">0</p>
+    </div>
+    <div class="votes" id="divBtn">
+        <button onclick="incYes()">Yes</button>
+        <button onclick="incNo()">No</button>
+    </div>
+    <div class="votes">
+        <button onclick="sendVotes()">Send votes</button>
+        <button onclick="reset()">Reset</button>
+    </div>
+
+</div>
+<script src="controller.js"></script>
+</body>
+</html>

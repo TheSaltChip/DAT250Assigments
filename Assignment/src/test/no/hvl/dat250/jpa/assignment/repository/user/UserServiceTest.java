@@ -1,15 +1,14 @@
 package no.hvl.dat250.jpa.assignment.repository.user;
 
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.*;
@@ -64,12 +63,12 @@ public class UserServiceTest {
 
         User fetchedUser = userService.getUserByUsername("Lars");
 
-        Poll poll1 = new Poll("Poll1", "Polling", false, false, LocalDateTime.now(), user);
+        Poll poll1 = new Poll("Poll1", "Polling", false, user);
         userService.addPollToUser("Lars", poll1);
 
         assertThat(fetchedUser.getOwnedPolls().size(), is(1));
 
-        Poll poll2 = new Poll("Poll2", "Polling", false, true, LocalDateTime.now(), user);
+        Poll poll2 = new Poll("Poll2", "Polling", false, user);
         userService.addPollToUser("Lars", poll2);
 
         assertThat(fetchedUser.getOwnedPolls().size(), is(2));

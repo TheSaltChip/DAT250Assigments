@@ -6,6 +6,15 @@
     <title>Poll result</title>
 </head>
 <body>
-
+<div th:object="${poll}">
+    <h3 th:text="*{question}"></h3>
+    <h4 th:text="*{theme}"></h4>
+    <div>
+        <p>Yes votes:
+        <p th:text="*{yesVotes}"></p></p>
+        <p>No votes
+        <p th:text="*{noVotes}"></p></p>
+    </div>
+</div>
 </body>
 </html>

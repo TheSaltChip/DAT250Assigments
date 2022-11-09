@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignment.api;
 
-import no.hvl.dat250.jpa.assignment.models.Vote;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
 import no.hvl.dat250.jpa.assignment.service.vote.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -23,17 +23,17 @@ public class VoteRestController {
     }
 
     @GetMapping(value = "/votes")
-    public ResponseEntity<List<Vote>> getAllVotes(){
+    public ResponseEntity<List<UserVote>> getAllVotes(){
         return ResponseEntity.ok(voteService.getAllVotes());
     }
 
     @GetMapping(value = "/votes/poll/{id}")
-    public ResponseEntity<List<Vote>> getAllVotesFromPoll(@PathVariable Long id){
+    public ResponseEntity<List<UserVote>> getAllVotesFromPoll(@PathVariable Long id){
         return ResponseEntity.ok(voteService.getAllVotesFromPoll(id));
     }
 
     @GetMapping(value = "/votes/user/{username}")
-    public ResponseEntity<List<Vote>> getAllVotesFromUser(@PathVariable String username){
+    public ResponseEntity<List<UserVote>> getAllVotesFromUser(@PathVariable String username){
         return ResponseEntity.ok(voteService.getAllVotesFromUser(username));
     }
 }

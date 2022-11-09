@@ -1,12 +1,16 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
->
 <head>
     <meta charset="UTF-8">
     <title>Create poll</title>
 </head>
 <body>
-
+    <form action="#" th:object="${pollCreateForm}" th:action="@{/poll/create}" method="post">
+        <input type="text" th:field="*{question}"/>
+        <input type="text" th:field="*{theme}"/>
+        <input type="checkbox" th:field="*{isPrivate}"/>
+        <button type="submit">Create poll</button>
+    </form>
 </body>
 </html>
