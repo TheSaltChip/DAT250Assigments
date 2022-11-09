@@ -1,29 +1,32 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-    <head>
-        <title>Spring Security Example</title>
-    </head>
-    <body>
-        <h1>Welcome!</h1>
+<head>
+    <title>Spring Security Example</title>
+</head>
+<body>
+<h1>Welcome!</h1>
 
-        <table>
-            <tr>
-                <th>Poll name</th>
-                <th>Poll theme</th>
-                <th>Poll owner</th>
-                <th>Public or private</th>
-            </tr>
-            <tr th:each="poll : ${polls}">
-                <td th:text="${poll.getQuestion()}"></td>
-                <td th:text="${poll.getTheme()}"></td>
-                <td th:text="${poll.getOwner().username}"></td>
-                <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
-            </tr>
-        </table>
-        <div >
+<table>
+    <tr>
+        <th>Poll name</th>
+        <th>Poll theme</th>
+        <th>Poll owner</th>
+        <th>Public or private</th>
+    </tr>
+    <tr th:each="poll : ${polls}">
+        <td th:text="${poll.getQuestion()}"></td>
+        <td th:text="${poll.getTheme()}"></td>
+        <td th:text="${poll.getOwner().username}"></td>
+        <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
+        <td>
+            <button th:onclick="|window.location.href='@{/poll/vote/{id}(id=${poll.getId()})}'|">Visit</button>
+        </td>
+    </tr>
+</table>
+<div>
 
-        </div>
-        
-        <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
-    </body>
+</div>
+
+<p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
+</body>
 </html>
