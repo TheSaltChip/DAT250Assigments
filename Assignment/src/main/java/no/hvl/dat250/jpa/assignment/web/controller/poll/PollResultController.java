@@ -1,7 +1,7 @@
 package no.hvl.dat250.jpa.assignment.web.controller.poll;
 
 import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
-import no.hvl.dat250.jpa.assignment.models.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.vote.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;

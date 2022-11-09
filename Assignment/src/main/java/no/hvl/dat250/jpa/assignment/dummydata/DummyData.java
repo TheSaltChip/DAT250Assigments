@@ -1,7 +1,10 @@
 package no.hvl.dat250.jpa.assignment.dummydata;
 
 
-import no.hvl.dat250.jpa.assignment.models.*;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.VoteRepository;

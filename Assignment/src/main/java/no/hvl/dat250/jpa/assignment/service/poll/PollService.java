@@ -1,8 +1,8 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.TimeLimitPoll;
-import no.hvl.dat250.jpa.assignment.models.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;

@@ -1,6 +1,13 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
-import no.hvl.dat250.jpa.assignment.models.*;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.DeviceVote;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVoteId;
 import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
 import no.hvl.dat250.jpa.assignment.repository.poll.TimeLimitPollRepository;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;

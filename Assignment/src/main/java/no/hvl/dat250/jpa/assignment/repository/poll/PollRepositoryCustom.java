@@ -1,7 +1,7 @@
 package no.hvl.dat250.jpa.assignment.repository.poll;
 
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 
 import java.time.LocalDateTime;
 
