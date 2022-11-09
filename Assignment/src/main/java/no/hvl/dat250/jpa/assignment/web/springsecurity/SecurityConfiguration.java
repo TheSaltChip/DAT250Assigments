@@ -35,7 +35,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/css/**", "/account/register", "/poll/{id}/result").permitAll()
                         .antMatchers("/api/**").permitAll()
-                        .antMatchers("/hello").hasRole(Role.Admin.toString())
+                        .antMatchers("/admin/**").hasRole(Role.Admin.toString())
                         .anyRequest().authenticated()
                 )
                 .formLogin((form) -> form
