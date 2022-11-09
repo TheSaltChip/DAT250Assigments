@@ -1,14 +1,16 @@
-package no.hvl.dat250.jpa.assignment.controller.Registration;
+package no.hvl.dat250.jpa.assignment.web.controller.registration;
 
-import com.sun.istack.NotNull;
+import lombok.Data;
 import lombok.Getter;
 import lombok.Setter;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;
+import javax.validation.constraints.NotNull;
 
-@Setter
-@Getter
+@Data
 public class UserData {
 
     @NotNull
@@ -32,5 +34,15 @@ public class UserData {
     @NotNull
     @NotEmpty(message = "Email cannot be empty")
     private String email;
+
+    public User createUser() {
+        User u = new User(username, new BCryptPasswordEncoder().encode(password), Role.Regular);
+
+        u.setEmail(email);
+        u.setFirstname(firstName);
+        u.setLastname(lastName);
+
+        return u;
+    }
 
 }

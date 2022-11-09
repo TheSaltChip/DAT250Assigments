@@ -1,7 +1,7 @@
 package no.hvl.dat250.jpa.assignment.service.user;
 
 import lombok.NonNull;
-import no.hvl.dat250.jpa.assignment.controller.Registration.UserData;
+import no.hvl.dat250.jpa.assignment.web.controller.registration.UserData;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
@@ -99,26 +99,19 @@ public class UserServiceImpl implements UserService {
         return user.getRole();
     }
 
+    @Override
+    @Transactional
     public User registerNewUser(@NonNull UserData userData) throws Exception {
-
-        if(existingUserCheck(userData.getUsername())) {
+        if (existingUserCheck(userData.getUsername())) {
             throw new Exception("Account with this username already exists");
         }
 
-        User user = new User();
+        User user = userData.createUser();
 
-        user.setFirstname(userData.getFirstName());
-        user.setLastname(userData.getLastName());
-        user.setUsername(userData.getUsername());
-        user.setPassword(new BCryptPasswordEncoder().encode(userData.getPassword()));
-        user.setEmail(userData.getEmail());
-        user.setRole(Role.Regular);
-
-        return saveUser(user);
+        return userRepository.save(user);
     }
 
     public boolean existingUserCheck(String username) {
-        Optional<User> user = userRepository.findByUsername(username);
-        return user.isPresent();
+       return userRepository.existsUsersByUsername(username);
     }
 }

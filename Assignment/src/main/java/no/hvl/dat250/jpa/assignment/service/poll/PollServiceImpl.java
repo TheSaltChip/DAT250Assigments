@@ -28,7 +28,6 @@ import java.util.*;
 @Transactional(readOnly = true)
 public class PollServiceImpl implements PollService {
     private final SecureRandom random;
-
     private final PollRepository pollRepository;
     private final TimeLimitPollRepository timeLimitPollRepository;
     private final UserRepository userRepository;

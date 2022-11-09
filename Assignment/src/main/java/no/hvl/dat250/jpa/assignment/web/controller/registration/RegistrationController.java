@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.controller.Registration;
+package no.hvl.dat250.jpa.assignment.web.controller.registration;
 
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,8 +22,8 @@ public class RegistrationController {
         this.userService = userService;
     }
 
-    @GetMapping(value="/register")
-    public String registerPage(WebRequest request, Model model){
+    @GetMapping(value = "/register")
+    public String registerPage(WebRequest request, Model model) {
 
         UserData userData = new UserData();
         model.addAttribute("userData", userData);
@@ -31,21 +31,22 @@ public class RegistrationController {
         return "/register";
     }
 
-    @PostMapping(value="/register")
+    @PostMapping(value = "/register")
     public String registerUserAccount(@Valid UserData userData, BindingResult bindingResult, Model model) {
 
-        if(bindingResult.hasErrors()){
+        if (bindingResult.hasErrors()) {
             model.addAttribute("userData", userData);
             return "/register";
         }
         try {
             userService.registerNewUser(userData);
         } catch (Exception e) {
-            bindingResult.rejectValue("username", "userData.username","Existing Account");
+            System.out.println(e.getMessage());
+            bindingResult.rejectValue("username", "userData.username", "Existing Account");
             model.addAttribute("userData", userData);
             return "/register";
         }
-            return "/login";
+        return "redirect:/login";
     }
 
 }
