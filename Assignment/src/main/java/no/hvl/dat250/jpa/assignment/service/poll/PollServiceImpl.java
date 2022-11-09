@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
+import no.hvl.dat250.jpa.assignment.message.MessagingClient;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
@@ -14,7 +15,6 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.AnonymousVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.DeviceVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
-import org.apache.derby.iapi.util.ByteArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -29,6 +29,7 @@ import java.util.*;
 public class PollServiceImpl implements PollService {
     private final SecureRandom random;
 
+    private final MessagingClient messagingClient;
     private final PollRepository pollRepository;
     private final TimeLimitPollRepository timeLimitPollRepository;
     private final UserRepository userRepository;
@@ -37,7 +38,8 @@ public class PollServiceImpl implements PollService {
     private final AnonymousVoteRepository anonymousVoteRepository;
 
     @Autowired
-    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository) {
+    public PollServiceImpl(MessagingClient messagingClient, PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository) {
+        this.messagingClient = messagingClient;
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
         this.userRepository = userRepository;
@@ -153,7 +155,6 @@ public class PollServiceImpl implements PollService {
     public void updatePoll(Poll poll) {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
-        updatedPoll.setActiveStatus(poll.getActiveStatus());
         updatedPoll.setQuestion(poll.getQuestion());
         updatedPoll.setTheme(poll.getTheme());
         updatedPoll.setIsPrivate(poll.getIsPrivate());
@@ -169,6 +170,8 @@ public class PollServiceImpl implements PollService {
 
         p.setActiveStatusToFinished();
         p.setCode(0);
+
+        messagingClient.publishMessage("/" + p.getTheme(), p.convertToMessagePayload());
 
         return pollRepository.save(p);
     }
