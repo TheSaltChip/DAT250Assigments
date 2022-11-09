@@ -20,35 +20,36 @@
         Private poll:
         <input type="checkbox" th:field="*{isPrivate}">
     </label>
-    <!-- Dropdown menu with enums
-         Closed : Closed & Open
-         Open : Open & Finished
-     -->
     <div th:switch="${pollCustomizeForm.getActiveStatus}">
-        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).CLOSED}" name="activeStatus">
-            <option th:field="*{activeStatus}" th:value="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).CLOSED}">
+        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}" name="activeStatus">
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
                 Closed
             </option>
-            <option th:field="*{activeStatus}" th:value="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).OPEN}">
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
                 Open poll
             </option>
         </select>
 
-        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).OPEN}" name="activeStatus">
-            <option th:field="*{activeStatus}" th:value="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).OPEN}">
+        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}" name="activeStatus">
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
                 Opened
             </option>
-            <option th:field="*{activeStatus}" th:value="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).FINISHED}">
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
                 Finish poll
             </option>
         </select>
 
-        <div th:case="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).FINISHED}">
+        <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
             <input type="hidden" th:field="*{activeStatus}"
-                   th:value="${T(no.hvl.dat250.jpa.assignment.models.PollStatus).FINISHED}">
+                   th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
             <p>Poll is finished</p>
         </div>
     </div>
+    <span th:if="${!pollCustomizeForm.code.equals(0)}" th:field="*{code}" th:text="'Code: ' + *{code}"></span>
     <button type="submit">Update</button>
 </form>
 </body>

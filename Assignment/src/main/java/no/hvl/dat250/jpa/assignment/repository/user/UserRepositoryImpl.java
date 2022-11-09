@@ -1,8 +1,8 @@
 package no.hvl.dat250.jpa.assignment.repository.user;
 
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;

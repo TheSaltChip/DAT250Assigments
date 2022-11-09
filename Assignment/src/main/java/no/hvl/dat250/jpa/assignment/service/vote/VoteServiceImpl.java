@@ -1,7 +1,7 @@
 package no.hvl.dat250.jpa.assignment.service.vote;
 
-import no.hvl.dat250.jpa.assignment.models.Vote;
-import no.hvl.dat250.jpa.assignment.repository.vote.VoteRepository;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
+import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -11,26 +11,26 @@ import java.util.List;
 @Service
 @Transactional(readOnly = true)
 public class VoteServiceImpl implements VoteService {
-    private final VoteRepository voteRepository;
+    private final UserVoteRepository userVoteRepository;
 
     @Autowired
-    public VoteServiceImpl(VoteRepository repository) {
-        this.voteRepository = repository;
+    public VoteServiceImpl(UserVoteRepository repository) {
+        this.userVoteRepository = repository;
     }
 
-    public List<Vote> getAllVotes() {
-        return voteRepository.findAll();
+    public List<UserVote> getAllVotes() {
+        return userVoteRepository.findAll();
     }
 
-    public List<Vote> getAllVotesFromPoll(Long pollId) {
-        return voteRepository.findAllByPoll_Id(pollId);
+    public List<UserVote> getAllVotesFromPoll(Long pollId) {
+        return userVoteRepository.findAllByPoll_Id(pollId);
     }
 
-    public List<Vote> getAllVotesFromUser(String username) {
-        return voteRepository.findAllByUser_Username(username);
+    public List<UserVote> getAllVotesFromUser(String username) {
+        return userVoteRepository.findAllByUser_Username(username);
     }
 
     public Boolean hasUserVotedInPoll(String username, Long id) {
-        return voteRepository.existsVoteByUser_UsernameAndPoll_Id(username, id);
+        return userVoteRepository.existsVoteByUser_UsernameAndPoll_Id(username, id);
     }
 }

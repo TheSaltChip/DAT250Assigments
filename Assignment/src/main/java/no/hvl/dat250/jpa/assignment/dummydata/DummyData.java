@@ -1,10 +1,12 @@
 package no.hvl.dat250.jpa.assignment.dummydata;
 
 
-import no.hvl.dat250.jpa.assignment.models.*;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
-import no.hvl.dat250.jpa.assignment.repository.vote.VoteRepository;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -13,18 +15,17 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
+import java.util.List;
 import java.util.Random;
 
 @Component
 public class DummyData {
     private final UserRepository userRepository;
-    private final PollRepository pollRepository;
     private final PollService pollService;
 
     @Autowired
-    public DummyData(UserRepository userRepository, PollRepository pollRepository, PollService pollService) {
+    public DummyData(UserRepository userRepository, PollService pollService) {
         this.userRepository = userRepository;
-        this.pollRepository = pollRepository;
         this.pollService = pollService;
     }
 
@@ -54,21 +55,19 @@ public class DummyData {
 
                 if (k == 0) {
                     p.setActiveStatusToFinished();
-                } else if (k == 1) {
-                    p.setActiveStatusToOpen();
                 }
 
-                pollRepository.save(p);
+                pollService.createPoll(p);
             }
         }
 
-        for (int i = 0; i < 3; i++) {
-            User d = new User(String.format("d%d", i), "pass", Role.Device);
-            userRepository.save(d);
+        for (long i = 1; i < 20; i++) {
+            pollService.openPoll(i);
         }
 
+
         User[] users = userRepository.findAll().toArray(User[]::new);
-        Poll[] polls = pollRepository.findAllByActiveStatus(PollStatus.OPEN).toArray(Poll[]::new);
+        Poll[] polls = pollService.findAllOpenPolls().toArray(Poll[]::new);
 
         int un = users.length;
         int pn = polls.length;
@@ -79,7 +78,7 @@ public class DummyData {
             n = r.nextInt(2);
             User u = users[r.nextInt(un)];
             Poll p = polls[r.nextInt(pn)];
-            pollService.updateVote(n == 0, u.getUsername(),p.getId());
+            pollService.updateUserVote(n == 0, u.getUsername(),p.getId());
         }
     }
 }

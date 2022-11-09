@@ -1,8 +1,9 @@
 package no.hvl.dat250.jpa.assignment.web.controller.poll;
 
 import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import no.hvl.dat250.jpa.assignment.web.formObject.PollCustomizeForm;
@@ -44,7 +45,7 @@ public class PollCustomizingController {
             return "redirect:/";
         }
 
-        PollCustomizeForm pcf = new PollCustomizeForm(poll.getQuestion(), poll.getTheme(), poll.getIsPrivate(), poll.getActiveStatus());
+        PollCustomizeForm pcf = new PollCustomizeForm(poll.getQuestion(), poll.getTheme(), poll.getIsPrivate(), poll.getActiveStatus(), poll.getCode());
 
         model.addAttribute("pollCustomizeForm", pcf);
         model.addAttribute("pollId", poll.getId());
@@ -80,10 +81,20 @@ public class PollCustomizingController {
                 poll.setIsPrivate(pollCustomizeForm.getIsPrivate());
                 break;
         }
-
-        poll.setActiveStatus(pollCustomizeForm.getActiveStatus());
-
         pollService.updatePoll(poll);
+
+        switch (pollCustomizeForm.getActiveStatus()) {
+            case CLOSED:
+                break;
+            case OPEN:
+                if (poll.getActiveStatus().equals(PollStatus.CLOSED))
+                    pollService.openPoll(poll.getId());
+                break;
+            case FINISHED:
+                if (poll.getActiveStatus().equals(PollStatus.OPEN))
+                    pollService.closePoll(poll.getId());
+                break;
+        }
 
         return "redirect:/poll/" + poll.getId();
     }

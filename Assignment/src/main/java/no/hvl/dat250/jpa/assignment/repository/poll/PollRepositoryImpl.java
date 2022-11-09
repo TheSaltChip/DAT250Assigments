@@ -1,8 +1,8 @@
 package no.hvl.dat250.jpa.assignment.repository.poll;
 
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.TimeLimitPoll;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.EntityManager;
@@ -10,7 +10,7 @@ import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import java.time.LocalDateTime;
 
-@Service
+/*@Service
 public class PollRepositoryImpl implements PollRepositoryCustom {
     public static final String PERSISTENCE_UNIT_NAME = "assignmentB";
     EntityManagerFactory factory;
@@ -55,7 +55,7 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
     public void updateVote(int yes, int no, int pollId) {
 
     }
-/*
+
     public void updateVote(boolean yesOrNo, int pollId){
         setUp();
         Poll poll = em.find(Poll.class,pollId);
@@ -77,7 +77,7 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
         poll.setYesVotes(currentYes+yes);
         poll.setNoVotes(currentNo+no);
         commit(poll);
-    }*/
+    }
 
     @Override
     public void updatePoll(int pollId, String name, String theme) {
@@ -141,4 +141,4 @@ public class PollRepositoryImpl implements PollRepositoryCustom {
         em.close();
     }
 
-}
+}*/

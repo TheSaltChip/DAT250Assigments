@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignment.web.springsecurity;
 
-import no.hvl.dat250.jpa.assignment.models.User;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;

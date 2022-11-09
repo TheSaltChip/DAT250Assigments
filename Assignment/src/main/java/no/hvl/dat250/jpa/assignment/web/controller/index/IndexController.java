@@ -1,7 +1,7 @@
 package no.hvl.dat250.jpa.assignment.web.controller.index;
 
 import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
-import no.hvl.dat250.jpa.assignment.models.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -27,13 +27,9 @@ public class IndexController {
     public String index(Model model) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
-        System.out.println(authentication.getName());
-
         List<Poll> polls = authentication.isAuthenticated() && !(authentication instanceof AnonymousAuthenticationToken)
                 ? pollService.findAllOpenPolls()
                 : pollService.findAllOpenPublicPolls();
-
-        polls.forEach(System.out::println);
 
         model.addAttribute("polls", polls);
 

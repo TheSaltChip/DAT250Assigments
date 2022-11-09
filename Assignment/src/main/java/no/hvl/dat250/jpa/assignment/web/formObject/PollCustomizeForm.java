@@ -3,13 +3,13 @@ package no.hvl.dat250.jpa.assignment.web.formObject;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NonNull;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
 @Data
+@AllArgsConstructor
 public class PollCustomizeForm {
 
     @NotNull
@@ -29,4 +29,6 @@ public class PollCustomizeForm {
     @NotNull
     @NonNull
     private PollStatus activeStatus;
+
+    private Integer code;
 }

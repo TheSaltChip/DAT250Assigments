@@ -1,15 +1,14 @@
 package no.hvl.dat250.jpa.assignment.repository.user;
 
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDateTime;
 import java.util.Set;
 
 import static org.hamcrest.CoreMatchers.*;
