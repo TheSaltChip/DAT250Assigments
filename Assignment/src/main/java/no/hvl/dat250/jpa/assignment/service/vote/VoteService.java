@@ -1,13 +1,15 @@
 package no.hvl.dat250.jpa.assignment.service.vote;
 
-import no.hvl.dat250.jpa.assignment.models.Vote;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
 
 import java.util.List;
 
 public interface VoteService {
-    List<Vote> getAllVotes();
+    List<UserVote> getAllVotes();
 
-    List<Vote> getAllVotesFromPoll(Long pollId);
+    List<UserVote> getAllVotesFromPoll(Long pollId);
 
-    List<Vote> getAllVotesFromUser(String username);
+    List<UserVote> getAllVotesFromUser(String username);
+
+    Boolean hasUserVotedInPoll(String username, Long id);
 }

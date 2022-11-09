@@ -1,8 +1,9 @@
-package no.hvl.dat250.jpa.assignment.models;
+package no.hvl.dat250.jpa.assignment.models.poll;
 
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NonNull;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 
 import javax.persistence.Entity;
 import javax.persistence.Inheritance;
@@ -20,9 +21,9 @@ public class TimeLimitPoll extends Poll {
     @NonNull
     private LocalDateTime endDate;
 
-    public TimeLimitPoll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate,@NonNull LocalDateTime createdDate,
+    public TimeLimitPoll(@NonNull String name, @NonNull String theme, @NonNull Boolean isPrivate,
                          @NonNull User owner, @NonNull LocalDateTime startDate, @NonNull LocalDateTime endDate) {
-        super(name, theme, isPrivate, createdDate, owner);
+        super(name, theme, isPrivate, owner);
         this.startDate = startDate;
         this.endDate = endDate;
     }

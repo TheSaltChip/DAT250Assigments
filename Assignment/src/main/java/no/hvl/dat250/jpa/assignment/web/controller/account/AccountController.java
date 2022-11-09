@@ -1,7 +1,7 @@
 package no.hvl.dat250.jpa.assignment.web.controller.account;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.IAuthenticationFacade;
-import no.hvl.dat250.jpa.assignment.models.User;
+import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -13,10 +13,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 @Controller
 public class AccountController {
     private UserService userService;
-    private IAuthenticationFacade authenticationFacade;
+    private AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public AccountController(UserService userService, IAuthenticationFacade authenticationFacade) {
+    public AccountController(UserService userService, AuthenticationFacade authenticationFacade) {
         this.userService = userService;
         this.authenticationFacade = authenticationFacade;
     }

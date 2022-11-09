@@ -1,13 +1,15 @@
-package no.hvl.dat250.jpa.assignment.models;
+package no.hvl.dat250.jpa.assignment.models.user;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 
 import javax.persistence.*;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
 @Data
@@ -65,5 +67,18 @@ public class User {
         result = 31 * result + role.hashCode();
         result = 31 * result + password.hashCode();
         return result;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "username='" + username + '\'' +
+                ", email='" + email + '\'' +
+                ", firstname='" + firstname + '\'' +
+                ", lastname='" + lastname + '\'' +
+                ", role=" + role +
+                ", password='" + password + '\'' +
+                ", ownedPolls=" + ownedPolls.stream().map(Poll::getId).collect(Collectors.toList()) +
+                '}';
     }
 }

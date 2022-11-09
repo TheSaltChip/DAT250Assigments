@@ -1,31 +1,33 @@
 package no.hvl.dat250.jpa.assignment.dummydata;
 
 
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.Role;
+import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
-import java.nio.charset.StandardCharsets;
-import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.time.LocalDateTime;
+import java.util.List;
 import java.util.Random;
 
 @Component
 public class DummyData {
+    private final UserRepository userRepository;
+    private final PollService pollService;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private PollRepository pollRepository;
+    public DummyData(UserRepository userRepository, PollService pollService) {
+        this.userRepository = userRepository;
+        this.pollService = pollService;
+    }
 
     @PostConstruct
     private void postConstruct() throws NoSuchAlgorithmException {
@@ -43,47 +45,40 @@ public class DummyData {
         int pollN = 0;
 
         for (int i = 0; i < 14; i++) {
-            User c = new User(
-                    String.format("user%d", i),
-                    enc.encode(("" + i)),
-                    Role.Regular);
+            User c = new User(String.format("user%d", i), enc.encode(("" + i)), Role.Regular);
 
             userRepository.save(c);
 
             for (int j = 0; j < 5; j++) {
-                Poll p = new Poll(
-                        "Poll" + pollN++,
-                        "Theme" + r.nextInt(5),
-                        r.nextBoolean(),
-                        LocalDateTime.now(),
-                        c);
+                Poll p = new Poll("Poll" + pollN++, "Theme" + r.nextInt(5), r.nextBoolean(), c);
                 int k = r.nextInt(3);
 
                 if (k == 0) {
                     p.setActiveStatusToFinished();
-                } else if (k == 1) {
-                    p.setActiveStatusToOpen();
                 }
 
-                pollRepository.save(p);
+                pollService.createPoll(p);
             }
         }
 
-        for (int i = 0; i < 3; i++) {
-            User d = new User(String.format("d%d", i), "pass", Role.Device);
-            userRepository.save(d);
+        for (long i = 1; i < 20; i++) {
+            pollService.openPoll(i);
         }
-    }
 
-    private static String bytesToHex(byte[] hash) {
-        StringBuilder hexString = new StringBuilder(2 * hash.length);
-        for (byte b : hash) {
-            String hex = Integer.toHexString(0xff & b);
-            if (hex.length() == 1) {
-                hexString.append('0');
-            }
-            hexString.append(hex);
+
+        User[] users = userRepository.findAll().toArray(User[]::new);
+        Poll[] polls = pollService.findAllOpenPolls().toArray(Poll[]::new);
+
+        int un = users.length;
+        int pn = polls.length;
+
+        int n;
+
+        for (int i = 0; i < 50; i++) {
+            n = r.nextInt(2);
+            User u = users[r.nextInt(un)];
+            Poll p = polls[r.nextInt(pn)];
+            pollService.updateUserVote(n == 0, u.getUsername(),p.getId());
         }
-        return hexString.toString();
     }
 }

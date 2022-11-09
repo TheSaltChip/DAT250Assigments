@@ -1,16 +1,18 @@
 package no.hvl.dat250.jpa.assignment.service.user;
 
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.Role;
-import no.hvl.dat250.jpa.assignment.models.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Set;
 
 @Service
+@Transactional(readOnly = true)
 public class UserServiceImpl implements UserService {
     private final UserRepository userRepository;
 
@@ -30,6 +32,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User saveUser(User user) {
         if (user.getRole().equals(Role.Admin))
             user.setRole(Role.Regular);
@@ -38,6 +41,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public User updateUser(String username, User user) {
         User updatedUser = userRepository.findById(username).orElseThrow();
 
@@ -57,6 +61,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public Poll addPollToUser(String username, Poll poll) {
         User c = userRepository.findById(username).orElseThrow();
 
@@ -67,11 +72,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
+    @Transactional
     public void deleteUser(String username) {
         userRepository.deleteById(username);
     }
 
     @Override
+    @Transactional
     public User changeRoleOfUser(String username, String role) {
         Role roleObj = Role.valueOf(role);
         User user = userRepository.findById(username).orElseThrow();

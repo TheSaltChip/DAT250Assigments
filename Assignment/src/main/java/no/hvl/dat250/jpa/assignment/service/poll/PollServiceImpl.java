@@ -1,32 +1,50 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
-import no.hvl.dat250.jpa.assignment.models.*;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
+import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.DeviceVote;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
+import no.hvl.dat250.jpa.assignment.models.vote.UserVoteId;
 import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
 import no.hvl.dat250.jpa.assignment.repository.poll.TimeLimitPollRepository;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
-import no.hvl.dat250.jpa.assignment.repository.vote.VoteRepository;
+import no.hvl.dat250.jpa.assignment.repository.vote.AnonymousVoteRepository;
+import no.hvl.dat250.jpa.assignment.repository.vote.DeviceVoteRepository;
+import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
+import org.apache.derby.iapi.util.ByteArray;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import java.nio.ByteBuffer;
+import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 @Service
+@Transactional(readOnly = true)
 public class PollServiceImpl implements PollService {
+    private final SecureRandom random;
 
     private final PollRepository pollRepository;
     private final TimeLimitPollRepository timeLimitPollRepository;
     private final UserRepository userRepository;
-    private final VoteRepository voteRepository;
+    private final UserVoteRepository userVoteRepository;
+    private final DeviceVoteRepository deviceVoteRepository;
+    private final AnonymousVoteRepository anonymousVoteRepository;
 
     @Autowired
-    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, VoteRepository voteRepository) {
+    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository) {
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
         this.userRepository = userRepository;
-        this.voteRepository = voteRepository;
+        this.userVoteRepository = userVoteRepository;
+        this.deviceVoteRepository = deviceVoteRepository;
+        this.anonymousVoteRepository = anonymousVoteRepository;
+        this.random = new SecureRandom(ByteBuffer.allocate(4).putInt(1337).array());
     }
 
     @Override
@@ -43,80 +61,100 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public Poll updateVote(boolean vote, String username, Long pollId) {
+    public Poll getPollByCode(Integer code) {
+        return pollRepository.findByCode(code).orElseThrow(NoSuchElementException::new);
+    }
+
+    @Override
+    @Transactional
+    public Poll updateUserVote(boolean vote, String username, Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         if (!p.getActiveStatus().equals(PollStatus.OPEN)) return p;
 
         User u = userRepository.findById(username).orElseThrow();
 
-        if(!u.getRole().equals(Role.Regular)){
+        if (!u.getRole().equals(Role.Regular)) {
             return p;
         }
 
-        Optional<Vote> oV = voteRepository.findById(new VoteId(u, p));
+        Optional<UserVote> oV = userVoteRepository.findById(new UserVoteId(username, pollId));
+
+        if (vote) {
+            p.incYesVotes();
+        } else {
+            p.incNoVotes();
+        }
 
         if (oV.isPresent()) {
-            Vote v = oV.get();
+            UserVote v = oV.get();
             v.setYesVotes(vote ? 1 : 0);
             v.setNoVotes(vote ? 0 : 1);
 
-            p.getVotes().remove(v);
-            p.getVotes().add(v);
+            userVoteRepository.save(v);
 
             return pollRepository.save(p);
         }
 
-        Vote v = new Vote(u, p, vote ? 1 : 0, vote ? 0 : 1);
+        UserVote v = new UserVote(username, pollId, vote ? 1 : 0, vote ? 0 : 1);
 
-        p.getVotes().add(v);
+        userVoteRepository.save(v);
 
         return pollRepository.save(p);
     }
 
     @Override
-    public Poll updateVote(String deviceId, int yes, int no, Long pollId) {
+    @Transactional
+    public void createDeviceVote(UUID deviceId, Long pollId) {
+        Poll p = pollRepository.findById(pollId).orElseThrow();
+
+        if (!p.getActiveStatus().equals(PollStatus.OPEN)) return;
+
+        DeviceVote v = new DeviceVote(deviceId, p, 0, 0);
+
+        deviceVoteRepository.save(v);
+    }
+
+    @Override
+    @Transactional
+    public void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         // Custom response should be given here telling that the poll is closed
-        if (!p.getActiveStatus().equals(PollStatus.OPEN)) return p;
+        if (!p.getActiveStatus().equals(PollStatus.OPEN)) return;
 
-        User d = userRepository.findById(deviceId).orElseThrow();
-
-        System.out.println(d.getRole());
-        System.out.println(d.getRole().equals(Role.Device));
-
-        if(!d.getRole().equals(Role.Device)){
-            return p;
-        }
-
-        Optional<Vote> oVote = voteRepository.findById(new VoteId(d, p));
+        Optional<DeviceVote> oVote = deviceVoteRepository.findById(deviceId);
 
         if (oVote.isEmpty()) {
-            Vote v = new Vote(d, p, yes, no);
-
-            p.getVotes().add(v);
-
-            return pollRepository.save(p);
+            return;
         }
 
-        Vote v = oVote.get();
+        DeviceVote v = oVote.get();
+
+        p.addYesVotes(yes);
+        p.addNoVotes(no);
 
         v.setNoVotes(v.getNoVotes() + no);
         v.setYesVotes(v.getYesVotes() + yes);
 
-        p.getVotes().remove(v);
-        p.getVotes().add(v);
+        deviceVoteRepository.save(v);
 
-        return pollRepository.save(p);
+        pollRepository.save(p);
     }
 
     @Override
+    @Transactional
+    public Poll updateAnonymousVote(int yes, int no) {
+        return null;
+    }
+
+    @Override
+    @Transactional
     public void updatePoll(Poll poll) {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
         updatedPoll.setActiveStatus(poll.getActiveStatus());
-        updatedPoll.setName(poll.getName());
+        updatedPoll.setQuestion(poll.getQuestion());
         updatedPoll.setTheme(poll.getTheme());
         updatedPoll.setIsPrivate(poll.getIsPrivate());
 
@@ -125,25 +163,37 @@ public class PollServiceImpl implements PollService {
 
 
     @Override
+    @Transactional
     public Poll closePoll(Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActiveStatusToFinished();
+        p.setCode(0);
 
         return pollRepository.save(p);
     }
 
 
     @Override
+    @Transactional
     public Poll openPoll(Long pollId) {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActiveStatusToOpen();
 
+        int code = random.nextInt(1_000_000);
+
+        while (code < 10_000
+                || (code > 10_000 && pollRepository.existsPollByCode(code)))
+            code = random.nextInt(1_000_000);
+
+        p.setCode(code);
+
         return pollRepository.save(p);
     }
 
     @Override
+    @Transactional
     public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) {
         TimeLimitPoll tlp = timeLimitPollRepository.findById(pollId).orElseThrow();
 
@@ -154,16 +204,20 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    @Transactional
     public Poll createPoll(Poll poll) {
+        poll.setCode(0);
         return pollRepository.save(poll);
     }
 
     @Override
+    @Transactional
     public TimeLimitPoll createTimeLimitPoll(TimeLimitPoll poll) {
         return timeLimitPollRepository.save(poll);
     }
 
     @Override
+    @Transactional
     public void deletePoll(Long pollId) {
         pollRepository.deleteById(pollId);
     }
@@ -180,11 +234,16 @@ public class PollServiceImpl implements PollService {
 
     @Override
     public List<Poll> findAllOpenPublicPolls() {
-        return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN,false);
+        return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN, false);
     }
 
     @Override
     public List<Poll> findAllOpenPrivatePolls() {
         return pollRepository.findAllByActiveStatusAndIsPrivate(PollStatus.OPEN, true);
+    }
+
+    @Override
+    public List<Poll> findAllPollsByOwner(User owner) {
+        return pollRepository.findAllByOwner(owner);
     }
 }

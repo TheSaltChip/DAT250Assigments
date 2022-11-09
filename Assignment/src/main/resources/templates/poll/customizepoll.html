@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<form th:action="@{/poll/{id}(id=${pollId})}" th:method="put" th:object="${pollCustomizeForm}">
+    <label>
+        Question
+        <input type="text" th:field="*{question}"
+               th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}">
+    </label>
+    <label>
+        Theme
+        <input type="text" th:field="*{theme}"
+               th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}">
+    </label>
+    <label>
+        Private poll:
+        <input type="checkbox" th:field="*{isPrivate}">
+    </label>
+    <div th:switch="${pollCustomizeForm.getActiveStatus}">
+        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}" name="activeStatus">
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
+                Closed
+            </option>
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                Open poll
+            </option>
+        </select>
+
+        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}" name="activeStatus">
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                Opened
+            </option>
+            <option th:field="*{activeStatus}"
+                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+                Finish poll
+            </option>
+        </select>
+
+        <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+            <input type="hidden" th:field="*{activeStatus}"
+                   th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+            <p>Poll is finished</p>
+        </div>
+    </div>
+    <span th:if="${!pollCustomizeForm.code.equals(0)}" th:field="*{code}" th:text="'Code: ' + *{code}"></span>
+    <button type="submit">Update</button>
+</form>
+</body>
+</html>
