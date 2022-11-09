@@ -3,7 +3,7 @@ package no.hvl.dat250.jpa.assignment.controller.Registration;
 import com.sun.istack.NotNull;
 import lombok.Getter;
 import lombok.Setter;
-import no.hvl.dat250.jpa.assignment.models.Role;
+import no.hvl.dat250.jpa.assignment.models.user.Role;
 
 import javax.validation.constraints.NotEmpty;
 
