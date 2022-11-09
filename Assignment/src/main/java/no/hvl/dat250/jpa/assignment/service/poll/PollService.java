@@ -6,6 +6,7 @@ import no.hvl.dat250.jpa.assignment.models.user.User;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Interface for poll services
@@ -15,9 +16,14 @@ public interface PollService {
 
     User getOwner(Long pollId);
 
-    Poll updateVote(boolean vote, String username, Long pollId);
+    Poll getPollByCode(Integer code);
 
-    Poll updateVote(String deviceId, int yes, int no, Long pollId);
+    Poll updateUserVote(boolean vote, String username, Long pollId);
+
+    void createDeviceVote(UUID identifier, Long id);
+    void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId);
+
+    Poll updateAnonymousVote(int yes, int no);
 
     void updatePoll(Poll poll);
 
