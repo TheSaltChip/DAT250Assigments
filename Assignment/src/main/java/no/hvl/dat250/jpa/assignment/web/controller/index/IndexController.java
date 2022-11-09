@@ -1,6 +1,6 @@
 package no.hvl.dat250.jpa.assignment.web.controller.index;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.IAuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.Poll;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,17 +9,16 @@ import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
 
 import java.util.List;
 
 @Controller
 public class IndexController {
     private final PollService pollService;
-    private final IAuthenticationFacade authenticationFacade;
+    private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public IndexController(PollService pollService, IAuthenticationFacade authenticationFacade) {
+    public IndexController(PollService pollService, AuthenticationFacade authenticationFacade) {
         this.pollService = pollService;
         this.authenticationFacade = authenticationFacade;
     }

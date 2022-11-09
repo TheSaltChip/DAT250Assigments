@@ -9,6 +9,9 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface VoteRepository extends JpaRepository<Vote, VoteId> {
-    List<Vote> findAllByPoll(Poll poll);
-    List<Vote> findAllByUser(User user);
+    List<Vote> findAllByPoll_Id(Long id);
+
+    List<Vote> findAllByUser_Username(String username);
+
+    Boolean existsVoteByUser_UsernameAndPoll_Id(String username, Long id);
 }
