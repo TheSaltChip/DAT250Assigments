@@ -1,11 +1,12 @@
 package no.hvl.dat250.jpa.assignment.api;
 
+import no.hvl.dat250.jpa.assignment.api.pojo.DevicePoll;
 import no.hvl.dat250.jpa.assignment.api.pojo.DeviceVotes;
 import no.hvl.dat250.jpa.assignment.api.pojo.Time;
 import no.hvl.dat250.jpa.assignment.api.pojo.UserVote;
-import no.hvl.dat250.jpa.assignment.models.User;
-import no.hvl.dat250.jpa.assignment.models.Poll;
-import no.hvl.dat250.jpa.assignment.models.TimeLimitPoll;
+import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -16,6 +17,7 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api")
+@CrossOrigin
 public class PollRestController {
 
     private final PollService pollService;
@@ -25,8 +27,16 @@ public class PollRestController {
         this.pollService = pollService;
     }
 
+    @GetMapping(value = "/poll/connect/{code}")
+    public DevicePoll connectDeviceToPoll(@PathVariable Integer code) {
+        Poll p = pollService.getPollByCode(code);
+        DevicePoll dp = new DevicePoll(p);
+        pollService.createDeviceVote(dp.getIdentifier(), p.getId());
+        return dp;
+    }
+
     @GetMapping(value = "/polls")
-    public List<Poll> findAllPolls(){
+    public List<Poll> findAllPolls() {
         return pollService.findAllPolls();
     }
 
@@ -42,12 +52,13 @@ public class PollRestController {
 
     @PutMapping(value = "/poll/vote/user/{pollId}")
     public Poll updateVote(@RequestBody UserVote test, @PathVariable Long pollId) {
-        return pollService.updateVote(test.isVote(), test.getUsername(), pollId);
+        return pollService.updateUserVote(test.isVote(), test.getUsername(), pollId);
     }
 
-    @PutMapping(value = "/poll/vote/device/{pollId}")
-    public Poll updateVote(@RequestBody DeviceVotes deviceVotes, @PathVariable Long pollId) {
-        return pollService.updateVote(deviceVotes.getDeviceId(), deviceVotes.getYes(), deviceVotes.getNo(), pollId);
+    @PostMapping(value = "/poll/vote/device")
+    public ResponseEntity<HttpStatus> updateVote(@RequestBody DeviceVotes deviceVotes) {
+        pollService.updateDeviceVote(deviceVotes.getDeviceId(), deviceVotes.getYes(), deviceVotes.getNo(), deviceVotes.getPollId());
+        return ResponseEntity.ok(HttpStatus.OK);
     }
 
     @PutMapping(value = "/poll/update")
@@ -60,7 +71,7 @@ public class PollRestController {
         return pollService.closePoll(pollId);
     }
 
-    @PutMapping(value ="/poll/open/{pollId}")
+    @PutMapping(value = "/poll/open/{pollId}")
     public Poll openPoll(@PathVariable Long pollId) {
         return pollService.openPoll(pollId);
     }
