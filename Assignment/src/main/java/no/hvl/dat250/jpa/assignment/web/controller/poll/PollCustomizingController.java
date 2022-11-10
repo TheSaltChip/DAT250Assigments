@@ -1,12 +1,12 @@
 package no.hvl.dat250.jpa.assignment.web.controller.poll;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.authenticationfacade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
-import no.hvl.dat250.jpa.assignment.web.formObject.PollCustomizeForm;
+import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;

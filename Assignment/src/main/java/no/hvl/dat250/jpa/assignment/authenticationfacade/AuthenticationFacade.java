@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.authentication.facade;
+package no.hvl.dat250.jpa.assignment.authenticationfacade;
 
 import org.springframework.security.core.Authentication;
 
