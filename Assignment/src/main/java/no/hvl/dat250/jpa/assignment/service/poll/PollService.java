@@ -24,7 +24,7 @@ public interface PollService {
     void createDeviceVote(UUID identifier, Long id);
     void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId);
 
-    Poll updateAnonymousVote(Poll poll, AnonymousVote anonymousVote, boolean vote);
+    Poll createAnonymousVote(Poll poll, boolean vote);
 
     void updatePoll(Poll poll);
 
