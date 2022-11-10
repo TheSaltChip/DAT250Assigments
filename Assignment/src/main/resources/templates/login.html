@@ -21,10 +21,7 @@
 
             <form class="form" th:action="@{/login}" method="post">
 
-                <div class="form-message" th:if="${param.error}">
-                    Invalid username or password.
-                </div>
-                <div th:if="${param.logout}">
+                <div class="alert alert-info" th:if="${param.logout}" role="alert">
                     You have been logged out.
                 </div>
                 <div class="form-floating mb-3">
@@ -33,8 +30,11 @@
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="password" type="text" id="password" placeholder="Password"/>
+                    <input class="form-control" name="password" type="password" id="password" placeholder="Password"/>
                     <label for="password">Password</label>
+                    <div class="alert alert-warning" th:if="${param.error}" th:each="error: ${'Invalid username or password'}"
+                         th:text="${error}">Validation
+                    </div>
                 </div>
 
                 <div class="tn-group d-flex">

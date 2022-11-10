@@ -16,7 +16,7 @@
         </ul>
     </div>
 
-    <div sec:authorize="hasRole('ROLE_Regular', 'ROLE_Device')" class="collapse navbar-collapse d-flex">
+    <div sec:authorize="hasAnyRole('ROLE_Regular', 'Role_Device')" class="collapse navbar-collapse d-flex">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Main Menu</a>

@@ -31,29 +31,29 @@
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input class="form-control" type="text" th:field="*{lastName}" placeholder="Last name"/>
-                    <label for="firstName">Last name</label>
+                    <input class="form-control" type="text" id="lastName" th:field="*{lastName}" placeholder="Last name"/>
+                    <label for="lastName">Last name</label>
                     <div class="alert alert-warning" th:each="error : ${#fields.errors('lastName')}"
                            th:text="${error}">Validation error</div>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input class="form-control" type="text" th:field="*{email}" placeholder="Email"/>
-                    <label for="firstName">Email</label>
+                    <input class="form-control" type="text" id="email" th:field="*{email}" placeholder="Email"/>
+                    <label for="email">Email</label>
                         <div class="alert alert-warning" th:each="error : ${#fields.errors('email')}"
                            th:text="${error}">Validation error</div>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input class="form-control" type="text" th:field="*{username}" placeholder="User name"/>
-                    <label for="firstName">User name</label>
+                    <input class="form-control" type="text" id="username" th:field="*{username}" placeholder="User name"/>
+                    <label for="username">User name</label>
                     <div class="alert alert-warning" th:each="error: ${#fields.errors('username')}"
                             th:text="${error}">Validation error</div>
                 </div>
 
                 <div class="form-floating mb-2">
-                    <input class="form-control" type="password" th:field="*{password}" placeholder="Password"/>
-                    <label for="firstName">Password</label>
+                    <input class="form-control" type="password" id="password" th:field="*{password}" placeholder="Password"/>
+                    <label for="password">Password</label>
                     <div class="alert alert-warning" th:each="error : ${#fields.errors('password')}"
                            th:text="${error}">Validation error</div>
                 </div>
