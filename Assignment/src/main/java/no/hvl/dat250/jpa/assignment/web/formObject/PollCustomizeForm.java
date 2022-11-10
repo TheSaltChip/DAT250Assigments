@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.web.formObject;
+package no.hvl.dat250.jpa.assignment.web.formobject;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
