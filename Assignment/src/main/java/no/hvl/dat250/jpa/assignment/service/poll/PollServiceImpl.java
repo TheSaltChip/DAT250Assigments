@@ -145,15 +145,17 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll updateAnonymousVote(Poll poll,AnonymousVote anonymousVote,boolean vote) {
-        if(vote){
+    public Poll createAnonymousVote(Poll poll, boolean vote) {
+        AnonymousVote anonymousVote = new AnonymousVote(poll, vote);
+
+        if (vote) {
             poll.incYesVotes();
-        } else{
+        } else {
             poll.incNoVotes();
         }
+
         anonymousVoteRepository.save(anonymousVote);
-        pollRepository.save(poll);
-        return poll;
+        return pollRepository.save(poll);
     }
 
     @Override
