@@ -3,6 +3,7 @@ package no.hvl.dat250.jpa.assignment.service.poll;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -23,7 +24,7 @@ public interface PollService {
     void createDeviceVote(UUID identifier, Long id);
     void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId);
 
-    Poll updateAnonymousVote(Poll poll, boolean vote);
+    Poll updateAnonymousVote(Poll poll, AnonymousVote anonymousVote, boolean vote);
 
     void updatePoll(Poll poll);
 

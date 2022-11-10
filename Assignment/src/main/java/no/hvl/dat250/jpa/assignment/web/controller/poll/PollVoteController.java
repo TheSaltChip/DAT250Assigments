@@ -3,6 +3,7 @@ package no.hvl.dat250.jpa.assignment.web.controller.poll;
 import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import no.hvl.dat250.jpa.assignment.service.vote.VoteService;
@@ -25,10 +26,11 @@ public class PollVoteController {
     private VoteService voteService;
 
     @Autowired
-    public PollVoteController(PollService pollService, AuthenticationFacade authenticationFacade, UserService userService) {
+    public PollVoteController(PollService pollService, AuthenticationFacade authenticationFacade, UserService userService, VoteService voteService) {
         this.authenticationFacade = authenticationFacade;
         this.pollService = pollService;
         this.userService = userService;
+        this.voteService = voteService;
     }
 
     @GetMapping(value = "/poll/{id}/vote")
@@ -40,9 +42,9 @@ public class PollVoteController {
                 return "redirect:/login";
             }
         }
-        if(!(authentication instanceof AnonymousAuthenticationToken)){
-            System.out.println(authentication);
-            System.out.println(voteService.hasUserVotedInPoll(authentication.getName(),id));
+        if(!(authentication instanceof AnonymousAuthenticationToken) &&
+                voteService.hasUserVotedInPoll(authentication.getName(),id)){
+            return "redirect:result";
         }
         model.addAttribute("poll",poll);
         model.addAttribute("voteform",new VoteForm());
@@ -66,7 +68,8 @@ public class PollVoteController {
             if (user != null){
                 pollService.updateUserVote(voteform.isVote(), user.getUsername(), id);
             }else{
-                pollService.updateAnonymousVote(poll, voteform.isVote());
+                AnonymousVote anonymousVote = new AnonymousVote(poll,voteform.isVote());
+                pollService.updateAnonymousVote(poll,anonymousVote,voteform.isVote());
             }
         }
 
