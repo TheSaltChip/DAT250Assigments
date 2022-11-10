@@ -34,44 +34,46 @@ public class PollVoteController {
     }
 
     @GetMapping(value = "/poll/{id}/vote")
-    public String votePage(@PathVariable Long id, Model model){
+    public String votePage(@PathVariable Long id, Model model) {
         Poll poll = pollService.findById(id);
         Authentication authentication = authenticationFacade.getAuthentication();
-        if(poll.getIsPrivate()) {
+        if (poll.getIsPrivate()) {
             if (authentication instanceof AnonymousAuthenticationToken) {
                 return "redirect:/login";
             }
         }
-        if(!(authentication instanceof AnonymousAuthenticationToken) &&
-                voteService.hasUserVotedInPoll(authentication.getName(),id)){
+        if (!(authentication instanceof AnonymousAuthenticationToken) &&
+                voteService.hasUserVotedInPoll(authentication.getName(), id)) {
             return "redirect:result";
         }
-        model.addAttribute("poll",poll);
-        model.addAttribute("voteform",new VoteForm());
+        model.addAttribute("poll", poll);
+        model.addAttribute("voteform", new VoteForm());
         return "poll/pollvote";
     }
 
     @PostMapping(value = "/poll/{id}/vote")
-    public String voteRegister(@PathVariable Long id, VoteForm voteform){
+    public String voteRegister(@PathVariable Long id, VoteForm voteform) {
+        // Maybe don't pull this down here, and instead create a method that
+        // checks if a poll with the given id is private instead
+        // that way this class isn't responsible for handling poll objects directly
+        // unless it is directly needed
         Poll poll = pollService.findById(id);
+
         Authentication authentication = authenticationFacade.getAuthentication();
-        User user = null;
-        if(!(authentication instanceof AnonymousAuthenticationToken)){
-            user = userService.getUserByUsername(authentication.getName());
-        }
-        if(poll.getIsPrivate()){
-            if (authentication instanceof AnonymousAuthenticationToken) {
-                return "redirect:login";
-            }
+
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            User user = userService.getUserByUsername(authentication.getName());
+
             pollService.updateUserVote(voteform.isVote(), user.getUsername(), id);
-        }else {
-            if (user != null){
-                pollService.updateUserVote(voteform.isVote(), user.getUsername(), id);
-            }else{
-                AnonymousVote anonymousVote = new AnonymousVote(poll,voteform.isVote());
-                pollService.updateAnonymousVote(poll,anonymousVote,voteform.isVote());
-            }
+
+            return "redirect:result";
         }
+
+        if (poll.getIsPrivate()) {
+            return "redirect:/login";
+        }
+
+        pollService.createAnonymousVote(poll, voteform.isVote());
 
         return "redirect:result";
     }
