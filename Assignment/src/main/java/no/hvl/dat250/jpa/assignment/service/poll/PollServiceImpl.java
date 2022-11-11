@@ -15,6 +15,7 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.AnonymousVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.DeviceVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
+import no.hvl.dat250.jpa.assignment.service.dweet.DweetService;
 import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -36,15 +37,17 @@ public class PollServiceImpl implements PollService {
     private final UserVoteRepository userVoteRepository;
     private final DeviceVoteRepository deviceVoteRepository;
     private final AnonymousVoteRepository anonymousVoteRepository;
+    private final DweetService dweetService;
 
     @Autowired
-    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository) {
+    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository, DweetService dweetService) {
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
         this.userRepository = userRepository;
         this.userVoteRepository = userVoteRepository;
         this.deviceVoteRepository = deviceVoteRepository;
         this.anonymousVoteRepository = anonymousVoteRepository;
+        this.dweetService = dweetService;
         this.random = new SecureRandom(ByteBuffer.allocate(4).putInt(1337).array());
     }
 
@@ -191,6 +194,8 @@ public class PollServiceImpl implements PollService {
         p.setActiveStatusToFinished();
         p.setCode(0);
 
+        dweetService.pollFinished(p);
+
         return pollRepository.save(p);
     }
 
@@ -209,6 +214,8 @@ public class PollServiceImpl implements PollService {
             code = random.nextInt(1_000_000);
 
         p.setCode(code);
+
+        dweetService.pollOpened(p);
 
         return pollRepository.save(p);
     }
