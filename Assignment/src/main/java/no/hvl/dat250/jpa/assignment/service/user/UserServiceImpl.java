@@ -6,6 +6,7 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.web.formobject.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -53,15 +54,25 @@ public class UserServiceImpl implements UserService {
         updatedUser.setLastname(user.getLastname());
         updatedUser.setEmail(user.getEmail());
         updatedUser.setPassword(user.getPassword());
-        updatedUser.setRole(user.getRole());
+
+        return userRepository.save(updatedUser);
+    }
+
+    @Override
+    @Transactional
+    public User updateUser(String username, UserUpdateForm user) {
+        User updatedUser = userRepository.findById(username).orElseThrow();
+
+        updatedUser.setFirstname(user.getFirstname());
+        updatedUser.setLastname(user.getLastname());
+        updatedUser.setEmail(user.getEmail());
 
         return userRepository.save(updatedUser);
     }
 
     @Override
     public Set<Poll> getOwnedPollsFromUser(String username) {
-        User c = userRepository.findById(username).orElseThrow();
-        return c.getOwnedPolls();
+        return userRepository.findById(username).orElseThrow().getOwnedPolls();
     }
 
     @Override

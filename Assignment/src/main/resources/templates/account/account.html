@@ -16,7 +16,7 @@
     Account page for <span th:text="${user.username}"></span>
 </h3>
 <form th:object="${user}" th:action="@{/account}" th:method="put">
-
+    <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
     <label>
         Firstname:
         <input type="text" th:field="*{firstname}">

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<div th:replace="fragments/general :: header"></div>
+<table>
+    <tr>
+        <th>Poll name</th>
+        <th>Poll theme</th>
+        <th>Poll owner</th>
+        <th>Public or private</th>
+        <th>Active status</th>
+    </tr>
+    <tr th:each="poll : ${polls}">
+        <td th:text="${poll.getQuestion()}"></td>
+        <td th:text="${poll.getTheme()}"></td>
+        <td th:text="${poll.getOwner().username}"></td>
+        <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
+        <td th:text="${poll.getActiveStatus() }"></td>
+        <td>
+            <button th:onclick="|window.location.href='@{/admin/poll/{id}(id=${poll.getId()})}'|">Edit</button>
+        </td>
+    </tr>
+</table>
+</body>
+</html>

@@ -4,6 +4,7 @@ import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
+import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 
 import java.time.LocalDateTime;
 import java.util.List;
@@ -22,11 +23,14 @@ public interface PollService {
     Poll updateUserVote(boolean vote, String username, Long pollId);
 
     void createDeviceVote(UUID identifier, Long id);
+
     void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId);
 
-    Poll createAnonymousVote(Poll poll, boolean vote);
+    void createAnonymousVote(Poll poll, boolean vote);
 
     void updatePoll(Poll poll);
+
+    void updatePoll(Long id, PollCustomizeForm pcf);
 
     Poll closePoll(Long pollId);
 
@@ -35,6 +39,7 @@ public interface PollService {
     Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate);
 
     Poll createPoll(Poll poll);
+
 
     TimeLimitPoll createTimeLimitPoll(TimeLimitPoll poll);
 

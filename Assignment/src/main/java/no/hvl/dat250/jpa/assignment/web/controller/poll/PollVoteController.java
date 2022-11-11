@@ -19,10 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PollVoteController {
 
-    private PollService pollService;
-    private AuthenticationFacade authenticationFacade;
-    private UserService userService;
-    private VoteService voteService;
+    private final PollService pollService;
+    private final AuthenticationFacade authenticationFacade;
+    private final UserService userService;
+    private final VoteService voteService;
 
     @Autowired
     public PollVoteController(PollService pollService, AuthenticationFacade authenticationFacade, UserService userService, VoteService voteService) {

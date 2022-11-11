@@ -6,6 +6,8 @@ import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.io.Serializable;
@@ -31,12 +33,14 @@ public class UserVote implements Serializable {
     @JoinColumn(name = "client_username", referencedColumnName = "USERNAME", nullable = false, insertable = false, updatable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "username")
     @JsonIdentityReference(alwaysAsId = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private User user;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "poll_id", referencedColumnName = "ID", nullable = false, insertable = false, updatable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Poll poll;
 
     @NonNull
