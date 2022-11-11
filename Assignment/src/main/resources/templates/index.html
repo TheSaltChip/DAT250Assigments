@@ -6,32 +6,36 @@
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-        <title>Spring Security Example</title>
+        <title>Menu</title>
     </head>
     <body>
         <div th:replace="fragments/navbar :: navbar"></div>
 
-    <h1>Welcome!</h1>
+<div class="container h-100" style="width: 1250px;">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-6">
+        <h1 class="m-3 text-center">Welcome!</h1>
 
-<table>
-    <tr>
-        <th>Poll name</th>
-        <th>Poll theme</th>
-        <th>Poll owner</th>
-        <th>Public or private</th>
-    </tr>
-    <tr th:each="poll : ${polls}">
-        <td th:text="${poll.getQuestion()}"></td>
-        <td th:text="${poll.getTheme()}"></td>
-        <td th:text="${poll.getOwner().username}"></td>
-        <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
-        <td>
-            <button th:onclick="|window.location.href='@{/poll/{id}/vote(id=${poll.getId()})}'|">Visit</button>
-        </td>
-    </tr>
-</table>
-<div>
-
+            <table class="table">
+                <tr class="thread-light">
+                    <th scope="col">Poll name</th>
+                    <th scope="col">Poll theme</th>
+                    <th scope="col">Poll owner</th>
+                    <th scope="col">Public or private</th>
+                    <th scope="col"></th>
+                </tr>
+                <tr scope="row" th:each="poll : ${polls}">
+                    <td th:text="${poll.getQuestion()}"></td>
+                    <td th:text="${poll.getTheme()}"></td>
+                    <td th:text="${poll.getOwner().username}"></td>
+                    <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
+                    <td>
+                        <button class="btn btn-primary btn-block" th:onclick="|window.location.href='@{/poll/{id}/vote(id=${poll.getId()})}'|">Visit</button>
+                    </td>
+                </tr>
+            </table>
+        </div>
+    </div>
 </div>
 
 <p>Click <a th:href="@{/hello}">here</a> to see a greeting.</p>
