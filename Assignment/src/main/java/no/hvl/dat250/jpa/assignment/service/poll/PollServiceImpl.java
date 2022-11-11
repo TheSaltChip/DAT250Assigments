@@ -15,7 +15,7 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.AnonymousVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.DeviceVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
-import org.apache.derby.iapi.util.ByteArray;
+import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -145,7 +145,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll createAnonymousVote(Poll poll, boolean vote) {
+    public void createAnonymousVote(Poll poll, boolean vote) {
         AnonymousVote anonymousVote = new AnonymousVote(poll, vote);
 
         if (vote) {
@@ -155,7 +155,6 @@ public class PollServiceImpl implements PollService {
         }
 
         anonymousVoteRepository.save(anonymousVote);
-        return pollRepository.save(poll);
     }
 
     @Override
@@ -167,6 +166,17 @@ public class PollServiceImpl implements PollService {
         updatedPoll.setQuestion(poll.getQuestion());
         updatedPoll.setTheme(poll.getTheme());
         updatedPoll.setIsPrivate(poll.getIsPrivate());
+
+        pollRepository.save(updatedPoll);
+    }
+
+    @Override
+    public void updatePoll(Long id, PollCustomizeForm pcf) {
+        Poll updatedPoll = pollRepository.findById(id).orElseThrow();
+
+        updatedPoll.setQuestion(pcf.getQuestion());
+        updatedPoll.setTheme(pcf.getTheme());
+        updatedPoll.setIsPrivate(pcf.getIsPrivate());
 
         pollRepository.save(updatedPoll);
     }
