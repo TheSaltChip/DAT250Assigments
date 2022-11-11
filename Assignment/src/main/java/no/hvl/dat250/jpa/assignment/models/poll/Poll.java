@@ -94,13 +94,11 @@ public class Poll {
     public void incNoVotes() {
         this.noVotes++;
     }
-
-    public void addNoVotes(int amount) {
-        this.noVotes += amount;
-    }
-
-    public void addYesVotes(int amount) {
+    public void addYesVotes(int amount){
         this.yesVotes += amount;
+    }
+    public void addNoVotes(int amount){
+        this.noVotes += amount;
     }
 
     @Override

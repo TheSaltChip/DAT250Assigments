@@ -5,6 +5,7 @@ import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
 import no.hvl.dat250.jpa.assignment.models.vote.DeviceVote;
 import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
 import no.hvl.dat250.jpa.assignment.models.vote.UserVoteId;
@@ -143,8 +144,17 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll updateAnonymousVote(int yes, int no) {
-        return null;
+    public Poll createAnonymousVote(Poll poll, boolean vote) {
+        AnonymousVote anonymousVote = new AnonymousVote(poll, vote);
+
+        if (vote) {
+            poll.incYesVotes();
+        } else {
+            poll.incNoVotes();
+        }
+
+        anonymousVoteRepository.save(anonymousVote);
+        return pollRepository.save(poll);
     }
 
     @Override

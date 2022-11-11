@@ -32,6 +32,15 @@ public class AnonymousVote {
     protected AnonymousVote() {
     }
 
+    public AnonymousVote(Poll poll, boolean vote){
+        this.poll = poll;
+        if(vote){
+            yesVotes ++;
+        }else {
+            noVotes ++;
+        }
+    }
+
     @Override
     public String toString() {
         return "AnonymousVote{" +
