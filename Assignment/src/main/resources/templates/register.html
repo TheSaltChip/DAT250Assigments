@@ -52,7 +52,7 @@
                     <div class="alert alert-warning" th:each="error : ${#fields.errors('password')}"
                            th:text="${error}">Validation error</div>
                 </div>
-                <div>
+                <div class="d-flex justify-content-between">
                     <button type="submit" class="btn btn-primary btn-block">Sign up</button>
                     <button name="loginLink" class="btn btn-primary btn-block" th:href="@{/login}">Back to login</button>
                 </div>
