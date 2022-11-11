@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.util.UUID;
@@ -25,6 +27,7 @@ public class DeviceVote {
     @JoinColumn(name = "poll_id", referencedColumnName = "ID", nullable = false)
     @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "id")
     @JsonIdentityReference(alwaysAsId = true)
+    @OnDelete(action = OnDeleteAction.CASCADE)
     private Poll poll;
 
     @NonNull
