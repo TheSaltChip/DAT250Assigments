@@ -1,9 +1,8 @@
 package no.hvl.dat250.jpa.assignment.web.controller.poll;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.authenticationfacade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.User;
-import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import no.hvl.dat250.jpa.assignment.service.vote.VoteService;
@@ -20,10 +19,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 @Controller
 public class PollVoteController {
 
-    private PollService pollService;
-    private AuthenticationFacade authenticationFacade;
-    private UserService userService;
-    private VoteService voteService;
+    private final PollService pollService;
+    private final AuthenticationFacade authenticationFacade;
+    private final UserService userService;
+    private final VoteService voteService;
 
     @Autowired
     public PollVoteController(PollService pollService, AuthenticationFacade authenticationFacade, UserService userService, VoteService voteService) {

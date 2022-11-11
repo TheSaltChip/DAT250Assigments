@@ -17,6 +17,7 @@ import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.Random;
+import java.util.UUID;
 
 @Component
 public class DummyData {
@@ -65,7 +66,6 @@ public class DummyData {
             pollService.openPoll(i);
         }
 
-
         User[] users = userRepository.findAll().toArray(User[]::new);
         Poll[] polls = pollService.findAllOpenPolls().toArray(Poll[]::new);
 
@@ -78,7 +78,14 @@ public class DummyData {
             n = r.nextInt(2);
             User u = users[r.nextInt(un)];
             Poll p = polls[r.nextInt(pn)];
-            pollService.updateUserVote(n == 0, u.getUsername(),p.getId());
+            pollService.updateUserVote(n == 0, u.getUsername(), p.getId());
+
+            UUID uuid = UUID.randomUUID();
+
+            pollService.createDeviceVote(uuid, p.getId());
+            pollService.updateDeviceVote(uuid, r.nextInt(20), r.nextInt(20), p.getId());
+
+            pollService.createAnonymousVote(p, r.nextBoolean());
         }
     }
 }

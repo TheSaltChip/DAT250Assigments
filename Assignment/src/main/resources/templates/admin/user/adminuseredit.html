@@ -1,15 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Account</title>
+    <title>Title</title>
 </head>
 <body>
-<h3>
-    Account page for <span th:text="${user.username}"></span>
-</h3>
-<form th:object="${user}" th:action="@{/account}" th:method="put">
+<form th:object="${user}" th:action="@{/admin/user/{id}(id=${user.username})}" th:method="put">
     <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
     <label>
         Firstname:
@@ -25,6 +21,9 @@
     </label>
 
     <button th:type="submit">Update</button>
+</form>
+<form th:action="@{/admin/user/{id}(id=${user.username})}" th:method="delete">
+    <button type="submit">Delete</button>
 </form>
 </body>
 </html>
