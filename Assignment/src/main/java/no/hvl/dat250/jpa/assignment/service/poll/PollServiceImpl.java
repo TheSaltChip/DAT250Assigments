@@ -171,6 +171,7 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
+    @Transactional
     public void updatePoll(Long id, PollCustomizeForm pcf) {
         Poll updatedPoll = pollRepository.findById(id).orElseThrow();
 
