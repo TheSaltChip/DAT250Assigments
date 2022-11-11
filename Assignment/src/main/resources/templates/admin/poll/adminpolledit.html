@@ -2,58 +2,72 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Manage Poll</title>
 </head>
 <body>
-<form th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="put" th:object="${poll}">
-    <label>
-        Question
-        <input type="text" th:field="*{question}"
-               th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}">
-    </label>
-    <label>
-        Theme
-        <input type="text" th:field="*{theme}"
-               th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}">
-    </label>
-    <label>
-        Private poll:
-        <input type="checkbox" th:field="*{isPrivate}">
-    </label>
-    <div th:switch="${poll.getActiveStatus}">
-        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}" name="activeStatus">
-            <option th:field="*{activeStatus}"
-                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
-                Closed
-            </option>
-            <option th:field="*{activeStatus}"
-                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
-                Open poll
-            </option>
-        </select>
+<div th:replace="fragments/navbar"></div>
 
-        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}" name="activeStatus">
-            <option th:field="*{activeStatus}"
-                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
-                Opened
-            </option>
-            <option th:field="*{activeStatus}"
-                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-                Finish poll
-            </option>
-        </select>
+    <div class="container h-100" style="width: 750px;">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
 
-        <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-            <input type="hidden" th:field="*{activeStatus}"
-                   th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-            <p>Poll is finished</p>
+                <form class="m-4 form" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="put" th:object="${poll}">
+
+                    <h2 class="m-3 text-center">Manage [[${poll.question}]]</h2>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="question" type="text" id="question" th:field="*{question}"
+                               placeholder="Question" th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}"/>
+                        <label for="question">Question</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}"
+                               placeholder="Theme" th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}"/>
+                        <label for="theme">Theme</label>
+                    </div>
+                    <label class="text-center mb-3">
+                        Private poll:
+                        <input type="checkbox" th:field="*{isPrivate}">
+                    </label>
+
+                    <div th:switch="${poll.getActiveStatus}">
+                        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}" name="activeStatus">
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
+                                Closed
+                            </option>
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                                Open poll
+                            </option>
+                        </select>
+
+                        <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}" name="activeStatus">
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                                Opened
+                            </option>
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+                                Finish poll
+                            </option>
+                        </select>
+
+                        <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+                            <input type="hidden" th:field="*{activeStatus}"
+                                   th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+                            <p>Poll is finished</p>
+                        </div>
+                    </div>
+
+                    <span class="mb-3" th:if="${!poll.code.equals(0)}" th:field="*{code}" th:text="'Code: ' + *{code}"></span>
+                    <button class="btn btn-primary btn-block w-100" type="submit">Update</button>
+                </form>
+                <form class="m-4" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="delete">
+                    <button class="btn btn-danger btn-block w-100" type="submit">Delete</button>
+                </form>
+            </div>
         </div>
     </div>
-    <span th:if="${!poll.code.equals(0)}" th:field="*{code}" th:text="'Code: ' + *{code}"></span>
-    <button type="submit">Update</button>
-</form>
-<form th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="delete">
-    <button type="submit">Delete</button>
-</form>
 </body>
 </html>
