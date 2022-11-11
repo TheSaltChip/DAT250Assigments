@@ -19,7 +19,7 @@
         <td th:text="${poll.getOwner().username}"></td>
         <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
         <td>
-            <button th:onclick="|window.location.href='@{/poll/vote/{id}(id=${poll.getId()})}'|">Visit</button>
+            <button th:onclick="|window.location.href='@{/poll/{id}/vote(id=${poll.getId()})}'|">Visit</button>
         </td>
     </tr>
 </table>
