@@ -41,4 +41,15 @@ public class AccountController {
         return "account/login";
     }
 
+    @PutMapping(value = "/account")
+    public String editUser(UserUpdateForm uuf) {
+        Authentication authentication = authenticationFacade.getAuthentication();
+
+        String currentUserName = authentication.getName();
+
+        userService.updateUser(currentUserName, uuf);
+
+        return "redirect:/account";
+    }
+
 }
