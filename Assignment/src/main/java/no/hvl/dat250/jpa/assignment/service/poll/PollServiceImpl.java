@@ -1,5 +1,7 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
+import no.hvl.dat250.jpa.assignment.dynamodb.model.PollAnalytic;
+import no.hvl.dat250.jpa.assignment.dynamodb.reposistory.PollAnalyticRepository;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
@@ -36,15 +38,17 @@ public class PollServiceImpl implements PollService {
     private final UserVoteRepository userVoteRepository;
     private final DeviceVoteRepository deviceVoteRepository;
     private final AnonymousVoteRepository anonymousVoteRepository;
+    private final PollAnalyticRepository pollAnalyticRepository;
 
     @Autowired
-    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository) {
+    public PollServiceImpl(PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository, PollAnalyticRepository pollAnalyticRepository) {
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
         this.userRepository = userRepository;
         this.userVoteRepository = userVoteRepository;
         this.deviceVoteRepository = deviceVoteRepository;
         this.anonymousVoteRepository = anonymousVoteRepository;
+        this.pollAnalyticRepository = pollAnalyticRepository;
         this.random = new SecureRandom(ByteBuffer.allocate(4).putInt(1337).array());
     }
 
@@ -190,6 +194,23 @@ public class PollServiceImpl implements PollService {
 
         p.setActiveStatusToFinished();
         p.setCode(0);
+
+        // Find by poll id
+        List<DeviceVote> dv = deviceVoteRepository.findAllByPoll_Id(pollId);
+
+        List<UserVote> uv = userVoteRepository.findAllByPoll_Id(pollId);
+
+        List<AnonymousVote> av = anonymousVoteRepository.findAllByPoll_Id(pollId);
+
+        PollAnalytic pa = new PollAnalytic(
+                p.getQuestion(), p.getTheme(),
+                p.getOwner().getUsername(),
+                p.getYesVotes(), p.getNoVotes(),
+                dv.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0),
+                uv.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0),
+                av.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0));
+
+        pollAnalyticRepository.savePollAnalytic(pa);
 
         return pollRepository.save(p);
     }
