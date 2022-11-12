@@ -8,7 +8,7 @@
 
 <nav class="navbar navbar-expand-lg navbar-light bg-light d-flex p-2" th:fragment="navbar" xmlns:th=""
      xmlns:sec="http://www.w3.org/1999/xhtml">
-    <a class="navbar-brand" href="#">Navigation</a>
+    <a class="navbar-brand user-select-none">Navigation</a>
 
     <div sec:authorize="isAnonymous()" class="collapse navbar-collapse">
         <ul class="navbar-nav mr-auto">
@@ -29,14 +29,17 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Main Menu</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/account/polls}">My Polls</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/poll/create}">Create Poll</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/account}">Profile</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Account
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <a class="dropdown-item" th:href="@{/account}">Manage Account</a>
+                    <a class="dropdown-item" th:href="@{/account/polls}">My Polls</a>
+                </div>
             </li>
         </ul>
         <div class="nav-item ms-auto">
@@ -49,20 +52,17 @@
             <li class="nav-item active">
                 <a class="nav-link" th:href="@{/}">Main Menu</a>
             </li>
-            <li class="nav-item active">
-                <a class="nav-link" th:href="@{/account/polls}">My Polls</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/poll/create}">Create Poll</a>
-            </li>
             <li class="nav-item">
                 <a class="nav-link" th:href="@{/account}">Profile</a>
             </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/users}">Manage Users</a>
-            </li>
-            <li class="nav-item">
-                <a class="nav-link" th:href="@{/admin/polls}">Manage Polls</a>
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    Admin
+                </a>
+                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                <a class="dropdown-item" th:href="@{/admin/users}">Manage Users</a>
+                <a class="dropdown-item" th:href="@{/admin/polls}">Manage Polls</a>
+                </div>
             </li>
         </ul>
         <div class="nav-item ms-auto">
