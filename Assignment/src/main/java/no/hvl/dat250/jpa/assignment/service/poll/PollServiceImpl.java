@@ -18,6 +18,7 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.AnonymousVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.DeviceVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
+import no.hvl.dat250.jpa.assignment.service.dweet.DweetService;
 import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -52,6 +53,7 @@ public class PollServiceImpl implements PollService {
         this.deviceVoteRepository = deviceVoteRepository;
         this.anonymousVoteRepository = anonymousVoteRepository;
         this.pollAnalyticRepository = pollAnalyticRepository;
+        this.dweetService = dweetService;
         this.random = new SecureRandom(ByteBuffer.allocate(4).putInt(1337).array());
     }
 
@@ -215,6 +217,8 @@ public class PollServiceImpl implements PollService {
                 av.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0));
 
         pollAnalyticRepository.savePollAnalytic(pa);
+        
+        dweetService.pollFinished(p);
 
         return pollRepository.save(p);
     }
@@ -234,6 +238,8 @@ public class PollServiceImpl implements PollService {
             code = random.nextInt(1_000_000);
 
         p.setCode(code);
+
+        dweetService.pollOpened(p);
 
         return pollRepository.save(p);
     }
