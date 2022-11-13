@@ -1,5 +1,6 @@
 package no.hvl.dat250.jpa.assignment.service.user;
 
+import no.hvl.dat250.jpa.assignment.web.controller.registration.UserData;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
@@ -33,4 +34,6 @@ public interface UserService {
     User changeRoleOfUser(String username, String role);
 
     Role getRoleOfUser(String username);
+
+    User registerNewUser(UserData userData) throws Exception;
 }

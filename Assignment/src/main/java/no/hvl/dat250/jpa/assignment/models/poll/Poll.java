@@ -11,6 +11,7 @@ import org.hibernate.annotations.Generated;
 import org.hibernate.annotations.GenerationTime;
 import org.hibernate.annotations.GeneratorType;
 import org.hibernate.annotations.GenericGenerator;
+import org.springframework.http.codec.json.Jackson2JsonEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
@@ -99,6 +100,14 @@ public class Poll {
     }
     public void addNoVotes(int amount){
         this.noVotes += amount;
+    }
+
+    public String convertToMessagePayload() {
+        return "{pollId=" + id +
+                ", question='" + question + '\'' +
+                ", theme='" + theme + '\'' +
+                ", noVotes=" + noVotes +
+                ", yesVotes=" + yesVotes + "}";
     }
 
     @Override

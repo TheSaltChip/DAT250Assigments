@@ -1,15 +1,19 @@
 package no.hvl.dat250.jpa.assignment.service.user;
 
+import lombok.NonNull;
+import no.hvl.dat250.jpa.assignment.web.controller.registration.UserData;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.web.formobject.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -104,5 +108,21 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findById(username).orElseThrow();
 
         return user.getRole();
+    }
+
+    @Override
+    @Transactional
+    public User registerNewUser(@NonNull UserData userData) throws Exception {
+        if (existingUserCheck(userData.getUsername())) {
+            throw new Exception("Account with this username already exists");
+        }
+
+        User user = userData.createUser();
+
+        return userRepository.save(user);
+    }
+
+    public boolean existingUserCheck(String username) {
+       return userRepository.existsUsersByUsername(username);
     }
 }

@@ -2,28 +2,40 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Manage User</title>
 </head>
 <body>
-<form th:object="${user}" th:action="@{/admin/user/{id}(id=${user.username})}" th:method="put">
-    <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
-    <label>
-        Firstname:
-        <input type="text" th:field="*{firstname}">
-    </label>
-    <label>
-        Lastname:
-        <input type="text" th:field="*{lastname}">
-    </label>
-    <label>
-        Email:
-        <input type="text" th:field="*{email}">
-    </label>
+<div th:replace="fragments/navbar"></div>
 
-    <button th:type="submit">Update</button>
-</form>
-<form th:action="@{/admin/user/{id}(id=${user.username})}" th:method="delete">
-    <button type="submit">Delete</button>
-</form>
+    <div class="container h-100" style="width: 750px;">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+
+                <form class="m-4 form" th:object="${user}" th:action="@{/admin/user/{id}(id=${user.username})}" th:method="put">
+                    <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
+
+                    <h2 class="m-3 text-center">Manage [[${username}]]</h2>
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="firstname" type="text" id="firstname" th:field="*{firstname}" placeholder="First name"/>
+                        <label for="firstname">First name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="lastname" type="text" id="lastname" th:field="*{lastname}" placeholder="Last name"/>
+                        <label for="lastname">Last name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="email" type="text" id="email" th:field="*{email}" placeholder="Email"/>
+                        <label for="email">Email</label>
+                    </div>
+
+                    <button th:type="submit" class="btn btn-primary btn-block w-100" >Update</button>
+                </form>
+                <form class="m-4 form text-center" th:action="@{/admin/user/{id}(id=${user.username})}" th:method="delete">
+                    <button type="submit" class="btn btn-danger btn-block w-100">Delete</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

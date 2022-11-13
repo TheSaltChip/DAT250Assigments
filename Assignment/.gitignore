@@ -1,6 +1,4 @@
 # Database shit
-/db/
-/derby.log
 DatasourceCredentials.java
 
 # Covers JetBrains IDEs: IntelliJ, RubyMine, PhpStorm, AppCode, PyCharm, CLion, Android Studio, WebStorm and Rider

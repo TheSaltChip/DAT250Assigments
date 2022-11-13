@@ -2,29 +2,38 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <title>Account</title>
 </head>
 <body>
-<h3>
-    Account page for <span th:text="${user.username}"></span>
-</h3>
-<form th:object="${user}" th:action="@{/account}" th:method="put">
-    <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
-    <label>
-        Firstname:
-        <input type="text" th:field="*{firstname}">
-    </label>
-    <label>
-        Lastname:
-        <input type="text" th:field="*{lastname}">
-    </label>
-    <label>
-        Email:
-        <input type="text" th:field="*{email}">
-    </label>
+<div th:replace="fragments/navbar"></div>
 
-    <button th:type="submit">Update</button>
-</form>
+    <div class="container h-100" style="width: 750px;">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+
+                <h3 class="m-3 text-center">Account page for <span th:text="${user.username}"></span></h3>
+
+                <form class="m-4 form" th:object="${user}" th:action="@{/account}" th:method="put">
+                    <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="firstname" type="text" id="firstname" th:field="*{firstname}" placeholder="First name"/>
+                        <label for="firstname">First name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="lastname" type="text" id="lastname" th:field="*{lastname}" placeholder="Last name"/>
+                        <label for="lastname">Last name</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="email" type="text" id="email" th:field="*{email}" placeholder="Email"/>
+                        <label for="email">Email</label>
+                    </div>
+
+                    <button class="btn btn-primary btn-block w-100" th:type="submit">Update</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>

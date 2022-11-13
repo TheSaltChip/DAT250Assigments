@@ -2,26 +2,34 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
-    <title>Title</title>
+    <title>Manage Users</title>
 </head>
 <body>
-<div th:replace="fragments/general :: header"></div>
-<table>
-    <tr>
-        <th>Username</th>
-        <th>Firstname</th>
-        <th>Lastname</th>
-        <th>Email</th>
-    </tr>
-    <tr th:each="user : ${users}">
-        <td th:text="*{user.username}"></td>
-        <td th:text="${user.firstname}"></td>
-        <td th:text="${user.lastname}"></td>
-        <td th:text="${user.email}"></td>
-        <td>
-            <button th:onclick="|window.location.href='@{/admin/user/{id}(id=${user.getUsername()})}'|">Edit</button>
-        </td>
-    </tr>
-</table>
+<div th:replace="fragments/navbar"></div>
+
+<div class="container h-100" style="width: 1500px;">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-6">
+
+            <h2 class="m-4 text-center">Manage Users</h2>
+
+            <table class="table">
+                <tr class="thread-light">
+                    <th scope="col">Username</th>
+                    <th scope="col">First name</th>
+                    <th scope="col">Last name</th>
+                    <th scope="col">Email</th>
+                    <th></th>
+                </tr>
+                <tr scope="row" th:each="user : ${users}">
+                    <td th:text="*{user.username}"></td>
+                    <td th:text="${user.firstname}"></td>
+                    <td th:text="${user.lastname}"></td>
+                    <td th:text="${user.email}"></td>
+                    <td>
+                        <button class="btn btn-primary btn-block" th:onclick="|window.location.href='@{/admin/user/{id}(id=${user.getUsername()})}'|">Edit</button>
+                    </td>
+                </tr>
+            </table>
 </body>
 </html>

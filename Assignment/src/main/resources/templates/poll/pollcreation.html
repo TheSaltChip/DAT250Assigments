@@ -6,11 +6,36 @@
     <title>Create poll</title>
 </head>
 <body>
-    <form action="#" th:object="${pollCreateForm}" th:action="@{/poll/create}" method="post">
-        <input type="text" th:field="*{question}"/>
-        <input type="text" th:field="*{theme}"/>
-        <input type="checkbox" th:field="*{isPrivate}"/>
-        <button type="submit">Create poll</button>
-    </form>
+<div th:replace="fragments/navbar"></div>
+
+    <div class="container h-100" style="width: 750px;">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-10 col-md-8 col-lg-6">
+
+                <h2 class="m-3 text-center">Create a New Poll</h2>
+
+                <form class="m-4 form" th:object="${pollCreateForm}" th:action="@{/poll/create}" method="post">
+
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="question" type="text" id="question" th:field="*{question}"
+                               placeholder="Question"/>
+                        <label for="question">Question?</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}"
+                               placeholder="Theme"/>
+                        <label for="theme">Theme of your Poll?</label>
+                    </div>
+                        <div class="mb-3">
+                            <label>Private poll:
+                                <input type="checkbox" th:field="*{isPrivate}">
+                            </label>
+                        </div>
+
+                    <button class="btn btn-primary btn-block w-100" type="submit">Create poll</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </body>
 </html>
