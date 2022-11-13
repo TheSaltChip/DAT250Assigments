@@ -6,6 +6,7 @@ import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.models.vote.AnonymousVote;
 import no.hvl.dat250.jpa.assignment.models.vote.DeviceVote;
 import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
 import no.hvl.dat250.jpa.assignment.models.vote.UserVoteId;
@@ -15,6 +16,7 @@ import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.AnonymousVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.DeviceVoteRepository;
 import no.hvl.dat250.jpa.assignment.repository.vote.UserVoteRepository;
+import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -146,8 +148,16 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll updateAnonymousVote(int yes, int no) {
-        return null;
+    public void createAnonymousVote(Poll poll, boolean vote) {
+        AnonymousVote anonymousVote = new AnonymousVote(poll, vote);
+
+        if (vote) {
+            poll.incYesVotes();
+        } else {
+            poll.incNoVotes();
+        }
+
+        anonymousVoteRepository.save(anonymousVote);
     }
 
     @Override
@@ -158,6 +168,18 @@ public class PollServiceImpl implements PollService {
         updatedPoll.setQuestion(poll.getQuestion());
         updatedPoll.setTheme(poll.getTheme());
         updatedPoll.setIsPrivate(poll.getIsPrivate());
+
+        pollRepository.save(updatedPoll);
+    }
+
+    @Override
+    @Transactional
+    public void updatePoll(Long id, PollCustomizeForm pcf) {
+        Poll updatedPoll = pollRepository.findById(id).orElseThrow();
+
+        updatedPoll.setQuestion(pcf.getQuestion());
+        updatedPoll.setTheme(pcf.getTheme());
+        updatedPoll.setIsPrivate(pcf.getIsPrivate());
 
         pollRepository.save(updatedPoll);
     }

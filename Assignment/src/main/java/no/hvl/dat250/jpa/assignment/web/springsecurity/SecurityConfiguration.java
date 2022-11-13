@@ -33,7 +33,7 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
-                        .antMatchers("/", "/css/**", "/account/register", "/poll/{id}/result").permitAll()
+                        .antMatchers("/", "/css/**", "/account/register", "/poll/{id}/result", "/poll/{id}/vote").permitAll()
                         .antMatchers("/api/**").permitAll()
                         .antMatchers("/admin/**").hasRole(Role.Admin.toString())
                         .anyRequest().authenticated()

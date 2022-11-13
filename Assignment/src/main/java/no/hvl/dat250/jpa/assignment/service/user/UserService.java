@@ -3,6 +3,7 @@ package no.hvl.dat250.jpa.assignment.service.user;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.web.formobject.UserUpdateForm;
 
 import java.util.List;
 import java.util.Set;
@@ -20,6 +21,8 @@ public interface UserService {
     User saveUser(User user);
 
     User updateUser(String username, User user);
+
+    User updateUser(String username, UserUpdateForm user);
 
     Set<Poll> getOwnedPollsFromUser(String username);
 

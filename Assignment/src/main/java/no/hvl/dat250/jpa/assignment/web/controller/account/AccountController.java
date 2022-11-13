@@ -1,14 +1,16 @@
 package no.hvl.dat250.jpa.assignment.web.controller.account;
 
-import no.hvl.dat250.jpa.assignment.authentication.facade.AuthenticationFacade;
+import no.hvl.dat250.jpa.assignment.authenticationfacade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
+import no.hvl.dat250.jpa.assignment.web.formobject.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 
 @Controller
 public class AccountController {
@@ -29,9 +31,9 @@ public class AccountController {
 
             User user = userService.getUserByUsername(currentUserName);
 
-            System.out.println(user);
+            UserUpdateForm uuf = new UserUpdateForm(user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail());
 
-            model.addAttribute("user", user);
+            model.addAttribute("user", uuf);
 
             return "account/account";
         }
@@ -39,8 +41,17 @@ public class AccountController {
         return "account/login";
     }
 
-    @GetMapping(value="/account/register")
-    public String registerPage(Model model){
+    @PutMapping(value = "/account")
+    public String updateUserValues(UserUpdateForm uuf) {
+        Authentication authentication = authenticationFacade.getAuthentication();
+
+        userService.updateUser(authentication.getName(), uuf);
+
+        return "redirect:/account";
+    }
+
+    @GetMapping(value = "/account/register")
+    public String registerPage(Model model) {
 
         return "account/register";
     }
