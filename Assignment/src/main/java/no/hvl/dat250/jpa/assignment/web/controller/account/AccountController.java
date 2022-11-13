@@ -42,17 +42,14 @@ public class AccountController {
     }
 
     @PutMapping(value = "/account")
-    public String updateUserValues(UserUpdateForm uuf) {
+    public String editUser(UserUpdateForm uuf) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
-        userService.updateUser(authentication.getName(), uuf);
+        String currentUserName = authentication.getName();
+
+        userService.updateUser(currentUserName, uuf);
 
         return "redirect:/account";
     }
 
-    @GetMapping(value = "/account/register")
-    public String registerPage(Model model) {
-
-        return "account/register";
-    }
 }
