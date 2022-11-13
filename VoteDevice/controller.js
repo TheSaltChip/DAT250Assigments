@@ -23,7 +23,7 @@ connectButton.onclick = async function () {
     const code = encodeURIComponent(pollCodeInp.value);
     if (code.length === 0) return;
 
-    const resp = await fetch(`http://localhost:8080/api/poll/connect/${code}`);
+    const resp = await fetch(`https://localhost:8443/api/poll/connect/${code}`);
 
     if (!resp.ok) {
         divPoll.hidden = true;
@@ -42,7 +42,7 @@ connectButton.onclick = async function () {
 }
 
 function sendVotes() {
-    fetch("http://localhost:8080/api/poll/vote/device", {
+    fetch("https://localhost:8443/api/poll/vote/device", {
         method: "POST",
         headers:{'Content-Type': 'application/json'},
         body: JSON.stringify({
