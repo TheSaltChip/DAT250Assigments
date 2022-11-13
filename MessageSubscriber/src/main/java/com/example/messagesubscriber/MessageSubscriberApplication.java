@@ -44,7 +44,9 @@ public class MessageSubscriberApplication implements CommandLineRunner {
         System.out.println("Connected successfully");
 
         client.subscribeWith()
-                .topicFilter("/Theme2")
+                .topicFilter("/Kids")
+                .topicFilter("/Tricky")
+                .topicFilter("/Work")
                 .send();
 
         // set a callback that is called when a message is received (using the async API style)
