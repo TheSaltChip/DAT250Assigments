@@ -1,6 +1,9 @@
 package no.hvl.dat250.jpa.assignment.dummydata;
 
 
+import no.hvl.dat250.jpa.assignment.dummydata.questions.Kids;
+import no.hvl.dat250.jpa.assignment.dummydata.questions.Tricky;
+import no.hvl.dat250.jpa.assignment.dummydata.questions.Work;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
@@ -15,9 +18,10 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
-import java.util.List;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.IntSupplier;
+import java.util.stream.Collectors;
+import java.util.stream.IntStream;
 
 @Component
 public class DummyData {
@@ -39,11 +43,17 @@ public class DummyData {
         admin.setLastname("adminsen");
         admin.setEmail("admin@admin.com");
 
+        var kids = Kids.list();
+        var work = Work.list();
+        var tricky = Tricky.list();
+
         userRepository.save(admin);
 
         Random r = new Random(1337);
 
         int pollN = 0;
+
+        String question, theme;
 
         for (int i = 0; i < 14; i++) {
             User c = new User(String.format("user%d", i), enc.encode(("" + i)), Role.Regular);
@@ -51,8 +61,27 @@ public class DummyData {
             userRepository.save(c);
 
             for (int j = 0; j < 5; j++) {
-                Poll p = new Poll("Poll" + pollN++, "Theme" + r.nextInt(5), r.nextBoolean(), c);
-                int k = r.nextInt(3);
+                question = "";
+
+                do {
+                    switch (r.nextInt(3)) {
+                        case 0:
+                            question = kids.size() != 0 ? kids.remove(r.nextInt(kids.size())) : "";
+                            theme = "Kids";
+                            break;
+                        case 1:
+                            question = work.size() != 0 ? work.remove(r.nextInt(work.size())) : "";
+                            theme = "Work";
+                            break;
+                        default:
+                            question = tricky.size() != 0 ? tricky.remove(r.nextInt(tricky.size())) : "";
+                            theme = "Tricky";
+
+                    }
+                } while (question.isEmpty());
+
+                Poll p = new Poll(question, theme, r.nextBoolean(), c);
+                int k = r.nextInt(6);
 
                 if (k == 0) {
                     p.setActiveStatusToFinished();
@@ -62,7 +91,7 @@ public class DummyData {
             }
         }
 
-        for (long i = 1; i < 20; i++) {
+        for (long i = 1; i < 40; i++) {
             pollService.openPoll(i);
         }
 
