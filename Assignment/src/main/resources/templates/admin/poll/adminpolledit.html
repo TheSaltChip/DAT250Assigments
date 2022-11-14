@@ -13,15 +13,16 @@
 
                 <form class="m-4 form" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="put" th:object="${poll}">
 
-                    <h2 class="m-3 text-center">Manage [[${poll.question}]]</h2>
+                    <h2 class="m-3 text-center">Manage Poll</h2>
 
                     <div class="form-floating mb-3">
-                        <input class="form-control" name="question" type="text" id="question" th:field="*{question}"
-                               placeholder="Question" th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}"/>
+                        <textarea class="form-control" name="question" type="text" id="question" th:field="*{question}"
+                                  placeholder="Question" th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}"
+                                  maxlength="254" style="height: 140px; resize: none;"></textarea>
                         <label for="question">Question</label>
                     </div>
                     <div class="form-floating mb-3">
-                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}"
+                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}" maxlength="20"
                                placeholder="Theme" th:readonly="${poll.getActiveStatus().toString() == 'FINISHED'}"/>
                         <label for="theme">Theme</label>
                     </div>

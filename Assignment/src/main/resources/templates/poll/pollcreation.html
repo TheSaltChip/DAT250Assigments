@@ -4,11 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <title>Create poll</title>
-    <style type="text/css">
-        .textarea {
-            resize: none;
-        }
-    </style>
+    <link href=C:\Users\oyste\OneDrive\Github\Dat250\DAT250Assigments\Assignment\src\main\resources\static\css\custom.css rel="stylesheet">
+
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
@@ -23,7 +20,7 @@
 
                     <div class="form-floating mb-3">
                         <textarea class="form-control" name="question" id="question" th:field="*{question}"
-                                  placeholder="Question" maxlength="100" style="height: 140px;" resize="none;"></textarea>
+                                  placeholder="Question" maxlength="254" style="height: 140px; resize: none;"></textarea>
                         <label for="question">Question?</label>
                     </div>
                     <div class="form-floating mb-3">
