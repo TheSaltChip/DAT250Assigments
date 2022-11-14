@@ -29,10 +29,10 @@ public class PollsByAccountController {
     }
 
     @GetMapping(value = "account/polls")
-    public String showPolls(Model model){
+    public String showPolls(Model model) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
         }
 

@@ -12,7 +12,7 @@ public class DevicePoll {
     private String theme;
     private UUID identifier;
 
-    public DevicePoll(Poll poll){
+    public DevicePoll(Poll poll) {
         pollId = poll.getId();
         question = poll.getQuestion();
         theme = poll.getTheme();

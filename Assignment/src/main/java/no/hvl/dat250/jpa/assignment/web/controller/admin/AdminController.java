@@ -1,15 +1,12 @@
 package no.hvl.dat250.jpa.assignment.web.controller.admin;
 
-import no.hvl.dat250.jpa.assignment.authenticationfacade.AuthenticationFacade;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
-import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import no.hvl.dat250.jpa.assignment.web.formobject.PollCustomizeForm;
 import no.hvl.dat250.jpa.assignment.web.formobject.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -19,19 +16,18 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 
-import static no.hvl.dat250.jpa.assignment.models.poll.PollStatus.*;
+import static no.hvl.dat250.jpa.assignment.models.poll.PollStatus.CLOSED;
+import static no.hvl.dat250.jpa.assignment.models.poll.PollStatus.OPEN;
 
 @Controller
 public class AdminController {
     private final UserService userService;
     private final PollService pollService;
-    private final AuthenticationFacade authenticationFacade;
 
     @Autowired
-    public AdminController(UserService userService, PollService pollService, AuthenticationFacade authenticationFacade) {
+    public AdminController(UserService userService, PollService pollService) {
         this.userService = userService;
         this.pollService = pollService;
-        this.authenticationFacade = authenticationFacade;
     }
 
     @GetMapping(value = "/admin/users")
@@ -92,7 +88,6 @@ public class AdminController {
 
     @PutMapping(value = "/admin/poll/{id}")
     public String editPoll(@PathVariable Long id, PollCustomizeForm pcf) {
-        System.out.println("put");
         Poll poll = pollService.findById(id);
 
         switch (poll.getActiveStatus()) {
@@ -126,7 +121,6 @@ public class AdminController {
 
     @DeleteMapping(value = "/admin/poll/{id}")
     public String deletePoll(@PathVariable Long id) {
-        System.out.println("delete");
         pollService.deletePoll(id);
 
         return "redirect:/admin/polls";
