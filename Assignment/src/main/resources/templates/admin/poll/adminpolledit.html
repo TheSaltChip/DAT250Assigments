@@ -27,6 +27,12 @@
                         <label for="theme">Theme</label>
                     </div>
 
+                <div class="d-flex justify-content-between mb-3">
+                    <div>
+                        <label>Private poll:
+                            <input type="checkbox" th:field="*{isPrivate}">
+                        </label>
+                    </div>
                     <div th:switch="${poll.getActiveStatus}">
                         <select class="form-select"
                                 name="activeStatus"
