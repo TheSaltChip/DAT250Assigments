@@ -1,8 +1,6 @@
 package no.hvl.dat250.jpa.assignment.models.vote;
 
 import lombok.Data;
-import no.hvl.dat250.jpa.assignment.models.poll.Poll;
-import no.hvl.dat250.jpa.assignment.models.user.User;
 
 import java.io.Serializable;
 

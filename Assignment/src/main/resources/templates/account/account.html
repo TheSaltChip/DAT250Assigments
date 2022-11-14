@@ -1,39 +1,44 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
-    <meta charset="utf-8">
+    <th:block th:include="fragments/general :: head"></th:block>
     <title>Account</title>
 </head>
 <body>
-<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/general :: navbar"></div>
 
-    <div class="container h-100" style="width: 750px;">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-10 col-md-8 col-lg-6">
+<div class="container h-100" style="width: 750px;">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-6">
 
-                <h3 class="m-3 text-center">Account page for <span th:text="${user.username}"></span></h3>
+            <h3 class="m-3 text-center">Account page for <span th:text="${user.username}"></span></h3>
 
-                <form class="m-4 form" th:object="${user}" th:action="@{/account}" th:method="put">
-                    <input type="hidden" readonly th:field="*{username}" th:value="*{username}">
+            <form class="m-4 form" th:action="@{/account}" th:method="put" th:object="${user}">
+                <input readonly th:field="*{username}" th:value="*{username}" type="hidden">
 
-                    <div class="form-floating mb-3">
-                        <input class="form-control" name="firstname" type="text" id="firstname" th:field="*{firstname}" placeholder="First name"/>
-                        <label for="firstname">First name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" name="lastname" type="text" id="lastname" th:field="*{lastname}" placeholder="Last name"/>
-                        <label for="lastname">Last name</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" name="email" type="text" id="email" th:field="*{email}" placeholder="Email"/>
-                        <label for="email">Email</label>
-                    </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="firstname" name="firstname" placeholder="First name"
+                           th:field="*{firstname}"
+                           type="text"/>
+                    <label for="firstname">First name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="lastname" name="lastname" placeholder="Last name"
+                           th:field="*{lastname}"
+                           type="text"/>
+                    <label for="lastname">Last name</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="email" name="email" placeholder="Email" th:field="*{email}"
+                           type="text"/>
+                    <label for="email">Email</label>
+                </div>
 
-                    <button class="btn btn-primary btn-block w-100" th:type="submit">Update</button>
-                </form>
-            </div>
+                <button class="btn btn-primary btn-block w-100" th:type="submit">Update</button>
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>

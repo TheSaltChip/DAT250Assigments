@@ -1,8 +1,8 @@
 package no.hvl.dat250.jpa.assignment.repository.user;
 
-import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 
 import java.util.Set;
 
@@ -25,13 +25,14 @@ public interface UserRepositoryCustom {
      *
      * @param username Username of the client
      * @param password Password of the client, which we should salt and hash
-     * @param role Role of the client
+     * @param role     Role of the client
      * @return The created client
      */
     User createClient(String username, String password, Role role);
 
     /**
      * updates the firstname, lastname and email of a client
+     *
      * @param username
      * @param firstname
      * @param lastname
@@ -39,7 +40,7 @@ public interface UserRepositoryCustom {
      */
     User updateClient(String username, String firstname, String lastname, String email);
 
-     /**
+    /**
      * Gets all polls from the client with the username
      *
      * @param username Username of the client

@@ -1,41 +1,41 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:include="fragments/general :: head"></th:block>
     <title>Create poll</title>
 </head>
 <body>
-<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/general :: navbar"></div>
 
-    <div class="container h-100" style="width: 750px;">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-10 col-md-8 col-lg-6">
+<div class="container h-100" style="width: 750px;">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-6">
 
-                <h2 class="m-3 text-center">Create a New Poll</h2>
+            <h2 class="m-3 text-center">Create a New Poll</h2>
 
-                <form class="m-4 form" th:object="${pollCreateForm}" th:action="@{/poll/create}" method="post">
+            <form class="m-4 form" method="post" th:action="@{/poll/create}" th:object="${pollCreateForm}">
 
-                    <div class="form-floating mb-3">
-                        <input class="form-control" name="question" type="text" id="question" th:field="*{question}"
-                               placeholder="Question"/>
-                        <label for="question">Question?</label>
-                    </div>
-                    <div class="form-floating mb-3">
-                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}"
-                               placeholder="Theme"/>
-                        <label for="theme">Theme of your Poll?</label>
-                    </div>
-                        <div class="mb-3">
-                            <label>Private poll:
-                                <input type="checkbox" th:field="*{isPrivate}">
-                            </label>
-                        </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="question" name="question" placeholder="Question"
+                           th:field="*{question}"
+                           type="text"/>
+                    <label for="question">Question?</label>
+                </div>
+                <div class="form-floating mb-3">
+                    <input class="form-control" id="theme" name="theme" placeholder="Theme" th:field="*{theme}"
+                           type="text"/>
+                    <label for="theme">Theme of your Poll?</label>
+                </div>
+                <div class="mb-3">
+                    <label>Private poll:
+                        <input th:field="*{isPrivate}" type="checkbox">
+                    </label>
+                </div>
 
-                    <button class="btn btn-primary btn-block w-100" type="submit">Create poll</button>
-                </form>
-            </div>
+                <button class="btn btn-primary btn-block w-100" type="submit">Create poll</button>
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>

@@ -26,7 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -56,26 +59,26 @@ public class PollServiceImpl implements PollService {
     }
 
     @Override
-    public Poll findById(Long pollId) {
+    public Poll findById(Long pollId) throws NoSuchElementException {
         return pollRepository.findById(pollId).orElseThrow();
     }
 
 
     @Override
-    public User getOwner(Long pollId) {
+    public User getOwner(Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow(NoSuchElementException::new);
 
         return p.getOwner();
     }
 
     @Override
-    public Poll getPollByCode(Integer code) {
+    public Poll getPollByCode(Integer code) throws NoSuchElementException {
         return pollRepository.findByCode(code).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     @Transactional
-    public Poll updateUserVote(boolean vote, String username, Long pollId) {
+    public Poll updateUserVote(boolean vote, String username, Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         if (!p.getActiveStatus().equals(PollStatus.OPEN)) return p;
@@ -113,7 +116,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void createDeviceVote(UUID deviceId, Long pollId) {
+    public void createDeviceVote(UUID deviceId, Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         if (!p.getActiveStatus().equals(PollStatus.OPEN)) return;
@@ -125,7 +128,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId) {
+    public void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         // Custom response should be given here telling that the poll is closed
@@ -152,7 +155,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void createAnonymousVote(Poll poll, boolean vote) {
+    public void createAnonymousVote(Poll poll, boolean vote) throws NoSuchElementException {
         AnonymousVote anonymousVote = new AnonymousVote(poll, vote);
 
         if (vote) {
@@ -166,7 +169,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void updatePoll(Poll poll) {
+    public void updatePoll(Poll poll) throws NoSuchElementException {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
         updatedPoll.setQuestion(poll.getQuestion());
@@ -178,7 +181,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void updatePoll(Long id, PollCustomizeForm pcf) {
+    public void updatePoll(Long id, PollCustomizeForm pcf) throws NoSuchElementException {
         Poll updatedPoll = pollRepository.findById(id).orElseThrow();
 
         updatedPoll.setQuestion(pcf.getQuestion());
@@ -191,7 +194,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll closePoll(Long pollId) {
+    public Poll closePoll(Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActiveStatusToFinished();
@@ -222,7 +225,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll openPoll(Long pollId) {
+    public Poll openPoll(Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActiveStatusToOpen();
@@ -242,7 +245,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) {
+    public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) throws NoSuchElementException {
         TimeLimitPoll tlp = timeLimitPollRepository.findById(pollId).orElseThrow();
 
         tlp.setStartDate(startDate);

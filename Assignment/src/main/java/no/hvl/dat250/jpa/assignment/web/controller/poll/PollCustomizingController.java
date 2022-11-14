@@ -16,6 +16,8 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.NoSuchElementException;
+
 @Controller
 public class PollCustomizingController {
     private final PollService pollService;
@@ -37,9 +39,21 @@ public class PollCustomizingController {
             return "redirect:/login";
         }
 
-        User user = userService.getUserByUsername(authentication.getName());
+        User user;
 
-        Poll poll = pollService.findById(id);
+        try {
+            user = userService.getUserByUsername(authentication.getName());
+        } catch (NoSuchElementException e) {
+            return "redirect:/login";
+        }
+
+        Poll poll;
+
+        try {
+            poll = pollService.findById(id);
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
 
         if (!poll.getOwner().equals(user)) {
             return "redirect:/";
@@ -61,9 +75,21 @@ public class PollCustomizingController {
             return "redirect:/login";
         }
 
-        User user = userService.getUserByUsername(authentication.getName());
+        User user;
 
-        Poll poll = pollService.findById(id);
+        try {
+            user = userService.getUserByUsername(authentication.getName());
+        } catch (NoSuchElementException e) {
+            return "redirect:/login";
+        }
+
+        Poll poll;
+
+        try {
+            poll = pollService.findById(id);
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
 
         if (!poll.getOwner().equals(user)) {
             return "redirect:/";
@@ -76,24 +102,29 @@ public class PollCustomizingController {
                 poll.setIsPrivate(pollCustomizeForm.getIsPrivate());
                 break;
             case CLOSED:
-                poll.setQuestion(pollCustomizeForm.getQuestion());
-                poll.setTheme(pollCustomizeForm.getTheme());
+                poll.setQuestion(pollCustomizeForm.getQuestion().replaceAll("\\s+", " ").trim());
+                poll.setTheme(pollCustomizeForm.getTheme().replaceAll("\\s+", " ").trim());
                 poll.setIsPrivate(pollCustomizeForm.getIsPrivate());
                 break;
         }
-        pollService.updatePoll(poll);
 
-        switch (pollCustomizeForm.getActiveStatus()) {
-            case CLOSED:
-                break;
-            case OPEN:
-                if (poll.getActiveStatus().equals(PollStatus.CLOSED))
-                    pollService.openPoll(poll.getId());
-                break;
-            case FINISHED:
-                if (poll.getActiveStatus().equals(PollStatus.OPEN))
-                    pollService.closePoll(poll.getId());
-                break;
+        try {
+            pollService.updatePoll(poll);
+
+            switch (pollCustomizeForm.getActiveStatus()) {
+                case CLOSED:
+                    break;
+                case OPEN:
+                    if (poll.getActiveStatus().equals(PollStatus.CLOSED))
+                        pollService.openPoll(poll.getId());
+                    break;
+                case FINISHED:
+                    if (poll.getActiveStatus().equals(PollStatus.OPEN))
+                        pollService.closePoll(poll.getId());
+                    break;
+            }
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
         }
 
         return "redirect:/poll/" + poll.getId();

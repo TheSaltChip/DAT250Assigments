@@ -1,29 +1,29 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 <head>
-    <meta charset="UTF-8">
+    <th:block th:include="fragments/general :: head"></th:block>
     <title>Poll result</title>
 </head>
 <body>
-    <div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/general :: navbar"></div>
 
-        <div class="container h-100" style="width: 500px;">
-            <div class="row h-100 justify-content-center align-items-center">
-                <div class="col-10 col-md-8 col-lg-6">
+<div class="container h-100" style="width: 500px;">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-6">
 
-                    <div class="text-center" th:object="${poll}">
-                        <h2 class="m-4" th:text="*{question}"></h2>
-                        <h4 class="m-4" th:text="*{theme}"></h4>
-                        <div>
-                            <p>Yes votes:
-                            <p th:text="*{yesVotes}"></p></p>
-                            <p>No votes:
-                            <p th:text="*{noVotes}"></p></p>
-                        </div>
-                    </div>
+            <div class="text-center" th:object="${poll}">
+                <h2 class="m-4" th:text="*{question}"></h2>
+                <h4 class="m-4" th:text="*{theme}"></h4>
+                <div>
+                    <p>Yes votes:
+                    <p th:text="*{yesVotes}"></p></p>
+                    <p>No votes:
+                    <p th:text="*{noVotes}"></p></p>
                 </div>
             </div>
         </div>
+    </div>
+</div>
 </body>
 </html>
