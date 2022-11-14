@@ -1,5 +1,7 @@
 package no.hvl.dat250.jpa.assignment.message;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hivemq.client.mqtt.MqttClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5BlockingClient;
 import org.springframework.stereotype.Component;
@@ -41,14 +43,17 @@ public class MessagingClient {
     }
 
     // publish a message to the topic "my/test/topic"
-    public void publishMessage(String topic, String payload) {
-
-        client.publishWith()
-                .topic(topic)
-                .payload(payload.getBytes(UTF_8))
-                .retain(true)
-                .messageExpiryInterval(60)
-                .send()
-                .getPublish();
+    public void publishMessage(PollAnalytic payload) {
+        try {
+            client.publishWith()
+                    .topic("/poll/" + payload.getTheme())
+                    .payload(new ObjectMapper().writeValueAsString(payload).getBytes(UTF_8))
+                    .retain(true)
+                    .messageExpiryInterval(120)
+                    .send()
+                    .getPublish();
+        } catch (JsonProcessingException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

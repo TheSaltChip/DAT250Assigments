@@ -1,8 +1,6 @@
 package no.hvl.dat250.jpa.assignment.web.controller.registration;
 
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;

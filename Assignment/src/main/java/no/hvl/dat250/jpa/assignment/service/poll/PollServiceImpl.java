@@ -1,8 +1,7 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
 import no.hvl.dat250.jpa.assignment.message.MessagingClient;
-import no.hvl.dat250.jpa.assignment.dynamodb.model.PollAnalytic;
-import no.hvl.dat250.jpa.assignment.dynamodb.reposistory.PollAnalyticRepository;
+import no.hvl.dat250.jpa.assignment.message.PollAnalytic;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
@@ -27,7 +26,10 @@ import org.springframework.transaction.annotation.Transactional;
 import java.nio.ByteBuffer;
 import java.security.SecureRandom;
 import java.time.LocalDateTime;
-import java.util.*;
+import java.util.List;
+import java.util.NoSuchElementException;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 @Transactional(readOnly = true)
@@ -40,11 +42,10 @@ public class PollServiceImpl implements PollService {
     private final UserVoteRepository userVoteRepository;
     private final DeviceVoteRepository deviceVoteRepository;
     private final AnonymousVoteRepository anonymousVoteRepository;
-    private final PollAnalyticRepository pollAnalyticRepository;
     private final DweetService dweetService;
 
     @Autowired
-    public PollServiceImpl(MessagingClient messagingClient, PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository, PollAnalyticRepository pollAnalyticRepository, DweetService dweetService) {
+    public PollServiceImpl(MessagingClient messagingClient, PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository, DweetService dweetService) {
         this.messagingClient = messagingClient;
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
@@ -52,33 +53,32 @@ public class PollServiceImpl implements PollService {
         this.userVoteRepository = userVoteRepository;
         this.deviceVoteRepository = deviceVoteRepository;
         this.anonymousVoteRepository = anonymousVoteRepository;
-        this.pollAnalyticRepository = pollAnalyticRepository;
         this.dweetService = dweetService;
 
         this.random = new SecureRandom(ByteBuffer.allocate(4).putInt(1337).array());
     }
 
     @Override
-    public Poll findById(Long pollId) {
+    public Poll findById(Long pollId) throws NoSuchElementException {
         return pollRepository.findById(pollId).orElseThrow();
     }
 
 
     @Override
-    public User getOwner(Long pollId) {
+    public User getOwner(Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow(NoSuchElementException::new);
 
         return p.getOwner();
     }
 
     @Override
-    public Poll getPollByCode(Integer code) {
+    public Poll getPollByCode(Integer code) throws NoSuchElementException {
         return pollRepository.findByCode(code).orElseThrow(NoSuchElementException::new);
     }
 
     @Override
     @Transactional
-    public Poll updateUserVote(boolean vote, String username, Long pollId) {
+    public Poll updateUserVote(boolean vote, String username, Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         if (!p.getActiveStatus().equals(PollStatus.OPEN)) return p;
@@ -116,7 +116,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void createDeviceVote(UUID deviceId, Long pollId) {
+    public void createDeviceVote(UUID deviceId, Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         if (!p.getActiveStatus().equals(PollStatus.OPEN)) return;
@@ -128,7 +128,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId) {
+    public void updateDeviceVote(UUID deviceId, int yes, int no, Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         // Custom response should be given here telling that the poll is closed
@@ -155,7 +155,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void createAnonymousVote(Poll poll, boolean vote) {
+    public void createAnonymousVote(Poll poll, boolean vote) throws NoSuchElementException {
         AnonymousVote anonymousVote = new AnonymousVote(poll, vote);
 
         if (vote) {
@@ -169,7 +169,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void updatePoll(Poll poll) {
+    public void updatePoll(Poll poll) throws NoSuchElementException {
         Poll updatedPoll = pollRepository.findById(poll.getId()).orElseThrow();
 
         updatedPoll.setQuestion(poll.getQuestion());
@@ -181,7 +181,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public void updatePoll(Long id, PollCustomizeForm pcf) {
+    public void updatePoll(Long id, PollCustomizeForm pcf) throws NoSuchElementException {
         Poll updatedPoll = pollRepository.findById(id).orElseThrow();
 
         updatedPoll.setQuestion(pcf.getQuestion());
@@ -194,13 +194,11 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll closePoll(Long pollId) {
+    public Poll closePoll(Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActiveStatusToFinished();
         p.setCode(0);
-
-        messagingClient.publishMessage("/" + p.getTheme(), p.convertToMessagePayload());
 
         // Find by poll id
         List<DeviceVote> dv = deviceVoteRepository.findAllByPoll_Id(pollId);
@@ -217,7 +215,7 @@ public class PollServiceImpl implements PollService {
                 uv.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0),
                 av.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0));
 
-        pollAnalyticRepository.savePollAnalytic(pa);
+        messagingClient.publishMessage(pa);
 
         dweetService.pollFinished(p);
 
@@ -227,7 +225,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll openPoll(Long pollId) {
+    public Poll openPoll(Long pollId) throws NoSuchElementException {
         Poll p = pollRepository.findById(pollId).orElseThrow();
 
         p.setActiveStatusToOpen();
@@ -247,7 +245,7 @@ public class PollServiceImpl implements PollService {
 
     @Override
     @Transactional
-    public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) {
+    public Poll updateTime(Long pollId, LocalDateTime startDate, LocalDateTime endDate) throws NoSuchElementException {
         TimeLimitPoll tlp = timeLimitPollRepository.findById(pollId).orElseThrow();
 
         tlp.setStartDate(startDate);

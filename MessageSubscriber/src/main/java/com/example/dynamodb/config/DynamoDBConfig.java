@@ -1,4 +1,4 @@
-package no.hvl.dat250.jpa.assignment.dynamodb.config;
+package com.example.dynamodb.config;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.AWSStaticCredentialsProvider;

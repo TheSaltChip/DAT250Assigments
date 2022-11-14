@@ -1,19 +1,17 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
-
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:include="fragments/general :: head"></th:block>
     <title>My Polls</title>
 </head>
 <body>
-<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/general :: navbar"></div>
 
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
             <div class="col-auto">
 
-                <h1 class="m-3 text-center">Your Polls</h1>
+            <h1 class="m-3 text-center">Your Polls</h1>
 
                 <table class="table" style="width: 800px;">
                     <tr class="thread-light">
@@ -38,5 +36,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

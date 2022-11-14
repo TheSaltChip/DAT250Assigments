@@ -5,11 +5,9 @@ import no.hvl.dat250.jpa.assignment.dummydata.questions.Kids;
 import no.hvl.dat250.jpa.assignment.dummydata.questions.Tricky;
 import no.hvl.dat250.jpa.assignment.dummydata.questions.Work;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
-import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.repository.user.UserRepository;
-import no.hvl.dat250.jpa.assignment.repository.poll.PollRepository;
 import no.hvl.dat250.jpa.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -18,10 +16,8 @@ import org.springframework.stereotype.Component;
 
 import javax.annotation.PostConstruct;
 import java.security.NoSuchAlgorithmException;
-import java.util.*;
-import java.util.function.IntSupplier;
-import java.util.stream.Collectors;
-import java.util.stream.IntStream;
+import java.util.Random;
+import java.util.UUID;
 
 @Component
 public class DummyData {

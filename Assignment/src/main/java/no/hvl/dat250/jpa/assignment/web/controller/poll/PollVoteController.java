@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+import java.util.NoSuchElementException;
+
 @Controller
 public class PollVoteController {
-
     private final PollService pollService;
     private final AuthenticationFacade authenticationFacade;
     private final UserService userService;
@@ -34,8 +35,16 @@ public class PollVoteController {
 
     @GetMapping(value = "/poll/{id}/vote")
     public String votePage(@PathVariable Long id, Model model) {
-        Poll poll = pollService.findById(id);
+        Poll poll;
+
+        try {
+            poll = pollService.findById(id);
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
+
         Authentication authentication = authenticationFacade.getAuthentication();
+
         if (poll.getIsPrivate()) {
             if (authentication instanceof AnonymousAuthenticationToken) {
                 return "redirect:/login";
@@ -52,18 +61,25 @@ public class PollVoteController {
 
     @PostMapping(value = "/poll/{id}/vote")
     public String voteRegister(@PathVariable Long id, VoteForm voteform) {
-        // Maybe don't pull this down here, and instead create a method that
-        // checks if a poll with the given id is private instead
-        // that way this class isn't responsible for handling poll objects directly
-        // unless it is directly needed
-        Poll poll = pollService.findById(id);
+        Poll poll;
+
+        try {
+            poll = pollService.findById(id);
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
 
         Authentication authentication = authenticationFacade.getAuthentication();
 
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            User user = userService.getUserByUsername(authentication.getName());
+            User user;
 
-            pollService.updateUserVote(voteform.isVote(), user.getUsername(), id);
+            try {
+                user = userService.getUserByUsername(authentication.getName());
+                pollService.updateUserVote(voteform.isVote(), user.getUsername(), id);
+            } catch (NoSuchElementException e) {
+                return "redirect:/login";
+            }
 
             return "redirect:result";
         }
@@ -72,7 +88,11 @@ public class PollVoteController {
             return "redirect:/login";
         }
 
-        pollService.createAnonymousVote(poll, voteform.isVote());
+        try {
+            pollService.createAnonymousVote(poll, voteform.isVote());
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
 
         return "redirect:result";
     }

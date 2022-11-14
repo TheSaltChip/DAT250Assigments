@@ -1,17 +1,17 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:include="fragments/general :: head"></th:block>
     <title>Manage Poll</title>
 </head>
 <body>
-<div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/general :: navbar"></div>
 
-    <div class="container h-100" style="width: 750px;">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-10 col-md-8 col-lg-6">
+<div class="container h-100" style="width: 750px;">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-10 col-md-8 col-lg-6">
 
-                <form class="m-4 form" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="put" th:object="${poll}">
+            <form class="m-4 form" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="put" th:object="${poll}">
 
                     <h2 class="m-3 text-center">Manage Poll</h2>
 
@@ -27,54 +27,51 @@
                         <label for="theme">Theme</label>
                     </div>
 
-                    <div class="d-flex justify-content-between mb-2">
-                        <div>
-                            <label>Private poll:
-                                <input type="checkbox" th:field="*{isPrivate}">
-                            </label>
-                        </div>
+                    <div th:switch="${poll.getActiveStatus}">
+                        <select class="form-select"
+                                name="activeStatus"
+                                th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
+                                Closed
+                            </option>
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                                Open poll
+                            </option>
+                        </select>
 
-                        <div th:switch="${poll.getActiveStatus}">
-                            <select class="form-select" th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}" name="activeStatus">
-                                <option th:field="*{activeStatus}"
-                                        th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).CLOSED}">
-                                    Closed
-                                </option>
-                                <option th:field="*{activeStatus}"
-                                        th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
-                                    Open poll
-                                </option>
-                            </select>
+                        <select name="activeStatus"
+                                th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
+                                Opened
+                            </option>
+                            <option th:field="*{activeStatus}"
+                                    th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+                                Finish poll
+                            </option>
+                        </select>
 
-                            <select th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}" name="activeStatus">
-                                <option th:field="*{activeStatus}"
-                                        th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).OPEN}">
-                                    Opened
-                                </option>
-                                <option th:field="*{activeStatus}"
-                                        th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-                                    Finish poll
-                                </option>
-                            </select>
-
-                            <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-                                <input type="hidden" th:field="*{activeStatus}"
-                                       th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-                                <p>Poll is finished</p>
-                            </div>
+                        <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
+                            <input th:field="*{activeStatus}"
+                                   th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}"
+                                   type="hidden">
+                            <p>Poll is finished</p>
                         </div>
                     </div>
+                </div>
 
-                    <div class="mb-3 text-center">
-                        <span  th:if="${!poll.code.equals(0)}" th:field="*{code}" th:text="'Code: ' + *{code}"></span>
-                    </div>
-                    <button class="btn btn-primary btn-block w-100" type="submit">Update</button>
-                </form>
-                <form class="m-4" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="delete">
-                    <button class="btn btn-danger btn-block w-100" type="submit">Delete</button>
-                </form>
-            </div>
+                <div class="mb-3 text-center">
+                    <span th:field="*{code}" th:if="${!poll.code.equals(0)}" th:text="'Code: ' + *{code}"></span>
+                </div>
+                <button class="btn btn-primary btn-block w-100" type="submit">Update</button>
+            </form>
+            <form class="m-4" th:action="@{/admin/poll/{id}(id=${pollId})}" th:method="delete">
+                <button class="btn btn-danger btn-block w-100" type="submit">Delete</button>
+            </form>
         </div>
     </div>
+</div>
 </body>
 </html>

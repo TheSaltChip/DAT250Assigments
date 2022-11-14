@@ -39,7 +39,7 @@ public class Kids {
             "Have you ever moved to a new city?\n" +
             "Have you ever read a 100 page book?";
 
-    public static List<String> list(){
+    public static List<String> list() {
         return Arrays.stream(list.split("\n")).collect(Collectors.toList());
     }
 }

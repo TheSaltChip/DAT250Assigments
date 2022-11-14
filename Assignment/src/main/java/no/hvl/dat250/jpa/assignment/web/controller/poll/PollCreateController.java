@@ -16,6 +16,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 
 import javax.validation.Valid;
+import java.util.NoSuchElementException;
 
 @Controller
 public class PollCreateController {
@@ -50,9 +51,15 @@ public class PollCreateController {
             return "redirect:/poll/pollcreation";
         }
 
-        User u = userService.getUserByUsername(authentication.getName());
+        User u;
 
-        Poll poll = new Poll(pollCreateForm.getQuestion(), pollCreateForm.getTheme(), pollCreateForm.getIsPrivate(), u);
+        try {
+            u = userService.getUserByUsername(authentication.getName());
+        } catch (NoSuchElementException e) {
+            return "redirect:/login";
+        }
+
+        Poll poll = new Poll(pollCreateForm.getQuestion().replaceAll("\\s+", " ").trim(), pollCreateForm.getTheme().replaceAll("\\s+", " ").trim(), pollCreateForm.getIsPrivate(), u);
 
         pollService.createPoll(poll);
 

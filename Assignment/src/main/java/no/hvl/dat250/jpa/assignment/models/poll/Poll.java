@@ -2,43 +2,31 @@ package no.hvl.dat250.jpa.assignment.models.poll;
 
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.Data;
 import lombok.NonNull;
 import no.hvl.dat250.jpa.assignment.models.user.User;
-import no.hvl.dat250.jpa.assignment.models.vote.UserVote;
-import org.hibernate.annotations.Generated;
-import org.hibernate.annotations.GenerationTime;
-import org.hibernate.annotations.GeneratorType;
-import org.hibernate.annotations.GenericGenerator;
-import org.springframework.http.codec.json.Jackson2JsonEncoder;
 
 import javax.persistence.*;
 import java.time.LocalDateTime;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Objects;
 
 @Entity
 @Data
 @Table(name = "POLL", schema = "APP")
 public class Poll {
+    @Version
+    @JsonIgnore
+    protected Integer version;
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private Integer code;
-
     @NonNull
     private String question;
-
     @NonNull
     private String theme;
-
     private Integer noVotes;
-
     private Integer yesVotes;
-
     /*
     @OneToMany(mappedBy = "poll", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
     @JsonManagedReference
@@ -51,16 +39,11 @@ public class Poll {
     private PollStatus activeStatus;
     @NonNull
     private LocalDateTime createdDate;
-
     @ManyToOne(targetEntity = User.class)
     @NonNull
     @JoinColumn(referencedColumnName = "username")
     @JsonBackReference(value = "owner")
     private User owner;
-
-    @Version
-    @JsonIgnore
-    protected Integer version;
 
     public Poll(@NonNull String question, @NonNull String theme, @NonNull Boolean isPrivate, @NonNull User owner) {
         this.question = question;
@@ -95,10 +78,12 @@ public class Poll {
     public void incNoVotes() {
         this.noVotes++;
     }
-    public void addYesVotes(int amount){
+
+    public void addYesVotes(int amount) {
         this.yesVotes += amount;
     }
-    public void addNoVotes(int amount){
+
+    public void addNoVotes(int amount) {
         this.noVotes += amount;
     }
 

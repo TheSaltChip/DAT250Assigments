@@ -1,8 +1,8 @@
 package no.hvl.dat250.jpa.assignment.repository.user;
 
-import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
+import no.hvl.dat250.jpa.assignment.models.user.User;
 import no.hvl.dat250.jpa.assignment.service.user.UserService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

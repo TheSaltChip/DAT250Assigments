@@ -1,12 +1,11 @@
 <!DOCTYPE html>
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
-    <meta charset="UTF-8">
+    <th:block th:include="fragments/general :: head"></th:block>
     <title>Vote on Poll</title>
 </head>
 <body>
-    <div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/general :: navbar"></div>
 
     <div class="container h-100">
         <div class="row h-100 justify-content-center align-items-center">
@@ -29,6 +28,7 @@
                             <input class="form-check-label" type="radio" id="no" th:field="*{vote}" value="false">
                         </div>
                     </div>
+                </div>
 
                     <div class="text-center">
                         <button class="btn btn-primary btn-block mt-4" style="width: 200px;" type="submit" >Submit Vote</button>
@@ -37,5 +37,6 @@
             </div>
         </div>
     </div>
+</div>
 </body>
 </html>

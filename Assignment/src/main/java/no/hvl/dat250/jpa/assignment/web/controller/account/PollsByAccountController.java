@@ -13,6 +13,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Controller
 public class PollsByAccountController {
@@ -29,19 +30,31 @@ public class PollsByAccountController {
     }
 
     @GetMapping(value = "account/polls")
-    public String showPolls(Model model){
+    public String showPolls(Model model) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
-        if(authentication instanceof AnonymousAuthenticationToken){
+        if (authentication instanceof AnonymousAuthenticationToken) {
             return "redirect:/login";
         }
 
-        User u = userService.getUserByUsername(authentication.getName());
+        User u;
 
-        List<Poll> polls = pollService.findAllPollsByOwner(u);
+        try {
+            u = userService.getUserByUsername(authentication.getName());
+        } catch (NoSuchElementException e) {
+            return "redirect:/login";
+        }
 
-        model.addAttribute("polls", polls);
+        try {
+            List<Poll> polls;
 
-        return "poll/mypolls";
+            polls = pollService.findAllPollsByOwner(u);
+
+            model.addAttribute("polls", polls);
+
+            return "poll/mypolls";
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
     }
 }

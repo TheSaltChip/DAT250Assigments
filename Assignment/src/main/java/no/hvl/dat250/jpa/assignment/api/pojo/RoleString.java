@@ -6,7 +6,7 @@ import lombok.Data;
 public class RoleString {
     private String role;
 
-    public String get(){
+    public String get() {
         return role;
     }
 }

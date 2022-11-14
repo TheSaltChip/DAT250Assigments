@@ -1,14 +1,15 @@
-package no.hvl.dat250.jpa.assignment.dynamodb.reposistory;
+package com.example.dynamodb.reposistory;
 
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBMapper;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBSaveExpression;
 import com.amazonaws.services.dynamodbv2.model.AttributeValue;
 import com.amazonaws.services.dynamodbv2.model.ExpectedAttributeValue;
-import no.hvl.dat250.jpa.assignment.dynamodb.model.PollAnalytic;
+import com.example.dynamodb.model.PollAnalytic;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 
-@Repository
+@Service
 public class PollAnalyticRepository {
     private final DynamoDBMapper dynamoDBMapper;
 

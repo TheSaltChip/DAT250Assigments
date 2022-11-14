@@ -1,17 +1,27 @@
 package com.example.messagesubscriber;
 
+import com.example.dynamodb.model.PollAnalytic;
+import com.example.dynamodb.reposistory.PollAnalyticRepository;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.hivemq.client.mqtt.MqttClient;
 import com.hivemq.client.mqtt.mqtt5.Mqtt5BlockingClient;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.annotation.ComponentScan;
 
-import static com.hivemq.client.mqtt.MqttGlobalPublishFilter.ALL;
+import java.io.IOException;
+
 import static com.hivemq.client.mqtt.MqttGlobalPublishFilter.SUBSCRIBED;
 import static java.nio.charset.StandardCharsets.UTF_8;
 
 @SpringBootApplication
+@ComponentScan(basePackages = "com.example")
 public class MessageSubscriberApplication implements CommandLineRunner {
+
+    @Autowired
+    private PollAnalyticRepository repository;
 
     public static void main(String[] args) {
         SpringApplication.run(MessageSubscriberApplication.class, args);
@@ -32,6 +42,23 @@ public class MessageSubscriberApplication implements CommandLineRunner {
                 .sslWithDefaultConfig()
                 .buildBlocking();
 
+        client.toAsync().publishes(SUBSCRIBED, publish -> {
+            String payload = String.valueOf(publish.getPayload().isPresent() ? UTF_8.decode(publish.getPayload().get()) : "");
+
+            if (!payload.equals(""))
+                try {
+                    PollAnalytic pa = new ObjectMapper().readValue(payload, PollAnalytic.class);
+
+                    repository.savePollAnalytic(pa);
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+
+            System.out.println("Received message: " +
+                    publish.getTopic() + " -> " + payload
+            );
+        });
+
         // connect to HiveMQ Cloud with TLS and username/pw
         client.connectWith()
                 .keepAlive(30)
@@ -44,16 +71,12 @@ public class MessageSubscriberApplication implements CommandLineRunner {
         System.out.println("Connected successfully");
 
         client.subscribeWith()
-                .topicFilter("/Kids")
-                .topicFilter("/Tricky")
-                .topicFilter("/Work")
+                .topicFilter("/poll/#")
                 .send();
 
         // set a callback that is called when a message is received (using the async API style)
-        client.toAsync().publishes(ALL, publish -> {
-            System.out.println("Received message: " +
-                    publish.getTopic() + " -> " +
-                    UTF_8.decode(publish.getPayload().get()));
-        });
+
     }
+
+
 }

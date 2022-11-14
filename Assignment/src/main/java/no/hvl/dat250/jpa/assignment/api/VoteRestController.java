@@ -23,17 +23,17 @@ public class VoteRestController {
     }
 
     @GetMapping(value = "/votes")
-    public ResponseEntity<List<UserVote>> getAllVotes(){
+    public ResponseEntity<List<UserVote>> getAllVotes() {
         return ResponseEntity.ok(voteService.getAllVotes());
     }
 
     @GetMapping(value = "/votes/poll/{id}")
-    public ResponseEntity<List<UserVote>> getAllVotesFromPoll(@PathVariable Long id){
+    public ResponseEntity<List<UserVote>> getAllVotesFromPoll(@PathVariable Long id) {
         return ResponseEntity.ok(voteService.getAllVotesFromPoll(id));
     }
 
     @GetMapping(value = "/votes/user/{username}")
-    public ResponseEntity<List<UserVote>> getAllVotesFromUser(@PathVariable String username){
+    public ResponseEntity<List<UserVote>> getAllVotesFromUser(@PathVariable String username) {
         return ResponseEntity.ok(voteService.getAllVotesFromUser(username));
     }
 }
