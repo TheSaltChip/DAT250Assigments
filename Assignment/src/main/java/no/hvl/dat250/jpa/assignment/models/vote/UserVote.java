@@ -1,6 +1,8 @@
 package no.hvl.dat250.jpa.assignment.models.vote;
 
-import com.fasterxml.jackson.annotation.*;
+import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonIdentityReference;
+import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 import lombok.Data;
 import lombok.NonNull;
 import lombok.RequiredArgsConstructor;

@@ -1,9 +1,9 @@
 package no.hvl.dat250.jpa.assignment.service.user;
 
-import no.hvl.dat250.jpa.assignment.web.controller.registration.UserData;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.user.Role;
 import no.hvl.dat250.jpa.assignment.models.user.User;
+import no.hvl.dat250.jpa.assignment.web.controller.registration.UserData;
 import no.hvl.dat250.jpa.assignment.web.formobject.UserUpdateForm;
 
 import java.util.List;

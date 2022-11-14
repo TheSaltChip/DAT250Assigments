@@ -34,7 +34,7 @@ public class RegistrationController {
     @PostMapping(value = "/register")
     public String registerUserAccount(@Valid UserData userData, BindingResult bindingResult, Model model, WebRequest request) {
 
-        if(request.getParameter("loginLink") != null) {
+        if (request.getParameter("loginLink") != null) {
             return "redirect:/login";
         }
 

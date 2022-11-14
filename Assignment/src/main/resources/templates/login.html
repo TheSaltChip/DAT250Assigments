@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
+>
 
 <head>
     <title>Login</title>
 </head>
 <body>
-    <div th:replace="fragments/navbar"></div>
+<div th:replace="fragments/navbar"></div>
 
 <div class="container h-100" style="width: 650px;">
     <div class="row h-100 justify-content-center align-items-center">
@@ -14,26 +14,27 @@
 
             <h2 class="m-3 text-center">Login Page</h2>
 
-            <form class="form" th:action="@{/login}" method="post">
+            <form class="form" method="post" th:action="@{/login}">
 
-                <div class="alert alert-info" th:if="${param.logout}" role="alert">
+                <div class="alert alert-info" role="alert" th:if="${param.logout}">
                     You have been logged out.
                 </div>
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="username" type="text" id="username" placeholder="User name"/>
+                    <input class="form-control" id="username" name="username" placeholder="User name" type="text"/>
                     <label for="username">User name</label>
                 </div>
 
                 <div class="form-floating mb-3">
-                    <input class="form-control" name="password" type="password" id="password" placeholder="Password"/>
+                    <input class="form-control" id="password" name="password" placeholder="Password" type="password"/>
                     <label for="password">Password</label>
-                    <div class="alert alert-warning" th:if="${param.error}" th:each="error: ${'Invalid username or password'}"
+                    <div class="alert alert-warning" th:each="error: ${'Invalid username or password'}"
+                         th:if="${param.error}"
                          th:text="${error}">Validation
                     </div>
                 </div>
 
                 <div class="tn-group d-flex">
-                    <button type="submit" class="btn btn-primary btn-block w-100">Sign In</button>
+                    <button class="btn btn-primary btn-block w-100" type="submit">Sign In</button>
                 </div>
 
                 <div class="text-center mt-4">

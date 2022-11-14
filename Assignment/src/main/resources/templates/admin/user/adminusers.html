@@ -27,7 +27,9 @@
                     <td th:text="${user.lastname}"></td>
                     <td th:text="${user.email}"></td>
                     <td>
-                        <button class="btn btn-primary btn-block" th:onclick="|window.location.href='@{/admin/user/{id}(id=${user.getUsername()})}'|">Edit</button>
+                        <button class="btn btn-primary btn-block"
+                                th:onclick="|window.location.href='@{/admin/user/{id}(id=${user.getUsername()})}'|">Edit
+                        </button>
                     </td>
                 </tr>
             </table>

@@ -1,15 +1,15 @@
 <!DOCTYPE html>
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
-    <head>
-        <title>Menu</title>
-    </head>
-    <body>
-        <div th:replace="fragments/navbar"></div>
+<head>
+    <title>Menu</title>
+</head>
+<body>
+<div th:replace="fragments/navbar"></div>
 
 <div class="container h-100" style="width: 1250px;">
     <div class="row h-100 justify-content-center align-items-center">
         <div class="col-10 col-md-8 col-lg-6">
-        <h1 class="m-3 text-center">Welcome!</h1>
+            <h1 class="m-3 text-center">Welcome!</h1>
 
             <table class="table">
                 <tr class="thread-light">
@@ -25,7 +25,9 @@
                     <td th:text="${poll.getOwner().username}"></td>
                     <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
                     <td>
-                        <button class="btn btn-primary btn-block" th:onclick="|window.location.href='@{/poll/{id}/vote(id=${poll.getId()})}'|">Visit</button>
+                        <button class="btn btn-primary btn-block"
+                                th:onclick="|window.location.href='@{/poll/{id}/vote(id=${poll.getId()})}'|">Visit
+                        </button>
                     </td>
                 </tr>
             </table>
