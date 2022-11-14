@@ -1,8 +1,7 @@
 package no.hvl.dat250.jpa.assignment.service.poll;
 
 import no.hvl.dat250.jpa.assignment.message.MessagingClient;
-import no.hvl.dat250.jpa.assignment.dynamodb.model.PollAnalytic;
-import no.hvl.dat250.jpa.assignment.dynamodb.reposistory.PollAnalyticRepository;
+import no.hvl.dat250.jpa.assignment.message.PollAnalytic;
 import no.hvl.dat250.jpa.assignment.models.poll.Poll;
 import no.hvl.dat250.jpa.assignment.models.poll.PollStatus;
 import no.hvl.dat250.jpa.assignment.models.poll.TimeLimitPoll;
@@ -40,11 +39,10 @@ public class PollServiceImpl implements PollService {
     private final UserVoteRepository userVoteRepository;
     private final DeviceVoteRepository deviceVoteRepository;
     private final AnonymousVoteRepository anonymousVoteRepository;
-    private final PollAnalyticRepository pollAnalyticRepository;
     private final DweetService dweetService;
 
     @Autowired
-    public PollServiceImpl(MessagingClient messagingClient, PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository, PollAnalyticRepository pollAnalyticRepository, DweetService dweetService) {
+    public PollServiceImpl(MessagingClient messagingClient, PollRepository pollRepository, TimeLimitPollRepository timeLimitPollRepository, UserRepository userRepository, UserVoteRepository userVoteRepository, DeviceVoteRepository deviceVoteRepository, AnonymousVoteRepository anonymousVoteRepository, DweetService dweetService) {
         this.messagingClient = messagingClient;
         this.pollRepository = pollRepository;
         this.timeLimitPollRepository = timeLimitPollRepository;
@@ -52,7 +50,6 @@ public class PollServiceImpl implements PollService {
         this.userVoteRepository = userVoteRepository;
         this.deviceVoteRepository = deviceVoteRepository;
         this.anonymousVoteRepository = anonymousVoteRepository;
-        this.pollAnalyticRepository = pollAnalyticRepository;
         this.dweetService = dweetService;
 
         this.random = new SecureRandom(ByteBuffer.allocate(4).putInt(1337).array());
@@ -200,8 +197,6 @@ public class PollServiceImpl implements PollService {
         p.setActiveStatusToFinished();
         p.setCode(0);
 
-        messagingClient.publishMessage("/" + p.getTheme(), p.convertToMessagePayload());
-
         // Find by poll id
         List<DeviceVote> dv = deviceVoteRepository.findAllByPoll_Id(pollId);
 
@@ -217,7 +212,7 @@ public class PollServiceImpl implements PollService {
                 uv.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0),
                 av.stream().map(d -> d.getYesVotes() + d.getNoVotes()).reduce(Integer::sum).orElse(0));
 
-        pollAnalyticRepository.savePollAnalytic(pa);
+        messagingClient.publishMessage(pa);
 
         dweetService.pollFinished(p);
 
