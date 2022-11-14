@@ -15,7 +15,7 @@ import javax.validation.Valid;
 @Controller
 public class RegistrationController {
 
-    private UserService userService;
+    private final UserService userService;
 
     @Autowired
     public RegistrationController(UserService userService) {
@@ -28,7 +28,7 @@ public class RegistrationController {
         UserData userData = new UserData();
         model.addAttribute("userData", userData);
 
-        return "/register";
+        return "register";
     }
 
     @PostMapping(value = "/register")
@@ -42,6 +42,7 @@ public class RegistrationController {
             model.addAttribute("userData", userData);
             return "/register";
         }
+
         try {
             userService.registerNewUser(userData);
         } catch (Exception e) {
@@ -50,6 +51,7 @@ public class RegistrationController {
             model.addAttribute("userData", userData);
             return "/register";
         }
+
         return "redirect:/login";
     }
 

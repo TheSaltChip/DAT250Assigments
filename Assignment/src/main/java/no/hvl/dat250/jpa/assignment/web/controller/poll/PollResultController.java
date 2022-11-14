@@ -12,6 +12,8 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 
+import java.util.NoSuchElementException;
+
 @Controller
 public class PollResultController {
     private final PollService pollService;
@@ -27,7 +29,14 @@ public class PollResultController {
 
     @GetMapping(value = "/poll/{id}/result")
     public String showPollResult(@PathVariable Long id, Model model) {
-        Poll poll = pollService.findById(id);
+        Poll poll;
+
+        try {
+            poll = pollService.findById(id);
+        } catch (NoSuchElementException e) {
+            return "redirect:/";
+        }
+
         Authentication authentication = authenticationFacade.getAuthentication();
 
         if (poll.getIsPrivate() && (authentication instanceof AnonymousAuthenticationToken)) {

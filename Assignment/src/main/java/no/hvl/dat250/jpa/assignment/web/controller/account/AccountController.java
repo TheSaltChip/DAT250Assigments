@@ -12,10 +12,12 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 
+import java.util.NoSuchElementException;
+
 @Controller
 public class AccountController {
-    private UserService userService;
-    private AuthenticationFacade authenticationFacade;
+    private final UserService userService;
+    private final AuthenticationFacade authenticationFacade;
 
     @Autowired
     public AccountController(UserService userService, AuthenticationFacade authenticationFacade) {
@@ -26,30 +28,33 @@ public class AccountController {
     @GetMapping(value = "/account")
     public String accountPage(Model model) {
         Authentication authentication = authenticationFacade.getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            String currentUserName = authentication.getName();
 
-            User user = userService.getUserByUsername(currentUserName);
+        if (authentication instanceof AnonymousAuthenticationToken) {
+            return "redirect:/login";
+        }
 
+        try {
+            User user = userService.getUserByUsername(authentication.getName());
             UserUpdateForm uuf = new UserUpdateForm(user.getUsername(), user.getFirstname(), user.getLastname(), user.getEmail());
 
             model.addAttribute("user", uuf);
 
             return "account/account";
-        }
 
-        return "account/login";
+        } catch (NoSuchElementException e) {
+            return "redirect:/login";
+        }
     }
 
     @PutMapping(value = "/account")
     public String editUser(UserUpdateForm uuf) {
         Authentication authentication = authenticationFacade.getAuthentication();
 
-        String currentUserName = authentication.getName();
-
-        userService.updateUser(currentUserName, uuf);
-
-        return "redirect:/account";
+        try {
+            userService.updateUser(authentication.getName(), uuf);
+            return "redirect:/account";
+        } catch (NoSuchElementException e) {
+            return "redirect:/login";
+        }
     }
-
 }
