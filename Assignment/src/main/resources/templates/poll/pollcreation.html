@@ -4,6 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <title>Create poll</title>
+    <style type="text/css">
+        .textarea {
+            resize: none;
+        }
+    </style>
 </head>
 <body>
 <div th:replace="fragments/navbar"></div>
@@ -17,13 +22,13 @@
                 <form class="m-4 form" th:object="${pollCreateForm}" th:action="@{/poll/create}" method="post">
 
                     <div class="form-floating mb-3">
-                        <input class="form-control" name="question" type="text" id="question" th:field="*{question}"
-                               placeholder="Question"/>
+                        <textarea class="form-control" name="question" id="question" th:field="*{question}"
+                                  placeholder="Question" maxlength="100" style="height: 140px;" resize="none;"></textarea>
                         <label for="question">Question?</label>
                     </div>
                     <div class="form-floating mb-3">
                         <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}"
-                               placeholder="Theme"/>
+                               placeholder="Theme" maxlength="20"/>
                         <label for="theme">Theme of your Poll?</label>
                     </div>
                         <div class="mb-3">
