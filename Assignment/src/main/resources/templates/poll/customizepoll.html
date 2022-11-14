@@ -17,7 +17,8 @@
                 <h2 class="m-3 text-center">Manage Poll: [[${pollCustomizeForm.question}]]</h2>
 
                 <div class="form-floating mb-3">
-                    <input class="form-control" id="question" name="question" placeholder="Question" th:field="*{question}"
+                    <input class="form-control" id="question" name="question" placeholder="Question"
+                           th:field="*{question}"
                            th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}"
                            type="text"/>
                     <label for="question">Question</label>
@@ -62,7 +63,8 @@
                         </select>
 
                         <div th:case="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}">
-                            <input th:field="*{activeStatus}" th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}"
+                            <input th:field="*{activeStatus}"
+                                   th:value="${T(no.hvl.dat250.jpa.assignment.models.poll.PollStatus).FINISHED}"
                                    type="hidden">
                             <p>Poll is finished</p>
                         </div>
