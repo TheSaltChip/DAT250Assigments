@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.Set;
 
 @Service
@@ -30,7 +31,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByUsername(String username) {
+    public User getUserByUsername(String username) throws NoSuchElementException {
         return userRepository.findById(username).orElseThrow();
     }
 
@@ -45,37 +46,37 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User updateUser(String username, User user) {
+    public User updateUser(String username, User user) throws NoSuchElementException {
         User updatedUser = userRepository.findById(username).orElseThrow();
 
-        updatedUser.setFirstname(user.getFirstname());
-        updatedUser.setLastname(user.getLastname());
-        updatedUser.setEmail(user.getEmail());
-        updatedUser.setPassword(user.getPassword());
+        updatedUser.setFirstname(user.getFirstname().replaceAll("\\s+", " ").trim());
+        updatedUser.setLastname(user.getLastname().replaceAll("\\s+", " ").trim());
+        updatedUser.setEmail(user.getEmail().replaceAll("\\s+", " ").trim());
+        updatedUser.setPassword(user.getPassword().replaceAll("\\s+", " ").trim());
 
         return userRepository.save(updatedUser);
     }
 
     @Override
     @Transactional
-    public User updateUser(String username, UserUpdateForm user) {
+    public User updateUser(String username, UserUpdateForm user) throws NoSuchElementException {
         User updatedUser = userRepository.findById(username).orElseThrow();
 
-        updatedUser.setFirstname(user.getFirstname());
-        updatedUser.setLastname(user.getLastname());
-        updatedUser.setEmail(user.getEmail());
+        updatedUser.setFirstname(user.getFirstname().replaceAll("\\s+", " ").trim());
+        updatedUser.setLastname(user.getLastname().replaceAll("\\s+", " ").trim());
+        updatedUser.setEmail(user.getEmail().replaceAll("\\s+", " ").trim());
 
         return userRepository.save(updatedUser);
     }
 
     @Override
-    public Set<Poll> getOwnedPollsFromUser(String username) {
+    public Set<Poll> getOwnedPollsFromUser(String username) throws NoSuchElementException {
         return userRepository.findById(username).orElseThrow().getOwnedPolls();
     }
 
     @Override
     @Transactional
-    public Poll addPollToUser(String username, Poll poll) {
+    public Poll addPollToUser(String username, Poll poll) throws NoSuchElementException {
         User c = userRepository.findById(username).orElseThrow();
 
         c.getOwnedPolls().add(poll);
@@ -92,7 +93,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public User changeRoleOfUser(String username, String role) {
+    public User changeRoleOfUser(String username, String role) throws NoSuchElementException {
         Role roleObj = Role.valueOf(role);
         User user = userRepository.findById(username).orElseThrow();
 
@@ -102,7 +103,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public Role getRoleOfUser(String username) {
+    public Role getRoleOfUser(String username) throws NoSuchElementException {
         User user = userRepository.findById(username).orElseThrow();
 
         return user.getRole();
