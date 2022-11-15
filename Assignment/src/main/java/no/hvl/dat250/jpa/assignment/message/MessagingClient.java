@@ -11,28 +11,27 @@ import static java.nio.charset.StandardCharsets.UTF_8;
 @Component
 public class MessagingClient {
     final String host = "e6d1f8e633d748bd8affc00a4181c8bc.s2.eu.hivemq.cloud";
-    final String username = "tester";
-    final String password = "testingpass";
+    final String username = "listener";
+    final String password = "listener";
 
     // create an MQTT client
-    final Mqtt5BlockingClient client ;
+    final Mqtt5BlockingClient client = MqttClient.builder()
+            .useMqttVersion5()
+            .serverHost(host)
+            .serverPort(8883)
+            .sslWithDefaultConfig()
+            .buildBlocking();
 
     // connect to HiveMQ Cloud with TLS and username/pw
 
     public MessagingClient() {
-        client=MqttClient.builder()
-                .useMqttVersion5()
-                .serverHost(host)
-                .serverPort(8883)
-                .sslWithDefaultConfig()
-                .buildBlocking();
         client.connectWith()
                 .keepAlive(30)
                 .simpleAuth()
                 .username(username)
                 .password(UTF_8.encode(password))
-                .applySimpleAuth();
-                //.send();
+                .applySimpleAuth()
+                .send();
 
         System.out.println("Connected successfully");
 
