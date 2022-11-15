@@ -51,7 +51,7 @@ public class DweetService {
 
         DweetPoll dp = new DweetPoll(String.format(
                 "A poll with the question '%s' and theme '%s' " +
-                        "was finished by user '%s'" +
+                        "was finished by user '%s' " +
                         "at '%s'",
                 poll.getQuestion(),
                 poll.getTheme(),

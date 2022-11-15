@@ -1,10 +1,10 @@
 package no.hvl.dat250.assignment.dummydata;
 
 
-import no.hvl.dat250.assignment.dummydata.questions.Tricky;
-import no.hvl.dat250.assignment.models.poll.Poll;
 import no.hvl.dat250.assignment.dummydata.questions.Kids;
+import no.hvl.dat250.assignment.dummydata.questions.Tricky;
 import no.hvl.dat250.assignment.dummydata.questions.Work;
+import no.hvl.dat250.assignment.models.poll.Poll;
 import no.hvl.dat250.assignment.models.user.Role;
 import no.hvl.dat250.assignment.models.user.User;
 import no.hvl.dat250.assignment.repository.user.UserRepository;

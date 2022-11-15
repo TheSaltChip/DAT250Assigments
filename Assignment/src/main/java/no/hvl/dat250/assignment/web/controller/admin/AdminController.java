@@ -1,7 +1,6 @@
 package no.hvl.dat250.assignment.web.controller.admin;
 
 import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.poll.PollStatus;
 import no.hvl.dat250.assignment.models.user.User;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import no.hvl.dat250.assignment.service.user.UserService;
@@ -17,6 +16,9 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+
+import static no.hvl.dat250.assignment.models.poll.PollStatus.CLOSED;
+import static no.hvl.dat250.assignment.models.poll.PollStatus.OPEN;
 
 @Controller
 public class AdminController {
@@ -119,14 +121,14 @@ public class AdminController {
             pollService.updatePoll(poll);
 
             switch (pcf.getActiveStatus()) {
-                case PollStatus.CLOSED:
+                case CLOSED:
                     break;
-                case PollStatus.OPEN:
-                    if (poll.getActiveStatus().equals(PollStatus.CLOSED))
+                case OPEN:
+                    if (poll.getActiveStatus().equals(CLOSED))
                         pollService.openPoll(poll.getId());
                     break;
                 case FINISHED:
-                    if (poll.getActiveStatus().equals(PollStatus.OPEN))
+                    if (poll.getActiveStatus().equals(OPEN))
                         pollService.closePoll(poll.getId());
                     break;
             }

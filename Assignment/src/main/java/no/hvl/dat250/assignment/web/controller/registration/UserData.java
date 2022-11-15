@@ -34,11 +34,11 @@ public class UserData {
     private String email;
 
     public User createUser() {
-        User u = new User(username, new BCryptPasswordEncoder().encode(password), Role.Regular);
+        User u = new User(username.replaceAll("\\s+", " ").trim(), new BCryptPasswordEncoder().encode(password.trim()), Role.Regular);
 
-        u.setEmail(email);
-        u.setFirstname(firstName);
-        u.setLastname(lastName);
+        u.setEmail(email.replaceAll("\\s+", " ").trim());
+        u.setFirstname(firstName.replaceAll("\\s+", " ").trim());
+        u.setLastname(lastName.replaceAll("\\s+", " ").trim());
 
         return u;
     }

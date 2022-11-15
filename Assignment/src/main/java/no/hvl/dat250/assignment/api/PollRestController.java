@@ -1,11 +1,11 @@
 package no.hvl.dat250.assignment.api;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.assignment.api.pojo.DevicePoll;
 import no.hvl.dat250.assignment.api.pojo.DeviceVotes;
 import no.hvl.dat250.assignment.api.pojo.Time;
 import no.hvl.dat250.assignment.api.pojo.UserVote;
+import no.hvl.dat250.assignment.models.poll.Poll;
+import no.hvl.dat250.assignment.models.poll.TimeLimitPoll;
 import no.hvl.dat250.assignment.models.user.User;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;

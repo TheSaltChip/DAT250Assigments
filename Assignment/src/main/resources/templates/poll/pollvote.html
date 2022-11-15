@@ -7,34 +7,35 @@
 <body>
 <div th:replace="fragments/general :: navbar"></div>
 
-    <div class="container h-100">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-auto">
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-auto">
 
-                <form class="mt-5" name="voteForm" th:action="@{vote}" method="post" th:object="${voteform}">
-                    <div>
-                        <h3 class="m-4 text-center" th:text="${poll.getQuestion()}" style="width: 600px;"></h3>
+            <form class="mt-5" method="post" name="voteForm" th:action="@{vote}" th:object="${voteform}">
+                <div>
+                    <h3 class="m-4 text-center" style="width: 600px;" th:text="${poll.getQuestion()}"></h3>
+                </div>
+                <div>
+                    <h5 class="m-4 text-center" th:text="${'Code: ' + poll.getCode()}"
+                        th:unless="${poll.getIsPrivate()}"></h5>
+                </div>
+                <div class="d-flex justify-content-center">
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="yes">Yes:</label>
+                        <input class="form-check-label" id="yes" th:field="*{vote}" type="radio" value="true">
                     </div>
-                    <div>
-                        <h5 class="m-4 text-center" th:unless="${poll.getIsPrivate()}" th:text="${'Code: ' + poll.getCode()}"></h5>
+                    <div class="form-check form-check-inline">
+                        <label class="form-check-label" for="no">No:</label>
+                        <input class="form-check-label" id="no" th:field="*{vote}" type="radio" value="false">
                     </div>
-                    <div class="d-flex justify-content-center">
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="yes">Yes:</label>
-                            <input class="form-check-label" type="radio" id="yes" th:field="*{vote}" value="true">
-                        </div>
-                        <div class="form-check form-check-inline">
-                            <label class="form-check-label" for="no">No:</label>
-                            <input class="form-check-label" type="radio" id="no" th:field="*{vote}" value="false">
-                        </div>
-                    </div>
+                </div>
 
 
-                    <div class="text-center">
-                        <button class="btn btn-primary btn-block mt-4" style="width: 200px;" type="submit" >Submit Vote</button>
-                    </div>
-                </form>
-            </div>
+                <div class="text-center">
+                    <button class="btn btn-primary btn-block mt-4" style="width: 200px;" type="submit">Submit Vote
+                    </button>
+                </div>
+            </form>
         </div>
     </div>
 </div>

@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.web.controller.poll;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
 import no.hvl.dat250.assignment.authenticationfacade.AuthenticationFacade;
+import no.hvl.dat250.assignment.models.poll.Poll;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import no.hvl.dat250.assignment.service.vote.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -45,7 +45,8 @@ public class PollResultController {
 
         String username = authentication.getName();
 
-        if (!(authentication instanceof AnonymousAuthenticationToken) && !voteService.hasUserVotedInPoll(username, id)) {
+        if (!(authentication instanceof AnonymousAuthenticationToken) && !voteService.hasUserVotedInPoll(username, id)
+                && !poll.getOwner().getUsername().equals(authentication.getName())) {
             return "redirect:/poll/" + id + "/vote";
         }
 

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
-<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
->
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 
 <head>
     <th:block th:include="fragments/general :: head"></th:block>
@@ -17,7 +16,7 @@
 
             <h2 class="m-3 text-center">Registration Page</h2>
 
-            <form enctype="utf8" method="POST" th:action="@{/register}" th:object="${userData}">
+            <form method="POST" th:action="@{/register}" th:object="${userData}">
 
                 <div class="form-floating mb-2">
                     <input class="form-control" id="firstName" placeholder="First name" th:field="*{firstName}"
@@ -71,6 +70,5 @@
         </div>
     </div>
 </div>
-
 </body>
 </html>

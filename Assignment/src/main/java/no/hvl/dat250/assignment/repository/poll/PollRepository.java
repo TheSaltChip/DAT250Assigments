@@ -17,7 +17,6 @@ public interface PollRepository extends JpaRepository<Poll, Long> {
 
     List<Poll> findAllByOwner(User owner);
 
-
     Optional<Poll> findByCode(Integer code);
 
     Boolean existsPollByCode(Integer code);

@@ -8,19 +8,35 @@
             src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
 
     <style>
-        .navbar{ background: linear-gradient(to right, #0d6efd, #0dc5fd); margin-bottom: 3%;}
+        .navbar {
+            background: linear-gradient(to right, #0d6efd, #0dc5fd);
+            margin-bottom: 3%;
+        }
 
-        .navbar-brand { color: white!important; margin-right: 3%; }
-        .nav-link { color: white!important }
-        .nav-link:hover { color: #bf4aa8!important }
-         body { margin-top: 65px; }
+        .navbar-brand {
+            color: white !important;
+            margin-right: 3%;
+        }
+
+        .nav-link {
+            color: white !important
+        }
+
+        .nav-link:hover {
+            color: #bf4aa8 !important
+        }
+
+        body {
+            margin-top: 65px;
+        }
 
     </style>
 
 </head>
 
-<nav xmlns:th="http://www.w3.org/1999/xhtml" class="navbar navbar-expand-lg fixed-top navbar-light bg-light d-flex p-2" th:fragment="navbar"
-     xmlns:sec="http://www.w3.org/1999/xhtml">
+<nav class="navbar navbar-expand-lg fixed-top navbar-light bg-light d-flex p-2" th:fragment="navbar"
+     xmlns:sec="http://www.w3.org/1999/xhtml"
+     xmlns:th="http://www.w3.org/1999/xhtml">
     <a class="navbar-brand user-select-none">FeedApp</a>
 
     <div class="collapse navbar-collapse" sec:authorize="isAnonymous()">

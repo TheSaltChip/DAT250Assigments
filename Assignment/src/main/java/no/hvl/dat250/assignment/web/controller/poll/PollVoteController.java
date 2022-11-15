@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.web.controller.poll;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
 import no.hvl.dat250.assignment.authenticationfacade.AuthenticationFacade;
+import no.hvl.dat250.assignment.models.poll.Poll;
 import no.hvl.dat250.assignment.models.user.User;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import no.hvl.dat250.assignment.service.user.UserService;
@@ -51,7 +51,9 @@ public class PollVoteController {
             }
         }
         if (!(authentication instanceof AnonymousAuthenticationToken) &&
-                voteService.hasUserVotedInPoll(authentication.getName(), id)) {
+                voteService.hasUserVotedInPoll(authentication.getName(), id)
+                || poll.getOwner().getUsername().equals(authentication.getName())
+        ) {
             return "redirect:result";
         }
         model.addAttribute("poll", poll);

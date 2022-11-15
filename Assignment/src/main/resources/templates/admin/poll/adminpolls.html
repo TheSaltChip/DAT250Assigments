@@ -7,33 +7,34 @@
 <body>
 <div th:replace="fragments/general :: navbar"></div>
 
-    <div class="container h-100">
-        <div class="row h-100 justify-content-center align-items-center">
-            <div class="col-auto">
+<div class="container h-100">
+    <div class="row h-100 justify-content-center align-items-center">
+        <div class="col-auto">
 
             <h2 class="m-4 text-center">Manage Polls</h2>
 
-                <table class="table" style="width: 800px;">
-                    <tr class="thread-light">
-                        <th scope="col">Name</th>
-                        <th scope="col">Theme</th>
-                        <th scope="col">Owner</th>
-                        <th scope="col">Privacy</th>
-                        <th scope="col">Status</th>
-                        <th></th>
-                    </tr>
-                    <tr scope="row" th:each="poll : ${polls}">
-                        <td th:text="${poll.getQuestion()}"></td>
-                        <td th:text="${poll.getTheme()}"></td>
-                        <td th:text="${poll.getOwner().username}"></td>
-                        <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
-                        <td th:text="${poll.getActiveStatus() }"></td>
-                        <td>
-                            <button class="btn btn-primary btn-block" th:onclick="|window.location.href='@{/admin/poll/{id}(id=${poll.getId()})}'|">Edit</button>
-                        </td>
-                    </tr>
-                </table>
-            </div>
+            <table class="table" style="width: 800px;">
+                <tr class="thread-light">
+                    <th scope="col">Name</th>
+                    <th scope="col">Theme</th>
+                    <th scope="col">Owner</th>
+                    <th scope="col">Privacy</th>
+                    <th scope="col">Status</th>
+                    <th></th>
+                </tr>
+                <tr scope="row" th:each="poll : ${polls}">
+                    <td th:text="${poll.getQuestion()}"></td>
+                    <td th:text="${poll.getTheme()}"></td>
+                    <td th:text="${poll.getOwner().username}"></td>
+                    <td th:text="${poll.getIsPrivate() ? 'Private' : 'Public' }"></td>
+                    <td th:text="${poll.getActiveStatus() }"></td>
+                    <td>
+                        <button class="btn btn-primary btn-block"
+                                th:onclick="|window.location.href='@{/admin/poll/{id}(id=${poll.getId()})}'|">Edit
+                        </button>
+                    </td>
+                </tr>
+            </table>
         </div>
     </div>
 </div>
