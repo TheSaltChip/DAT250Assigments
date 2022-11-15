@@ -8,18 +8,25 @@
 <body>
 <div th:replace="fragments/general :: navbar"></div>
 
-<div class="container h-100" style="width: 500px;">
-    <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-10 col-md-8 col-lg-6">
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+                <div class="col-auto">
 
-            <div class="text-center" th:object="${poll}">
-                <h2 class="m-4" th:text="*{question}"></h2>
-                <h4 class="m-4" th:text="*{theme}"></h4>
-                <div>
-                    <p>Yes votes:
-                    <p th:text="*{yesVotes}"></p></p>
-                    <p>No votes:
-                    <p th:text="*{noVotes}"></p></p>
+                    <div class="text-center mt-5" th:object="${poll}">
+                        <h3 class="m-4" th:text="*{question}" style="width: 600px;"></h3>
+                        <h4 class="m-4" th:text="*{'Theme: ' + theme}"></h4>
+
+                        <div class="mt-5 d-flex justify-content-center">
+                            <div class="form-check form-check-inline">
+                                <label>Yes votes:</label>
+                                <label class="text-primary" th:text="*{yesVotes}"></label>
+                            </div>
+                            <div class="form-check form-check-inline">
+                                <label>No votes:</label>
+                                <label class="text-primary" th:text="*{noVotes}"></label>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

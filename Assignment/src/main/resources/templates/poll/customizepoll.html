@@ -2,7 +2,7 @@
 <html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org">
 <head>
     <th:block th:include="fragments/general :: head"></th:block>
-    <title>Edit Poll</title>
+    <title>Manage Poll</title>
 </head>
 <body>
 <div th:replace="fragments/general :: navbar"></div>
@@ -14,28 +14,25 @@
             <form class="m-4 form" th:action="@{/poll/{id}(id=${pollId})}" th:method="put"
                   th:object="${pollCustomizeForm}">
 
-                <h2 class="m-3 text-center">Manage Poll: [[${pollCustomizeForm.question}]]</h2>
+                    <h2 class="m-3 text-center">Manage Poll</h2>
 
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="question" name="question" placeholder="Question"
-                           th:field="*{question}"
-                           th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}"
-                           type="text"/>
-                    <label for="question">Question</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="theme" name="theme" placeholder="Theme" th:field="*{theme}"
-                           th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}"
-                           type="text"/>
-                    <label for="theme">Theme</label>
-                </div>
-                <div class="d-flex justify-content-between mb-2">
-                    <div>
-                        <label>Private poll:
-                            <input th:field="*{isPrivate}" type="checkbox">
-                        </label>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="question" type="text" id="question" th:field="*{question}"
+                                  placeholder="Question" th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}"
+                                  maxlength="254" style="height: 140px; resize: none;"></textarea>
+                        <label for="question">Question</label>
                     </div>
-
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}" maxlength="20"
+                               placeholder="Theme" th:readonly="${pollCustomizeForm.getActiveStatus().toString() != 'CLOSED'}"/>
+                        <label for="theme">Theme</label>
+                    </div>
+                    <div class="d-flex justify-content-between mb-2">
+                        <div>
+                            <label>Private poll:
+                                <input type="checkbox" th:field="*{isPrivate}">
+                            </label>
+                        </div>
                     <div th:switch="${pollCustomizeForm.getActiveStatus}">
                         <select class="form-select"
                                 name="activeStatus"

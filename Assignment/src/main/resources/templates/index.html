@@ -7,17 +7,17 @@
 <body>
 <div th:replace="fragments/general :: navbar"></div>
 
-<div class="container h-100" style="width: 1250px;">
+<div class="container h-100">
     <div class="row h-100 justify-content-center align-items-center">
-        <div class="col-10 col-md-8 col-lg-6">
-            <h1 class="m-3 text-center">Welcome!</h1>
+        <div class="col-auto">
+        <h1 class="m-3 text-center">Welcome!</h1>
 
-            <table class="table">
+            <table class="table" style="width: 800px;">
                 <tr class="thread-light">
-                    <th scope="col">Name</th>
+                    <th scope="col">Question</th>
                     <th scope="col">Theme</th>
                     <th scope="col">Owner</th>
-                    <th scope="col">Public or private</th>
+                    <th scope="col">Privacy</th>
                     <th scope="col"></th>
                 </tr>
                 <tr scope="row" th:each="poll : ${polls}">

@@ -3,6 +3,7 @@
 <head>
     <th:block th:include="fragments/general :: head"></th:block>
     <title>Create poll</title>
+
 </head>
 <body>
 <div th:replace="fragments/general :: navbar"></div>
@@ -15,22 +16,21 @@
 
             <form class="m-4 form" method="post" th:action="@{/poll/create}" th:object="${pollCreateForm}">
 
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="question" name="question" placeholder="Question"
-                           th:field="*{question}"
-                           type="text"/>
-                    <label for="question">Question?</label>
-                </div>
-                <div class="form-floating mb-3">
-                    <input class="form-control" id="theme" name="theme" placeholder="Theme" th:field="*{theme}"
-                           type="text"/>
-                    <label for="theme">Theme of your Poll?</label>
-                </div>
-                <div class="mb-3">
-                    <label>Private poll:
-                        <input th:field="*{isPrivate}" type="checkbox">
-                    </label>
-                </div>
+                    <div class="form-floating mb-3">
+                        <textarea class="form-control" name="question" id="question" th:field="*{question}"
+                                  placeholder="Question" maxlength="254" style="height: 140px; resize: none;"></textarea>
+                        <label for="question">Question?</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input class="form-control" name="theme" type="text" id="theme" th:field="*{theme}"
+                               placeholder="Theme" maxlength="20"/>
+                        <label for="theme">Theme of your Poll?</label>
+                    </div>
+                        <div class="mb-3">
+                            <label>Private poll:
+                                <input type="checkbox" th:field="*{isPrivate}">
+                            </label>
+                        </div>
 
                 <button class="btn btn-primary btn-block w-100" type="submit">Create poll</button>
             </form>
