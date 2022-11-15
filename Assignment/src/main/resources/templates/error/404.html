@@ -6,7 +6,17 @@
 </head>
 <body>
 <div th:replace="fragments/general :: navbar"></div>
-<h1>404 - Page not found</h1>
-<a href="/">Go Home</a>
+    <div class="container h-100 mt-5">
+        <div class="row h-100 justify-content-center align-items-center">
+            <div class="col-auto">
+                <h1 class="mt-5 text-center">404 - Page not found</h1>
+
+                <div class="text-center mt-4">
+                    <p>Back to <a th:href="@{/}">Main Menu</a></p>
+                </div>
+
+            </div>
+        </div>
+    </div>
 </body>
 </html>
