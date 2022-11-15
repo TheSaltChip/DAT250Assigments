@@ -9,7 +9,7 @@ import javax.sql.DataSource;
 
 @Configuration
 @EnableJpaRepositories(
-        basePackages = {"no.hvl.dat250.jpa.assignment.repository"}
+        basePackages = {"no.hvl.dat250.assignment.repository"}
 )
 public class DatasourceConfig {
 
