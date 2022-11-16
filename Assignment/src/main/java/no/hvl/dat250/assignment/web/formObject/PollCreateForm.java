@@ -8,11 +8,11 @@ import javax.validation.constraints.Size;
 @Data
 public class PollCreateForm {
     @NotNull
-    @Size(max = 254)
+    @Size(min = 2, max = 254)
     private String question;
 
     @NotNull
-    @Size(max = 254)
+    @Size(min = 2, max = 254)
     private String theme;
 
     @NotNull

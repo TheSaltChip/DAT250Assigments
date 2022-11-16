@@ -1,6 +1,7 @@
 package no.hvl.dat250.assignment.web.controller.admin;
 
 import no.hvl.dat250.assignment.models.poll.Poll;
+import no.hvl.dat250.assignment.models.user.Role;
 import no.hvl.dat250.assignment.models.user.User;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import no.hvl.dat250.assignment.service.user.UserService;
@@ -16,6 +17,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 
 import java.util.List;
 import java.util.NoSuchElementException;
+import java.util.stream.Collectors;
 
 import static no.hvl.dat250.assignment.models.poll.PollStatus.CLOSED;
 import static no.hvl.dat250.assignment.models.poll.PollStatus.OPEN;
@@ -33,7 +35,10 @@ public class AdminController {
 
     @GetMapping(value = "/admin/users")
     public String showUsers(Model model) {
-        List<User> users = userService.getAllUsers();
+        List<User> users = userService.getAllUsers()
+                .stream()
+                .filter(u -> !u.getRole().equals(Role.Admin))
+                .collect(Collectors.toList());
 
         model.addAttribute("users", users);
 

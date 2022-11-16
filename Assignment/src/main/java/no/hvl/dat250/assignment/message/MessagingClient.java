@@ -23,10 +23,9 @@ public class MessagingClient {
             .buildBlocking();
 
     // connect to HiveMQ Cloud with TLS and username/pw
-
     public MessagingClient() {
         client.connectWith()
-                .keepAlive(30)
+                .keepAlive(10)
                 .simpleAuth()
                 .username(username)
                 .password(UTF_8.encode(password))
