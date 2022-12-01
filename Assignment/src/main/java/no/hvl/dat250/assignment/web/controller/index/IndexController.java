@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.web.controller.index;
 
-import no.hvl.dat250.assignment.authenticationfacade.AuthenticationFacade;
-import no.hvl.dat250.assignment.models.poll.Poll;
+import no.hvl.dat250.assignment.web.authenticationfacade.AuthenticationFacade;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;

@@ -1,8 +1,8 @@
 package no.hvl.dat250.assignment.web.controller.account;
 
-import no.hvl.dat250.assignment.authenticationfacade.AuthenticationFacade;
-import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.web.authenticationfacade.AuthenticationFacade;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import no.hvl.dat250.assignment.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

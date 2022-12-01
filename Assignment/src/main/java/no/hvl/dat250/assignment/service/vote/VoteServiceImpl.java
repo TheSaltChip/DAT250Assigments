@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.service.vote;
 
-import no.hvl.dat250.assignment.models.vote.UserVote;
-import no.hvl.dat250.assignment.repository.vote.UserVoteRepository;
+import no.hvl.dat250.assignment.persistence.models.vote.UserVote;
+import no.hvl.dat250.assignment.persistence.repository.vote.UserVoteRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

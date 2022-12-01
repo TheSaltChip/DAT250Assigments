@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.web.controller.account;
 
-import no.hvl.dat250.assignment.authenticationfacade.AuthenticationFacade;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.web.authenticationfacade.AuthenticationFacade;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import no.hvl.dat250.assignment.service.user.UserService;
 import no.hvl.dat250.assignment.web.formObject.UserUpdateForm;
 import org.springframework.beans.factory.annotation.Autowired;

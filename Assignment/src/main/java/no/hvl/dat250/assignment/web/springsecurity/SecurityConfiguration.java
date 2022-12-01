@@ -1,6 +1,6 @@
 package no.hvl.dat250.assignment.web.springsecurity;
 
-import no.hvl.dat250.assignment.models.user.Role;
+import no.hvl.dat250.assignment.persistence.models.user.Role;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -26,7 +26,7 @@ public class SecurityConfiguration {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.cors().and().csrf().disable()
+        return http.cors().and().csrf().disable()
                 .authorizeHttpRequests((requests) -> requests
                         .antMatchers("/", "/css/**", "/register", "/poll/{id}/result", "/poll/{id}/vote").permitAll()
                         .antMatchers("/api/**").permitAll()
@@ -37,9 +37,8 @@ public class SecurityConfiguration {
                         .loginPage("/login")
                         .permitAll()
                 )
-                .logout(LogoutConfigurer::permitAll);
-
-        return http.build();
+                .logout(LogoutConfigurer::permitAll)
+                .build();
     }
 
     private void configure(AuthenticationManagerBuilder auth) throws Exception {

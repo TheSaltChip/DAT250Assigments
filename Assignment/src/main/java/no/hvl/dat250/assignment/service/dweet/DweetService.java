@@ -1,6 +1,6 @@
 package no.hvl.dat250.assignment.service.dweet;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.web.client.RestTemplateBuilder;
 import org.springframework.http.HttpEntity;

@@ -1,8 +1,8 @@
 package no.hvl.dat250.assignment.web.controller.registration;
 
 import lombok.Data;
-import no.hvl.dat250.assignment.models.user.Role;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.persistence.models.user.Role;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import javax.validation.constraints.NotEmpty;

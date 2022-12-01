@@ -1,8 +1,8 @@
 package no.hvl.dat250.assignment.service.user;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.user.Role;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.user.Role;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import no.hvl.dat250.assignment.web.controller.registration.UserData;
 import no.hvl.dat250.assignment.web.formObject.UserUpdateForm;
 

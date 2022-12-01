@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.web.springsecurity;
 
-import no.hvl.dat250.assignment.models.user.Role;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.persistence.models.user.Role;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

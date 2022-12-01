@@ -1,9 +1,9 @@
 package no.hvl.dat250.assignment.api;
 
 import no.hvl.dat250.assignment.api.pojo.RoleString;
-import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.user.Role;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.user.Role;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import no.hvl.dat250.assignment.service.user.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;

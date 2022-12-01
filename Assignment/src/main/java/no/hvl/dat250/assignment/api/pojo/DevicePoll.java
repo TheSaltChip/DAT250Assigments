@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.api.pojo;
 
 import lombok.Data;
-import no.hvl.dat250.assignment.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
 
 import java.util.UUID;
 

@@ -1,8 +1,8 @@
 package no.hvl.dat250.assignment.web.controller.admin;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.user.Role;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.user.Role;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import no.hvl.dat250.assignment.service.poll.PollService;
 import no.hvl.dat250.assignment.service.user.UserService;
 import no.hvl.dat250.assignment.web.formObject.PollCustomizeForm;
@@ -19,8 +19,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import static no.hvl.dat250.assignment.models.poll.PollStatus.CLOSED;
-import static no.hvl.dat250.assignment.models.poll.PollStatus.OPEN;
+import static no.hvl.dat250.assignment.persistence.models.poll.PollStatus.CLOSED;
+import static no.hvl.dat250.assignment.persistence.models.poll.PollStatus.OPEN;
 
 @Controller
 public class AdminController {

@@ -1,5 +1,6 @@
 package no.hvl.dat250.assignment.repository.poll;
 
+import no.hvl.dat250.assignment.persistence.repository.poll.PollRepository;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;

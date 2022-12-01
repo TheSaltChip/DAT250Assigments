@@ -1,7 +1,7 @@
 package no.hvl.dat250.assignment.web.springsecurity;
 
-import no.hvl.dat250.assignment.models.user.User;
-import no.hvl.dat250.assignment.repository.user.UserRepository;
+import no.hvl.dat250.assignment.persistence.models.user.User;
+import no.hvl.dat250.assignment.persistence.repository.user.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

@@ -1,8 +1,8 @@
 package no.hvl.dat250.assignment.service.poll;
 
-import no.hvl.dat250.assignment.models.poll.Poll;
-import no.hvl.dat250.assignment.models.poll.TimeLimitPoll;
-import no.hvl.dat250.assignment.models.user.User;
+import no.hvl.dat250.assignment.persistence.models.poll.Poll;
+import no.hvl.dat250.assignment.persistence.models.poll.TimeLimitPoll;
+import no.hvl.dat250.assignment.persistence.models.user.User;
 import no.hvl.dat250.assignment.web.formObject.PollCustomizeForm;
 
 import java.time.LocalDateTime;

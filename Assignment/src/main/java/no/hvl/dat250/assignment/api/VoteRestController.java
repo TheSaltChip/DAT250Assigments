@@ -1,6 +1,6 @@
 package no.hvl.dat250.assignment.api;
 
-import no.hvl.dat250.assignment.models.vote.UserVote;
+import no.hvl.dat250.assignment.persistence.models.vote.UserVote;
 import no.hvl.dat250.assignment.service.vote.VoteService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package no.hvl.dat250.assignment.service.vote;
 
-import no.hvl.dat250.assignment.models.vote.UserVote;
+import no.hvl.dat250.assignment.persistence.models.vote.UserVote;
 
 import java.util.List;
 
